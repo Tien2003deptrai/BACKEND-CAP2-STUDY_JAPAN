@@ -8,10 +8,29 @@ AuthController.signUp = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const data = await AuthService.signUp({ name, email, password });
-    return ApiResponse.success(res, 'Sign up successfully', data);
+    return ApiResponse.success(res, 'Đăng ký thành công', data);
   } catch (error) {
-    return ApiResponse.error(res, 'Sign up failed', error);
+    return ApiResponse.serverError(res, error.message);
   }
 }
 
-module.exports = new AuthController();
+AuthController.login = async function (req, res) {
+  try {
+    const { email, password } = req.body;
+    const result = await AuthService.login({ email, password });
+
+    if (!result.success) {
+      return ApiResponse.error(res, result.message);
+    }
+
+    return ApiResponse.success(res, "Đăng nhập thành công!", {
+      user: result.user,
+      token: result.token,
+    });
+  } catch (error) {
+    return ApiResponse.serverError(res, error.message);
+  }
+};
+
+
+module.exports = AuthController;

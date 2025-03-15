@@ -13,7 +13,7 @@ class AuthValidator {
     }
   }
 
-  static validatorSignIn = (data) => {
+  static validatorLogin = (data) => {
     if (!data.email || data.email.length < 8) {
       throw new ForbiddenError('Email invalid')
     }

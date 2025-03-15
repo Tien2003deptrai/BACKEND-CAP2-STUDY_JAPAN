@@ -1,7 +1,8 @@
+const progressionModel = require("../models/progression.model");
 const userModel = require("../models/user.model");
-const { getInfoData } = require("../utils");
 const AuthValidator = require("../validators/auth.validator");
 const bcrypt = require('bcrypt');
+const { getInfoData, generateToken } = require("../utils");
 
 function AuthService() { }
 
@@ -24,7 +25,35 @@ AuthService.signUp = async function ({ name, email, password }) {
     roles: 'user',
   });
 
-  return getInfoData(newUser, ['_id', 'name', 'email', 'roles', 'status']);
+  await progressionModel.create({
+    user: newUser._id,
+  })
+
+  return { success: true, user: getInfoData({ fields: ["_id", "name", "email", "roles"], object: newUser }) };
 };
+
+
+AuthService.login = async function ({ email, password }) {
+  AuthValidator.validatorLogin(email, password);
+
+  const user = await userModel.findOne({ email });
+  if (!user) {
+    return { success: false, message: "Invalid email or password" };
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return { success: false, message: "Invalid email or password" };
+  }
+
+  const token = generateToken(user);
+
+  return {
+    success: true,
+    token,
+    user: getInfoData({ fields: ["_id", "name", "email", "roles"], object: user }),
+  };
+};
+
 
 module.exports = AuthService;
