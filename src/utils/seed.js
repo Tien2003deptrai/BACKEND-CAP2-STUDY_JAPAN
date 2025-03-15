@@ -3,7 +3,6 @@
 const mongoose = require('mongoose')
 // Import Models
 const User = require('../models/user.model')
-const Role = require('../models/role.model')
 const Course = require('../models/course.model')
 const Lesson = require('../models/lesson.model')
 const Vocabulary = require('../models/vocabulary.model')
@@ -14,9 +13,6 @@ const Flashcard = require('../models/flashcard.model')
 const Exam = require('../models/exams.model')
 const Progression = require('../models/progression.model')
 const Notification = require('../models/notification.model')
-const Resource = require('../models/resource.model')
-const KeyToken = require('../models/keytoken.model')
-const OtpLog = require('../models/otp.model')
 const Hina = require('../models/hina.model')
 const Renshuu = require('../models/renshuu.model')
 
@@ -27,57 +23,128 @@ mongoose.connect('mongodb://localhost:27017/japanese_learning', {
 })
 
 // Dữ liệu seed giả (copy từ các mảng mình đã gửi)
-const resources = [
-  { _id: "605c72ef5f5b2c1d4c8e0001", src_name: "プロフィール", src_slug: "profile", src_description: "ユーザーの基本情報" },
-  { _id: "605c72ef5f5b2c1d4c8e0002", src_name: "コース", src_slug: "course", src_description: "学習コースの管理" },
-  { _id: "605c72ef5f5b2c1d4c8e0003", src_name: "レッスン", src_slug: "lesson", src_description: "レッスンコンテンツ" },
-  { _id: "605c72ef5f5b2c1d4c8e0004", src_name: "単語", src_slug: "vocabulary", src_description: "語彙データ" },
-  { _id: "605c72ef5f5b2c1d4c8e0005", src_name: "文法", src_slug: "grammar", src_description: "文法解説" },
-  { _id: "605c72ef5f5b2c1d4c8e0006", src_name: "漢字", src_slug: "kanji", src_description: "漢字学習" },
-  { _id: "605c72ef5f5b2c1d4c8e0007", src_name: "試験", src_slug: "exam", src_description: "試験管理" },
-  { _id: "605c72ef5f5b2c1d4c8e0008", src_name: "通知", src_slug: "notification", src_description: "通知システム" },
-  { _id: "605c72ef5f5b2c1d4c8e0009", src_name: "デッキ", src_slug: "deck", src_description: "フラッシュカードデッキ" },
-  { _id: "605c72ef5f5b2c1d4c8e000a", src_name: "進捗", src_slug: "progression", src_description: "学習進捗" }
-]
-
-const roles = [
-  { _id: "605c72ef5f5b2c1d4c8e3001", rol_name: "admin", rol_slug: "admin-001", rol_status: "active", rol_description: "管理者", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0001", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3002", rol_name: "teacher", rol_slug: "teacher-001", rol_status: "active", rol_description: "教師", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0002", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3003", rol_name: "user", rol_slug: "user-001", rol_status: "pending", rol_description: "一般ユーザー", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0003", actions: ["read"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3004", rol_name: "teacher", rol_slug: "teacher-002", rol_status: "active", rol_description: "教師", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0004", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3005", rol_name: "user", rol_slug: "user-002", rol_status: "block", rol_description: "一般ユーザー", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0005", actions: ["read"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3006", rol_name: "admin", rol_slug: "admin-002", rol_status: "active", rol_description: "管理者", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0006", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3007", rol_name: "teacher", rol_slug: "teacher-003", rol_status: "pending", rol_description: "教師", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0007", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3008", rol_name: "user", rol_slug: "user-003", rol_status: "active", rol_description: "一般ユーザー", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0008", actions: ["read"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e3009", rol_name: "admin", rol_slug: "admin-003", rol_status: "active", rol_description: "管理者", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e0009", actions: ["read", "write"], attributes: "*" }] },
-  { _id: "605c72ef5f5b2c1d4c8e300a", rol_name: "teacher", rol_slug: "teacher-004", rol_status: "active", rol_description: "教師", rol_grants: [{ resource: "605c72ef5f5b2c1d4c8e000a", actions: ["read", "write"], attributes: "*" }] }
-]
-
 const users = [
-  { _id: "605c72ef5f5b2c1d4c8e1001", name: "Tanaka Hiroshi", email: "tanaka.hiroshi@example.com", password: "hashed_tanaka_123", status: "active", date_of_birth: new Date("1990-05-15"), sex: 1, avatar: "https://example.com/avatars/tanaka.jpg", roles: "605c72ef5f5b2c1d4c8e3001", phone: "090-1234-5678" },
-  { _id: "605c72ef5f5b2c1d4c8e1002", name: "Yamada Aiko", email: "yamada.aiko@example.com", password: "hashed_yamada_456", status: "pending", date_of_birth: new Date("1995-08-22"), sex: 0, avatar: "", roles: "605c72ef5f5b2c1d4c8e3002", phone: "080-9876-5432" },
-  { _id: "605c72ef5f5b2c1d4c8e1003", name: "Sato Kenji", email: "sato.kenji@example.com", password: "hashed_sato_789", status: "block", date_of_birth: new Date("1985-03-10"), sex: 1, avatar: "", roles: "605c72ef5f5b2c1d4c8e3003", phone: "" },
-  { _id: "605c72ef5f5b2c1d4c8e1004", name: "Nakamura Yumi", email: "nakamura.yumi@example.com", password: "hashed_nakamura_101", status: "active", date_of_birth: new Date("1992-11-30"), sex: 0, avatar: "https://example.com/avatars/nakamura.jpg", roles: "605c72ef5f5b2c1d4c8e3004", phone: "070-5555-6666" },
-  { _id: "605c72ef5f5b2c1d4c8e1005", name: "Kobayashi Taro", email: "kobayashi.taro@example.com", password: "hashed_kobayashi_202", status: "pending", date_of_birth: new Date("1988-07-07"), sex: 1, avatar: "", roles: "605c72ef5f5b2c1d4c8e3005", phone: "090-7777-8888" },
-  { _id: "605c72ef5f5b2c1d4c8e1006", name: "Suzuki Mika", email: "suzuki.mika@example.com", password: "hashed_suzuki_303", status: "active", date_of_birth: new Date("1993-02-14"), sex: 0, avatar: "https://example.com/avatars/suzuki.jpg", roles: "605c72ef5f5b2c1d4c8e3006", phone: "080-3333-4444" },
-  { _id: "605c72ef5f5b2c1d4c8e1007", name: "Ito Daichi", email: "ito.daichi@example.com", password: "hashed_ito_404", status: "pending", date_of_birth: new Date("1987-09-25"), sex: 1, avatar: "", roles: "605c72ef5f5b2c1d4c8e3007", phone: "090-9999-0000" },
-  { _id: "605c72ef5f5b2c1d4c8e1008", name: "Watanabe Rina", email: "watanabe.rina@example.com", password: "hashed_watanabe_505", status: "active", date_of_birth: new Date("1996-12-01"), sex: 0, avatar: "https://example.com/avatars/watanabe.jpg", roles: "605c72ef5f5b2c1d4c8e3008", phone: "070-1111-2222" },
-  { _id: "605c72ef5f5b2c1d4c8e1009", name: "Takahashi Sho", email: "takahashi.sho@example.com", password: "hashed_takahashi_606", status: "block", date_of_birth: new Date("1989-04-18"), sex: 1, avatar: "", roles: "605c72ef5f5b2c1d4c8e3009", phone: "" },
-  { _id: "605c72ef5f5b2c1d4c8e100a", name: "Fujita Emi", email: "fujita.emi@example.com", password: "hashed_fujita_707", status: "active", date_of_birth: new Date("1991-06-20"), sex: 0, avatar: "https://example.com/avatars/fujita.jpg", roles: "605c72ef5f5b2c1d4c8e300a", phone: "080-5555-7777" }
-]
-
-const keyTokens = [
-  { _id: "605c72ef5f5b2c1d4c8e4001", user: "605c72ef5f5b2c1d4c8e1001", privateKey: "priv_tanaka_123", publicKey: "pub_tanaka_123", refreshTokensUsed: [], refreshToken: "refresh_tanaka_123" },
-  { _id: "605c72ef5f5b2c1d4c8e4002", user: "605c72ef5f5b2c1d4c8e1002", privateKey: "priv_yamada_456", publicKey: "pub_yamada_456", refreshTokensUsed: ["old_refresh_001"], refreshToken: "refresh_yamada_456" },
-  { _id: "605c72ef5f5b2c1d4c8e4003", user: "605c72ef5f5b2c1d4c8e1003", privateKey: "priv_sato_789", publicKey: "pub_sato_789", refreshTokensUsed: [], refreshToken: "refresh_sato_789" },
-  { _id: "605c72ef5f5b2c1d4c8e4004", user: "605c72ef5f5b2c1d4c8e1004", privateKey: "priv_nakamura_101", publicKey: "pub_nakamura_101", refreshTokensUsed: [], refreshToken: "refresh_nakamura_101" },
-  { _id: "605c72ef5f5b2c1d4c8e4005", user: "605c72ef5f5b2c1d4c8e1005", privateKey: "priv_kobayashi_202", publicKey: "pub_kobayashi_202", refreshTokensUsed: [], refreshToken: "refresh_kobayashi_202" },
-  { _id: "605c72ef5f5b2c1d4c8e4006", user: "605c72ef5f5b2c1d4c8e1006", privateKey: "priv_suzuki_303", publicKey: "pub_suzuki_303", refreshTokensUsed: [], refreshToken: "refresh_suzuki_303" },
-  { _id: "605c72ef5f5b2c1d4c8e4007", user: "605c72ef5f5b2c1d4c8e1007", privateKey: "priv_ito_404", publicKey: "pub_ito_404", refreshTokensUsed: [], refreshToken: "refresh_ito_404" },
-  { _id: "605c72ef5f5b2c1d4c8e4008", user: "605c72ef5f5b2c1d4c8e1008", privateKey: "priv_watanabe_505", publicKey: "pub_watanabe_505", refreshTokensUsed: [], refreshToken: "refresh_watanabe_505" },
-  { _id: "605c72ef5f5b2c1d4c8e4009", user: "605c72ef5f5b2c1d4c8e1009", privateKey: "priv_takahashi_606", publicKey: "pub_takahashi_606", refreshTokensUsed: [], refreshToken: "refresh_takahashi_606" },
-  { _id: "605c72ef5f5b2c1d4c8e400a", user: "605c72ef5f5b2c1d4c8e100a", privateKey: "priv_fujita_707", publicKey: "pub_fujita_707", refreshTokensUsed: [], refreshToken: "refresh_fujita_707" }
-]
+  {
+    _id: "605c72ef5f5b2c1d4c8e1001",
+    name: "Nguyen Van An",
+    email: "nguyen.an@example.com",
+    password: "hashed_password_123",
+    status: "active",
+    date_of_birth: new Date("1990-01-15"),
+    sex: 1,
+    avatar: "https://example.com/avatars/an.jpg",
+    roles: "admin",
+    phone: "0901234567",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1002",
+    name: "Tran Thi Bich",
+    email: "tran.bich@example.com",
+    password: "hashed_password_456",
+    status: "pending",
+    date_of_birth: new Date("1995-06-20"),
+    sex: 0,
+    avatar: "",
+    roles: "teacher",
+    phone: "0912345678",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1003",
+    name: "Le Van Cuong",
+    email: "le.cuong@example.com",
+    password: "hashed_password_789",
+    status: "block",
+    date_of_birth: new Date("1988-03-10"),
+    sex: 1,
+    avatar: "",
+    roles: "user",
+    phone: "0923456789",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1004",
+    name: "Pham Thi Dung",
+    email: "pham.dung@example.com",
+    password: "hashed_password_101",
+    status: "active",
+    date_of_birth: new Date("1992-11-25"),
+    sex: 0,
+    avatar: "https://example.com/avatars/dung.jpg",
+    roles: "teacher",
+    phone: "0934567890",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1005",
+    name: "Hoang Van Em",
+    email: "hoang.em@example.com",
+    password: "hashed_password_202",
+    status: "pending",
+    date_of_birth: new Date("1993-07-12"),
+    sex: 1,
+    avatar: "",
+    roles: "user",
+    phone: "0945678901",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1006",
+    name: "Vu Thi Phuong",
+    email: "vu.phuong@example.com",
+    password: "hashed_password_303",
+    status: "active",
+    date_of_birth: new Date("1991-09-30"),
+    sex: 0,
+    avatar: "https://example.com/avatars/phuong.jpg",
+    roles: "admin",
+    phone: "0956789012",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1007",
+    name: "Do Van Giang",
+    email: "do.giang@example.com",
+    password: "hashed_password_404",
+    status: "pending",
+    date_of_birth: new Date("1989-04-05"),
+    sex: 1,
+    avatar: "",
+    roles: "teacher",
+    phone: "0967890123",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1008",
+    name: "Bui Thi Hoa",
+    email: "bui.hoa@example.com",
+    password: "hashed_password_505",
+    status: "active",
+    date_of_birth: new Date("1996-12-15"),
+    sex: 0,
+    avatar: "https://example.com/avatars/hoa.jpg",
+    roles: "user",
+    phone: "0978901234",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e1009",
+    name: "Dang Van Khanh",
+    email: "dang.khanh@example.com",
+    password: "hashed_password_606",
+    status: "block",
+    date_of_birth: new Date("1987-08-22"),
+    sex: 1,
+    avatar: "",
+    roles: "admin",
+    phone: "0989012345",
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8e100a",
+    name: "Ngo Thi Linh",
+    email: "ngo.linh@example.com",
+    password: "hashed_password_707",
+    status: "active",
+    date_of_birth: new Date("1994-02-28"),
+    sex: 0,
+    avatar: "https://example.com/avatars/linh.jpg",
+    roles: "teacher",
+    phone: "0990123456",
+  }
+];
 
 const courses = [
   { _id: "605c72ef5f5b2c1d4c8e2001", name: "日本語初級コース", thumb: "https://example.com/thumbs/nihongo1.jpg", user: "605c72ef5f5b2c1d4c8e1001", course_slug: "nihongo-shokyu-kosu", type: "Beginner", author: "Tanaka Hiroshi", stu_num: 25 },
@@ -158,17 +225,127 @@ const decks = [
 ]
 
 const flashcards = [
-  { _id: "605c72ef5f5b2c1d4c8eb001", grammar: "605c72ef5f5b2c1d4c8e8001", vocab: null, kanji: null, deck: "605c72ef5f5b2c1d4c8ea001", front: "N + です", back: "Là", tags: ["grammar", "N5"], reviewDate: new Date("2025-03-20"), interval: 1 },
-  { _id: "605c72ef5f5b2c1d4c8eb002", grammar: null, vocab: "605c72ef5f5b2c1d4c8e7002", kanji: "605c72ef5f5b2c1d4c8e9001", deck: "605c72ef5f5b2c1d4c8ea002", front: "山", back: "Núi", tags: ["kanji", "N5"], reviewDate: new Date("2025-03-21"), interval: 2 },
-  { _id: "605c72ef5f5b2c1d4c8eb003", grammar: null, vocab: "605c72ef5f5b2c1d4c8e7003", kanji: null, deck: "605c72ef5f5b2c1d4c8ea003", front: "はじめまして", back: "Rất vui được gặp bạn", tags: ["vocab", "greetings"], reviewDate: new Date("2025-03-22"), interval: 1 },
-  { _id: "605c72ef5f5b2c1d4c8eb004", grammar: "605c72ef5f5b2c1d4c8e8003", vocab: null, kanji: null, deck: "605c72ef5f5b2c1d4c8ea004", front: "V-masu", back: "Lịch sự", tags: ["grammar", "N5"], reviewDate: new Date("2025-03-23"), interval: 3 },
-  { _id: "605c72ef5f5b2c1d4c8eb005", grammar: null, vocab: "605c72ef5f5b2c1d4c8e7005", kanji: null, deck: "605c72ef5f5b2c1d4c8ea005", front: "おはよう", back: "Chào buổi sáng", tags: ["vocab", "greetings"], reviewDate: new Date("2025-03-24"), interval: 1 },
-  { _id: "605c72ef5f5b2c1d4c8eb006", grammar: null, vocab: "605c72ef5f5b2c1d4c8e7006", kanji: "605c72ef5f5b2c1d4c8e9002", deck: "605c72ef5f5b2c1d4c8ea006", front: "川", back: "Sông", tags: ["kanji", "N5"], reviewDate: new Date("2025-03-25"), interval: 2 },
-  { _id: "605c72ef5f5b2c1d4c8eb007", grammar: "605c72ef5f5b2c1d4c8e8005", vocab: "605c72ef5f5b2c1d4c8e7007", kanji: null, deck: "605c72ef5f5b2c1d4c8ea007", front: "メニューをください", back: "Cho tôi thực đơn", tags: ["grammar", "vocab"], reviewDate: new Date("2025-03-26"), interval: 1 },
-  { _id: "605c72ef5f5b2c1d4c8eb008", grammar: "605c72ef5f5b2c1d4c8e8006", vocab: "605c72ef5f5b2c1d4c8e7008", kanji: "605c72ef5f5b2c1d4c8e9004", deck: "605c72ef5f5b2c1d4c8ea008", front: "学校に行きます", back: "Đi đến trường", tags: ["grammar", "vocab"], reviewDate: new Date("2025-03-27"), interval: 2 },
-  { _id: "605c72ef5f5b2c1d4c8eb009", grammar: "605c72ef5f5b2c1d4c8e8007", vocab: "605c72ef5f5b2c1d4c8e7009", kanji: "605c72ef5f5b2c1d4c8e9005", deck: "605c72ef5f5b2c1d4c8ea009", front: "会社で働きます", back: "Làm việc ở công ty", tags: ["grammar", "vocab"], reviewDate: new Date("2025-03-28"), interval: 3 },
-  { _id: "605c72ef5f5b2c1d4c8eb00a", grammar: null, vocab: "605c72ef5f5b2c1d4c8e700a", kanji: "605c72ef5f5b2c1d4c8e9003", deck: "605c72ef5f5b2c1d4c8ea00a", front: "木", back: "Cây", tags: ["kanji", "N5"], reviewDate: new Date("2025-03-29"), interval: 2 }
-]
+  {
+    _id: "605c72ef5f5b2c1d4c8eb001",
+    grammar: "605c72ef5f5b2c1d4c8e8001", // "です"
+    vocab: "605c72ef5f5b2c1d4c8e7001", // Thêm "こんにちは" từ vocabularies
+    kanji: null,
+    deck: "605c72ef5f5b2c1d4c8ea001",
+    front: "N + です",
+    back: "Là",
+    tags: ["grammar", "N5"],
+    reviewDate: new Date("2025-03-20"),
+    interval: 1
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb002",
+    grammar: null,
+    vocab: "605c72ef5f5b2c1d4c8e7002", // "山"
+    kanji: "605c72ef5f5b2c1d4c8e9001", // "山"
+    deck: "605c72ef5f5b2c1d4c8ea002",
+    front: "山",
+    back: "Núi",
+    tags: ["kanji", "N5"],
+    reviewDate: new Date("2025-03-21"),
+    interval: 2
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb003",
+    grammar: null,
+    vocab: "605c72ef5f5b2c1d4c8e7003", // "はじめまして"
+    kanji: null,
+    deck: "605c72ef5f5b2c1d4c8ea003",
+    front: "はじめまして",
+    back: "Rất vui được gặp bạn",
+    tags: ["vocab", "greetings"],
+    reviewDate: new Date("2025-03-22"),
+    interval: 1
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb004",
+    grammar: "605c72ef5f5b2c1d4c8e8003", // "ます"
+    vocab: "605c72ef5f5b2c1d4c8e7004", // Thêm "行く" từ vocabularies
+    kanji: null,
+    deck: "605c72ef5f5b2c1d4c8ea004",
+    front: "V-masu",
+    back: "Lịch sự",
+    tags: ["grammar", "N5"],
+    reviewDate: new Date("2025-03-23"),
+    interval: 3
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb005",
+    grammar: null,
+    vocab: "605c72ef5f5b2c1d4c8e7005", // "おはよう"
+    kanji: null,
+    deck: "605c72ef5f5b2c1d4c8ea005",
+    front: "おはよう",
+    back: "Chào buổi sáng",
+    tags: ["vocab", "greetings"],
+    reviewDate: new Date("2025-03-24"),
+    interval: 1
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb006",
+    grammar: null,
+    vocab: "605c72ef5f5b2c1d4c8e7006", // "川"
+    kanji: "605c72ef5f5b2c1d4c8e9002", // "川"
+    deck: "605c72ef5f5b2c1d4c8ea006",
+    front: "川",
+    back: "Sông",
+    tags: ["kanji", "N5"],
+    reviewDate: new Date("2025-03-25"),
+    interval: 2
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb007",
+    grammar: "605c72ef5f5b2c1d4c8e8005", // "を"
+    vocab: "605c72ef5f5b2c1d4c8e7007", // "メニュー"
+    kanji: null,
+    deck: "605c72ef5f5b2c1d4c8ea007",
+    front: "メニューをください",
+    back: "Cho tôi thực đơn",
+    tags: ["grammar", "vocab"],
+    reviewDate: new Date("2025-03-26"),
+    interval: 1
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb008",
+    grammar: "605c72ef5f5b2c1d4c8e8006", // "に"
+    vocab: "605c72ef5f5b2c1d4c8e7008", // "学校"
+    kanji: "605c72ef5f5b2c1d4c8e9004", // "学校"
+    deck: "605c72ef5f5b2c1d4c8ea008",
+    front: "学校に行きます",
+    back: "Đi đến trường",
+    tags: ["grammar", "vocab"],
+    reviewDate: new Date("2025-03-27"),
+    interval: 2
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb009",
+    grammar: "605c72ef5f5b2c1d4c8e8007", // "で"
+    vocab: "605c72ef5f5b2c1d4c8e7009", // "会社"
+    kanji: "605c72ef5f5b2c1d4c8e9005", // "会社"
+    deck: "605c72ef5f5b2c1d4c8ea009",
+    front: "会社で働きます",
+    back: "Làm việc ở công ty",
+    tags: ["grammar", "vocab"],
+    reviewDate: new Date("2025-03-28"),
+    interval: 3
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8eb00a",
+    grammar: null,
+    vocab: "605c72ef5f5b2c1d4c8e700a", // "木"
+    kanji: "605c72ef5f5b2c1d4c8e9003", // "木"
+    deck: "605c72ef5f5b2c1d4c8ea00a",
+    front: "木",
+    back: "Cây",
+    tags: ["kanji", "N5"],
+    reviewDate: new Date("2025-03-29"),
+    interval: 2
+  }
+];
 
 const exams = [
   {
@@ -367,19 +544,6 @@ const notifications = [
   { _id: "605c72ef5f5b2c1d4c8ee008", noti_type: "COURSE-001", noti_senderId: "605c72ef5f5b2c1d4c8e1008", noti_receivedId: 8, noti_content: "新しいコース「文法N5入門」が追加されました。", noti_options: { courseId: "605c72ef5f5b2c1d4c8e2008" } },
   { _id: "605c72ef5f5b2c1d4c8ee009", noti_type: "EXAM-001", noti_senderId: "605c72ef5f5b2c1d4c8e1009", noti_receivedId: 9, noti_content: "新しい試験「ビジネス会話試験」が作成されました。", noti_options: { examId: "605c72ef5f5b2c1d4c8ec009" } },
   { _id: "605c72ef5f5b2c1d4c8ee00a", noti_type: "COURSE-001", noti_senderId: "605c72ef5f5b2c1d4c8e100a", noti_receivedId: 10, noti_content: "新しいコース「漢字マスターN2」が追加されました。", noti_options: { courseId: "605c72ef5f5b2c1d4c8e200a" } }
-]
-
-const otpLogs = [
-  { _id: "605c72ef5f5b2c1d4c8ef001", otp_token: "123456", otp_email: "tanaka.hiroshi@example.com", expireAt: new Date("2025-03-15T10:00:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef002", otp_token: "654321", otp_email: "yamada.aiko@example.com", expireAt: new Date("2025-03-15T10:01:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef003", otp_token: "789123", otp_email: "sato.kenji@example.com", expireAt: new Date("2025-03-15T10:02:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef004", otp_token: "321789", otp_email: "nakamura.yumi@example.com", expireAt: new Date("2025-03-15T10:03:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef005", otp_token: "456789", otp_email: "kobayashi.taro@example.com", expireAt: new Date("2025-03-15T10:04:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef006", otp_token: "987654", otp_email: "suzuki.mika@example.com", expireAt: new Date("2025-03-15T10:05:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef007", otp_token: "147258", otp_email: "ito.daichi@example.com", expireAt: new Date("2025-03-15T10:06:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef008", otp_token: "258369", otp_email: "watanabe.rina@example.com", expireAt: new Date("2025-03-15T10:07:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef009", otp_token: "369147", otp_email: "takahashi.sho@example.com", expireAt: new Date("2025-03-15T10:08:00Z") },
-  { _id: "605c72ef5f5b2c1d4c8ef00a", otp_token: "741852", otp_email: "fujita.emi@example.com", expireAt: new Date("2025-03-15T10:09:00Z") }
 ]
 
 const hinas = [
@@ -610,10 +774,7 @@ const seedDatabase = async () => {
     console.log('Đã xóa toàn bộ dữ liệu cũ!')
 
     // Chèn dữ liệu mới
-    await Resource.insertMany(resources)
-    await Role.insertMany(roles)
     await User.insertMany(users)
-    await KeyToken.insertMany(keyTokens)
     await Course.insertMany(courses)
     await Lesson.insertMany(lessons)
     await Vocabulary.insertMany(vocabularies)
@@ -624,7 +785,6 @@ const seedDatabase = async () => {
     await Exam.insertMany(exams)
     await Progression.insertMany(progressions)
     await Notification.insertMany(notifications)
-    await OtpLog.insertMany(otpLogs)
     await Hina.insertMany(hinas)
     await Renshuu.insertMany(renshuus)
 

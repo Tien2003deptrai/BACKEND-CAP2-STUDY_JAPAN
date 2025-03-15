@@ -1,7 +1,7 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
 
-const DOCUMENT_NAME = 'User'
-const COLLECTION_NAME = 'Users'
+const DOCUMENT_NAME = 'User';
+const COLLECTION_NAME = 'Users';
 
 const userSchema = new Schema(
   {
@@ -37,8 +37,7 @@ const userSchema = new Schema(
       default: '',
     },
     roles: {
-      type: Schema.Types.ObjectId,
-      ref: 'Role',
+      type: String, required: true
     },
     phone: {
       type: String,
@@ -49,6 +48,6 @@ const userSchema = new Schema(
     timestamps: true,
     collection: COLLECTION_NAME,
   }
-)
+);
 
-module.exports = model(DOCUMENT_NAME, userSchema)
+module.exports = model(DOCUMENT_NAME, userSchema);
