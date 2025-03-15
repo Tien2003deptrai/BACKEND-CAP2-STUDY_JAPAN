@@ -1,26 +1,21 @@
-
 class AuthValidator {
-
   static validatorSignUp = (data) => {
     if (!data.name || data.name.length < 5) {
-      throw new ForbiddenError('Name invalid')
+      throw new Error('Name invalid');
     }
     if (!data.email || data.email.length < 8) {
-      throw new ForbiddenError('Email invalid')
-    }
-    if (!data.password || data.password.length < 6) {
-      throw new ForbiddenError('Password invalid')
+      throw new Error('Email invalid');
     }
   }
 
   static validatorLogin = (data) => {
     if (!data.email || data.email.length < 8) {
-      throw new ForbiddenError('Email invalid')
+      throw new Error('Email invalid');
     }
     if (!data.password) {
-      throw new ForbiddenError('Password invalid')
+      throw new Error('Password invalid');
     }
   }
 }
 
-module.exports = AuthValidator
+module.exports = AuthValidator;

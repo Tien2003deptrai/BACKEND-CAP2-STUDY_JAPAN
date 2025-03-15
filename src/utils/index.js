@@ -2,6 +2,8 @@ const wanakana = require('wanakana')
 const { Types } = require('mongoose')
 const _ = require('lodash')
 const moment = require('moment')
+const crypto = require("crypto");
+const jwt = require('jsonwebtoken');
 //moment().format() // 2024-05-20T00:00:00+07:00(moment) === 2024-05-20T17:00:00.000+00:00(mongodb)
 
 const getInfoData = ({ fields = [], object = {} }) => {
@@ -140,6 +142,11 @@ const generateToken = (user) => {
   );
 };
 
+const generateRandomPassword = (length = 10) => {
+  return crypto.randomBytes(length).toString("hex").slice(0, length);
+};
+
+
 module.exports = {
   nextReviewDate,
   getInfoData,
@@ -150,5 +157,6 @@ module.exports = {
   replacePlaceholder,
   filterFieldToUpdate,
   filterFieldToUpdateNestedObject,
-  generateToken
+  generateToken,
+  generateRandomPassword
 }
