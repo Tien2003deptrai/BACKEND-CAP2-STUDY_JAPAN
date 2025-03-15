@@ -17,6 +17,8 @@ const Notification = require('../models/notification.model')
 const Resource = require('../models/resource.model')
 const KeyToken = require('../models/keytoken.model')
 const OtpLog = require('../models/otp.model')
+const Hina = require('../models/hina.model')
+const Renshuu = require('../models/renshuu.model')
 
 // Kết nối MongoDB
 mongoose.connect('mongodb://localhost:27017/japanese_learning', {
@@ -380,6 +382,227 @@ const otpLogs = [
   { _id: "605c72ef5f5b2c1d4c8ef00a", otp_token: "741852", otp_email: "fujita.emi@example.com", expireAt: new Date("2025-03-15T10:09:00Z") }
 ]
 
+const hinas = [
+  {
+    _id: "605c72ef5f5b2c1d4c8ef001",
+    course: "605c72ef5f5b2c1d4c8e2001",
+    lesson_id: "605c72ef5f5b2c1d4c8e5001",
+    lesson_title: "あいさつ",
+    name_type: 0,
+    points: 20,
+    words: [
+      {
+        word: "こんにちは",
+        trans: "Xin chào",
+        audio: "https://example.com/audio/konnichiwa.mp3",
+        svg_path: ["304B", "3093", "306B", "3061", "306F"],
+        note: "Lời chào cơ bản"
+      }
+    ],
+    questions: [
+      {
+        content: "Lời chào buổi chiều là gì?",
+        image: "",
+        trans: "Xin chào",
+        sentence: "こんにちは、お元気ですか？",
+        value: "こんにちは",
+        quiz: ["こんにちは", "おはよう"],
+        point: 10
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef002",
+    course: "605c72ef5f5b2c1d4c8e2002",
+    lesson_id: "605c72ef5f5b2c1d4c8e5002",
+    lesson_title: "漢字の基本",
+    name_type: 1,
+    points: 15,
+    words: [
+      {
+        word: "ヤマ",
+        trans: "Núi",
+        audio: "https://example.com/audio/yama.mp3",
+        svg_path: ["5C71"],
+        note: "Âm katakana của 山"
+      }
+    ],
+    questions: [
+      {
+        content: "漢字 山 đọc là gì?",
+        image: "",
+        trans: "Núi",
+        sentence: "ヤマが高いです。",
+        value: "ヤマ",
+        quiz: ["ヤマ", "カワ"],
+        point: 5
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef003",
+    course: "605c72ef5f5b2c1d4c8e2005",
+    lesson_id: "605c72ef5f5b2c1d4c8e5005",
+    lesson_title: "日常会話",
+    name_type: 0,
+    points: 25,
+    words: [
+      {
+        word: "おはよう",
+        trans: "Chào buổi sáng",
+        audio: "https://example.com/audio/ohayou.mp3",
+        svg_path: ["304A", "306F", "3088", "3046"],
+        note: "Lời chào buổi sáng"
+      }
+    ],
+    questions: [
+      {
+        content: "Lời chào buổi sáng là gì?",
+        image: "",
+        trans: "Chào buổi sáng",
+        sentence: "おはようございます。",
+        value: "おはよう",
+        quiz: ["おはよう", "こんにちは"],
+        point: 10
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef004",
+    course: "605c72ef5f5b2c1d4c8e2007",
+    lesson_id: "605c72ef5f5b2c1d4c8e5007",
+    lesson_title: "レストランで",
+    name_type: 1,
+    points: 15,
+    words: [
+      {
+        word: "メニュー",
+        trans: "Thực đơn",
+        audio: "https://example.com/audio/menyu.mp3",
+        svg_path: ["30E1", "30CB", "30E5", "30FC"],
+        note: "Từ mượn tiếng Anh"
+      }
+    ],
+    questions: [
+      {
+        content: "Yêu cầu thực đơn nói thế nào?",
+        image: "",
+        trans: "Thực đơn",
+        sentence: "メニューをください。",
+        value: "メニュー",
+        quiz: ["メニュー", "こんにちは"],
+        point: 5
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef005",
+    course: "605c72ef5f5b2c1d4c8e2009",
+    lesson_id: "605c72ef5f5b2c1d4c8e5009",
+    lesson_title: "ビジネス会話",
+    name_type: 0,
+    points: 30,
+    words: [
+      {
+        word: "かいしゃ",
+        trans: "Công ty",
+        audio: "https://example.com/audio/kaisha.mp3",
+        svg_path: ["4F1A", "793E"],
+        note: "Từ vựng kinh doanh"
+      }
+    ],
+    questions: [
+      {
+        content: "Nơi làm việc là gì?",
+        image: "",
+        trans: "Công ty",
+        sentence: "かいしゃで働きます。",
+        value: "かいしゃ",
+        quiz: ["かいしゃ", "がっこう"],
+        point: 10
+      }
+    ]
+  }
+];
+
+const renshuus = [
+  {
+    _id: "605c72ef5f5b2c1d4c8ef101",
+    title: "Luyện tập chào hỏi N5",
+    lesson: "605c72ef5f5b2c1d4c8e5001",
+    total_points: 20,
+    contents: [
+      {
+        content_text: "こんにちは、お元気ですか？",
+        point: 10,
+        value: "Xin chào",
+        url_audio: "https://example.com/audio/konnichiwa.mp3",
+        quiz: ["Xin chào", "Tạm biệt"]
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef102",
+    title: "Luyện tập kanji N5",
+    lesson: "605c72ef5f5b2c1d4c8e5002",
+    total_points: 15,
+    contents: [
+      {
+        content_text: "山",
+        point: 5,
+        value: "やま",
+        url_audio: "https://example.com/audio/yama.mp3",
+        quiz: ["やま", "かわ"]
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef103",
+    title: "Luyện tập hội thoại N5",
+    lesson: "605c72ef5f5b2c1d4c8e5005",
+    total_points: 25,
+    contents: [
+      {
+        content_text: "おはようございます。",
+        point: 10,
+        value: "Chào buổi sáng",
+        url_audio: "https://example.com/audio/ohayou.mp3",
+        quiz: ["Chào buổi sáng", "Xin chào"]
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef104",
+    title: "Luyện tập tại nhà hàng",
+    lesson: "605c72ef5f5b2c1d4c8e5007",
+    total_points: 15,
+    contents: [
+      {
+        content_text: "メニューをください。",
+        point: 5,
+        value: "Cho tôi thực đơn",
+        url_audio: "https://example.com/audio/menyu.mp3",
+        quiz: ["Cho tôi thực đơn", "Xin chào"]
+      }
+    ]
+  },
+  {
+    _id: "605c72ef5f5b2c1d4c8ef105",
+    title: "Luyện tập kinh doanh N3",
+    lesson: "605c72ef5f5b2c1d4c8e5009",
+    total_points: 30,
+    contents: [
+      {
+        content_text: "会社で働きます。",
+        point: 10,
+        value: "Làm việc ở công ty",
+        url_audio: "https://example.com/audio/kaisha.mp3",
+        quiz: ["Làm việc ở công ty", "Đi đến trường"]
+      }
+    ]
+  }
+];
+
 const seedDatabase = async () => {
   try {
     // Xóa toàn bộ dữ liệu cũ
@@ -402,6 +625,8 @@ const seedDatabase = async () => {
     await Progression.insertMany(progressions)
     await Notification.insertMany(notifications)
     await OtpLog.insertMany(otpLogs)
+    await Hina.insertMany(hinas)
+    await Renshuu.insertMany(renshuus)
 
     console.log('Dữ liệu đã được seed thành công!')
   } catch (error) {

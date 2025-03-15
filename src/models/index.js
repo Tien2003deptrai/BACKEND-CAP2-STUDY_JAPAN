@@ -5,7 +5,6 @@ const db = {};
 
 db.mongoose = mongoose;
 
-
 db.resource = require("./resource.model");
 db.role = require("./role.model");
 db.user = require("./user.model");
@@ -21,5 +20,7 @@ db.exams = require("./exams.model");
 db.progression = require("./progression.model");
 db.notification = require("./notification.model");
 db.otp = require("./otp.model");
+db.hina = require("./hina.model");
+db.renshuu = require("./renshuu.model");
 
 module.exports = db;
