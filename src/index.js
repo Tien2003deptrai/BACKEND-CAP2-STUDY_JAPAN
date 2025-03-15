@@ -4,7 +4,9 @@ const mongoose = require("./config/db");
 const morgan = require("morgan");
 const cors = require("cors");
 const routes = require("./routes");
+const errorHandler = require("./middleware/errorHandler");
 const app = express();
+
 
 // * Database connection
 var db = mongoose.connection;
@@ -23,6 +25,8 @@ app.use(morgan("short"));
 
 // * Api routes
 app.use("/api", routes);
+
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   console.log("hello");

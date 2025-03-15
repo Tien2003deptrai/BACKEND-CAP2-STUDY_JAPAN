@@ -37,7 +37,9 @@ const userSchema = new Schema(
       default: '',
     },
     roles: {
-      type: String, required: true
+      type: String,
+      required: true,
+      default: 'user'
     },
     phone: {
       type: String,
