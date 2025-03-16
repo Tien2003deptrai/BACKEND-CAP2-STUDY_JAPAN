@@ -1,71 +1,82 @@
 const courseModel = require("../models/course.model");
 const progressionModel = require("../models/progression.model");
-const CourseRepo = require("../models/repos/course.repo");
 const userModel = require("../models/user.model");
 const { removeUnderfinedObjectKey, convert2ObjectId } = require("../utils");
 const NotificationService = require("./notification.service");
+const CourseRepo = require("../models/repos/course.repo");
 
 
-function CourseSerivce() { }
+function CourseService() { }
 
-CourseSerivce.registerCourse = async function ({ userId, courseId }) {
-  const userExists = await userModel.findById(userId);
+CourseService.registerCourse = async function ({ userId, courseId }) {
+  const userObjectId = convert2ObjectId(userId);
+  const courseObjectId = convert2ObjectId(courseId);
+
+  const userExists = await userModel.findById(userObjectId);
   if (!userExists) throw new Error("User not found");
-  const foundCourse = await courseModel.findById(courseId);
-  if (!foundCourse) throw new Error("Course not found");
-  const userProgession = await progressionModel.findOne({ user: userId });
 
+  const foundCourse = await courseModel.findById(courseObjectId);
+  if (!foundCourse) throw new Error("Course not found");
+
+  const userProgession = await progressionModel.findOne({ user: userObjectId });
+
+  if (!userProgession) {
+    throw new Error("User progression data not found");
+  }
   userProgession.progress.forEach((prog) => {
     if (prog.course.toString() == courseId) {
       throw new Error("User has already registered this course");
     }
-  })
+  });
 
   foundCourse.stu_num += 1;
   await foundCourse.save();
-  userProgession.progress.push({ course: courseId });
+  userProgession.progress.push({ course: courseObjectId });
   await userProgession.save();
   return 1
 };
 
-CourseSerivce.getAllCourse = async function (userId) {
+CourseService.getAllCourse = async function (userId) {
+  const userObjectId = convert2ObjectId(userId);
+
   const listCourse = await CourseRepo.getAll();
-  if (listCourse.length === 0) return null;
+  if (listCourse.length === 0) return [];
 
-  const userProgression = await progressionModel.findOne({ user: userId });
+  const userProgression = await progressionModel.findOne({ user: userObjectId }).lean() || { progress: [] };
+  const registeredCourses = new Set(userProgression ? userProgression.progress.map(p => p.course.toString()) : []);
 
-  if (!userProgression) return listCourse;
-
-  const listRegistered = userProgression.progress;
-
-  return listCourse.map(course => {
-    const registeredCourse = listRegistered.find(reg =>
-      reg.course.toString() === course._id.toString()
-    );
-
-    return registeredCourse ? {
-      ...registeredCourse,
-      course: course,
-      registered: true
-    } : course;
-  });
+  return listCourse.map(course => ({
+    _id: course._id,
+    name: course.name,
+    thumb: course.thumb,
+    user: course.user,
+    course_slug: course.course_slug || "",
+    type: course.type,
+    author: course.author,
+    stu_num: course.stu_num,
+    createdAt: course.createdAt,
+    updatedAt: course.updatedAt,
+    registered: registeredCourses.has(course._id.toString())
+  }));
 };
 
-CourseSerivce.createCourse = async function ({ name, thumb, user }) {
+CourseService.createCourse = async function ({ name, thumb, user }) {
+  const userObjectId = convert2ObjectId(user);
+
   const course = await CourseRepo.findByName(name);
   if (course) throw new Error("Course name already exists");
-  const author = await userModel.findById(convert2ObjectId(user)).lean();
+  const author = await userModel.findById(userObjectId).lean();
   if (!author) throw new Error("Author not found");
   const newCourse = await courseModel.create({
     name,
     thumb,
-    user: convert2ObjectId(user),
+    user: userObjectId,
     author: author.name
   });
   NotificationService.pushNotificationToSystem({
     type: "COURSE-001",
     receivedId: 1,
-    senderId: user,
+    senderId: userObjectId,
     option: {
       course_name: newCourse.name
     }
@@ -77,10 +88,12 @@ CourseSerivce.createCourse = async function ({ name, thumb, user }) {
   return newCourse;
 }
 
-CourseSerivce.updateCourse = async function (course_id, bodyUpdate) {
-  const courseExists = await CourseRepo.findById(course_id);
+CourseService.updateCourse = async function (course_id, bodyUpdate) {
+  const courseObjectId = convert2ObjectId(course_id);
+
+  const courseExists = await CourseRepo.findById(courseObjectId);
   if (!courseExists) throw new Error("Course not found");
-  return await CourseRepo.updateCourse(course_id, removeUnderfinedObjectKey(bodyUpdate));
+  return await CourseRepo.updateCourse(courseObjectId, removeUnderfinedObjectKey(bodyUpdate));
 }
 
-module.exports = CourseSerivce;
+module.exports = CourseService;
