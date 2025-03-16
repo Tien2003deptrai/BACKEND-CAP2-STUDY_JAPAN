@@ -135,9 +135,17 @@ const nextReviewDate = (level) => {
 }
 
 const generateToken = (user) => {
+  if (!user || !user._id) {
+    throw new Error("Invalid user data for token generation");
+  }
+
   return jwt.sign(
-    { id: user._id, email: user.email, roles: user.roles },
-    process.env.JWT_SECRET,
+    {
+      id: user._id.toString(),
+      email: user.email,
+      roles: user.roles,
+    },
+    "default_secret",
     { expiresIn: "7d" }
   );
 };

@@ -9,7 +9,7 @@ AuthController.signUp = async (req, res) => {
     const { name, email } = req.body;
     console.log('name', name, 'email', email)
     const data = await AuthService.signUp({ name, email });
-    return ApiResponse.success(res, 'Đăng ký thành công', data);
+    return ApiResponse.success(res, 'Tạo tài khoản thành công', data);
   } catch (error) {
     return ApiResponse.serverError(res, error.message);
   }

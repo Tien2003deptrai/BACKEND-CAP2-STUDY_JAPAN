@@ -39,12 +39,12 @@ AuthService.login = async function ({ email, password }) {
 
   const user = await userModel.findOne({ email });
   if (!user) {
-    return { success: false, message: "Invalid email or password" };
+    throw new Error("Invalid email or password");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return { success: false, message: "Invalid email or password" };
+    throw new Error("User already exists");
   }
 
   const token = generateToken(user);
