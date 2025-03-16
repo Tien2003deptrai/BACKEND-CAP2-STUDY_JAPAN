@@ -1,15 +1,12 @@
-const vocabularyModel = require('../vocabulary.model')
+const vocabularyModel = require('../vocabulary.model');
+const { convert2ObjectId } = require('../../utils');
 
-const updateVocab = async (vocab_id, bodyUpdate, isNew = true) => {
-  return await vocabularyModel.findByIdAndUpdate(vocab_id, bodyUpdate, {
-    new: isNew,
-  })
-}
+const VocabularyRepo = {
+  update: (vocab_id, bodyUpdate, isNew = true) =>
+    vocabularyModel.findByIdAndUpdate(vocab_id, bodyUpdate, { new: isNew }),
 
-const getAllVocab = async (lesson_id) => {
-  return await vocabModel.find({ lesson: lesson_id }).lean()
-}
-module.exports = {
-  updateVocab,
-  getAllVocab,
-}
+  getAllByLesson: (lesson_id) =>
+    vocabularyModel.find({ lesson: convert2ObjectId(lesson_id) }).lean(),
+};
+
+module.exports = VocabularyRepo;

@@ -1,33 +1,23 @@
-const examsModel = require('../exams.model')
+const examsModel = require('../exams.model');
 
-const findExamsByTag_Level = async (tags, level) => {
-  return await examsModel
-    .find({ tags: tags, level: level, isPublish: true })
-    .select('-contents ')
-}
+const ExamsRepo = {
+  findById: (id) =>
+    examsModel.findById(id).select('tags title contents -_id').lean(),
 
-const createExams = async (bodyData) => {
-  return await examsModel.create(bodyData)
-}
+  findByTagAndLevel: (tags, level) =>
+    ExamsRepo.queryExams({ tags, level, isPublish: true }),
 
-const findExamsById = async (id) => {
-  return await examsModel.findById(id).select('tags title contents -_id')
-}
+  getAll: () => examsModel.find().lean(),
 
-const updateExams = async (exam_id, bodyUpdate, isNew = true) => {
-  return await examsModel.findByIdAndUpdate(exam_id, bodyUpdate, {
-    new: isNew,
-  })
-}
+  create: (bodyData) => examsModel.create(bodyData),
 
-const deleteExams = async (exam_id) => {
-  return await examsModel.deleteOne({ _id: exam_id })
-}
+  update: (exam_id, bodyUpdate, isNew = true) =>
+    examsModel.findByIdAndUpdate(exam_id, bodyUpdate, { new: isNew }),
 
-module.exports = {
-  createExams,
-  updateExams,
-  findExamsById,
-  deleteExams,
-  findExamsByTag_Level,
-}
+  delete: (exam_id) => examsModel.deleteOne({ _id: exam_id }),
+
+  queryExams: (query) =>
+    examsModel.find(query).select('-contents').lean(),
+};
+
+module.exports = ExamsRepo;

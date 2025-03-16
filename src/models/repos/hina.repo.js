@@ -1,17 +1,19 @@
-const hinaModel = require('../hina.model')
+const hinaModel = require('../hina.model');
 
-const findHinaByLessonId = async (lesson_id) => {
-  return await hinaModel.findOne({ lesson_id: lesson_id }).lean()
-}
+const HinaRepo = {
+  findByLessonId: (lesson_id) => hinaModel.findOne({ lesson_id }).lean(),
 
-const createHina = async (course_id, bodyData) => {
-  return await hinaModel.create({
-    course: course_id,
-    ...bodyData,
-  })
-}
+  findById: (hina_id) => hinaModel.findById(hina_id).lean(),
 
-module.exports = {
-  findHinaByLessonId,
-  createHina,
-}
+  getAll: () => hinaModel.find().lean(),
+
+  create: (course_id, bodyData) =>
+    hinaModel.create({ course: course_id, ...bodyData }),
+
+  update: (hina_id, bodyUpdate, isNew = true) =>
+    hinaModel.findByIdAndUpdate(hina_id, bodyUpdate, { new: isNew }),
+
+  delete: (hina_id) => hinaModel.deleteOne({ _id: hina_id }),
+};
+
+module.exports = HinaRepo;

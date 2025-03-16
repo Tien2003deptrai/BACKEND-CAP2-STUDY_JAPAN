@@ -1,19 +1,20 @@
-const grammarModel = require('../grammar.model')
-const { convert2ObjectId } = require('../../utils')
+const grammarModel = require('../grammar.model');
+const { convert2ObjectId } = require('../../utils');
 
-const updateGrammar = async (grammar_id, bodyUpdate, isNew = true) => {
-  return await grammarModel.findByIdAndUpdate(grammar_id, bodyUpdate, {
-    new: isNew,
-  })
-}
+const GrammarRepo = {
+  findById: (grammar_id) => grammarModel.findById(grammar_id).lean(),
 
-const getAllGrammarByLesson = async (lesson_id) => {
-  return await grammarModel.find({
-    lesson: convert2ObjectId(lesson_id),
-  })
-}
+  getAllByLesson: (lesson_id) =>
+    grammarModel.find({ lesson: convert2ObjectId(lesson_id) }).lean(),
 
-module.exports = {
-  updateGrammar,
-  getAllGrammarByLesson,
-}
+  getAll: () => grammarModel.find().lean(),
+
+  create: (bodyData) => grammarModel.create(bodyData),
+
+  update: (grammar_id, bodyUpdate, isNew = true) =>
+    grammarModel.findByIdAndUpdate(grammar_id, bodyUpdate, { new: isNew }),
+
+  delete: (grammar_id) => grammarModel.deleteOne({ _id: grammar_id }),
+};
+
+module.exports = GrammarRepo;

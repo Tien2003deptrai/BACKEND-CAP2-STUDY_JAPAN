@@ -1,35 +1,28 @@
-const kanjiModel = require('../kanji.model')
+const kanjiModel = require('../kanji.model');
 
-const addKanji = async (data) => {
-  return await kanjiModel.create(data)
-}
+const KanjiRepo = {
+  add: (data) => kanjiModel.create(data),
 
-const getAllKanji = async (level) => {
-  const result = await kanjiModel.find({ jlpt: level })
-  const count = await kanjiModel.countDocuments({
-    jlpt: level,
-  })
-  return { kanji: result, count: count }
-}
+  getByLevel: async (level, page = 1, limit = 25) => {
+    const kanjiList = await kanjiModel
+      .find({ jlpt: level })
+      .limit(limit)
+      .skip(limit * (page - 1))
+      .lean();
 
-const getAllKanjiByLevel = async (level, page, limit = 25) => {
-  const result = await kanjiModel
-    .find({ jlpt: level })
-    .limit(limit)
-    .skip(limit * (page - 1))
-  const count = await kanjiModel.countDocuments({
-    jlpt: level,
-  })
-  return { kanji: result, count: count }
-}
+    const count = await kanjiModel.countDocuments({ jlpt: level });
 
-const getKanji = async (kanji) => {
-  return await kanjiModel.findOne({ kanji: kanji }).lean()
-}
+    return { kanji: kanjiList, count };
+  },
 
-module.exports = {
-  getAllKanjiByLevel,
-  getKanji,
-  addKanji,
-  getAllKanji,
-}
+  findByCharacter: (kanji) => kanjiModel.findOne({ kanji }).lean(),
+
+  getAllByLevel: async (level) => {
+    const kanjiList = await kanjiModel.find({ jlpt: level }).lean();
+    const count = await kanjiModel.countDocuments({ jlpt: level });
+
+    return { kanji: kanjiList, count };
+  },
+};
+
+module.exports = KanjiRepo;
