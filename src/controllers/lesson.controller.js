@@ -1,68 +1,57 @@
 const LessonService = require("../services/lesson.service");
 const handleRequest = require("./BaseController");
-const validateRequiredFields = require("../validators").validateRequiredFields;
+const { validateRequiredFields } = require("../validators");
 
 const LessonController = {
-  createLesson: function (req, res) {
-    handleRequest(res, function () {
+  createLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["lesson_title", "course_id"], req.body);
       return LessonService.createLesson(req.body);
-    }, "Tạo bài học thành công");
-  },
+    }, "Tạo bài học thành công"),
 
-  getAllLesson: function (req, res) {
-    handleRequest(res, function () {
-      return LessonService.getAllLesson({ userId: req.user.userId, ...req.body });
-    }, "Lấy thông tin tất cả bài học");
-  },
+  getAllLesson: (req, res) =>
+    handleRequest(res, () =>
+      LessonService.getAllLesson({ userId: req.user.userId, ...req.body }),
+      "Lấy thông tin tất cả bài học"
+    ),
 
-  getOneLesson: function (req, res) {
-    handleRequest(res, function () {
+  getOneLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["lesson_id"], req.params);
       return LessonService.getOneLesson(req.params.lesson_id);
-    }, "Lấy thông tin bài học");
-  },
+    }, "Lấy thông tin bài học"),
 
-  updateLesson: function (req, res) {
-    handleRequest(res, function () {
+  updateLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["lesson_id"], req.params);
-      const updateData = Object.assign({}, req.body, { course_id: req.body.course_id });
-      return LessonService.updateLesson(req.params.lesson_id, updateData);
-    }, "Cập nhật bài học thành công");
-  },
+      return LessonService.updateLesson(req.params.lesson_id, { ...req.body });
+    }, "Cập nhật bài học thành công"),
 
-  releaseLesson: function (req, res) {
-    handleRequest(res, function () {
+  releaseLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["lesson_id"], req.params);
       return LessonService.releaseLesson(req.params.lesson_id);
-    }, "Xuất bản bài học thành công");
-  },
+    }, "Xuất bản bài học thành công"),
 
-  unReleaseLesson: function (req, res) {
-    handleRequest(res, function () {
+  unReleaseLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["lesson_id"], req.params);
       return LessonService.unReleaseLesson(req.params.lesson_id);
-    }, "Gỡ bài học xuất bản thành công");
-  },
+    }, "Gỡ bài học xuất bản thành công"),
 
-  getAllDraftLesson: function (req, res) {
-    handleRequest(res, function () {
+  getAllDraftLesson: (req, res) =>
+    handleRequest(res, () => {
       const { limit = 25, skip = 0 } = req.query;
-      return LessonService.findAllDraftLesson({ limit: Number(limit), skip: Number(skip) });
-    }, "Lấy danh sách bài học nháp");
-  },
+      return LessonService.findAllDraftLesson({ limit: +limit, skip: +skip });
+    }, "Lấy danh sách bài học nháp"),
 
-  getAllReleaseLesson: function (req, res) {
-    handleRequest(res, function () {
+  getAllReleaseLesson: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["course_id"], req.params);
-      const course_id = req.params.course_id;
+      const { course_id } = req.params;
       const { limit = 25, skip = 0 } = req.query;
-      return LessonService.findAllReleaseLesson({
-        course_id, limit: Number(limit), skip: Number(skip)
-      });
-    }, "Lấy danh sách bài học phát hành");
-  }
-
+      return LessonService.findAllReleaseLesson({ course_id, limit: +limit, skip: +skip });
+    }, "Lấy danh sách bài học phát hành"),
 };
 
 module.exports = LessonController;

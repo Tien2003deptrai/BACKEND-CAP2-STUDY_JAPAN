@@ -1,22 +1,19 @@
-
 const AuthService = require("../services/auth.service");
 const handleRequest = require("./BaseController");
-const validateRequiredFields = require("../validators").validateRequiredFields;
+const { validateRequiredFields } = require("../validators");
 
 const AuthController = {
-  signUp: function (req, res) {
-    handleRequest(res, function () {
+  signUp: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["name", "email"], req.body);
-      return AuthService.signUp({ name: req.body.name, email: req.body.email });
-    }, "Tạo tài khoản thành công");
-  },
+      return AuthService.signUp({ ...req.body });
+    }, "Tạo tài khoản thành công"),
 
-  login: function (req, res) {
-    handleRequest(res, function () {
+  login: (req, res) =>
+    handleRequest(res, () => {
       validateRequiredFields(["email", "password"], req.body);
-      return AuthService.login({ email: req.body.email, password: req.body.password });
-    }, "Đăng nhập thành công!");
-  }
+      return AuthService.login({ ...req.body });
+    }, "Đăng nhập thành công!"),
 };
 
 module.exports = AuthController;

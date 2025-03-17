@@ -1,13 +1,6 @@
 const ApiRes = require("../res/ApiRes");
 
-function handleRequest(res, serviceMethod, message) {
+module.exports = (res, serviceMethod, message) =>
   serviceMethod()
-    .then(function (data) {
-      ApiRes.success(res, message, data);
-    })
-    .catch(function (error) {
-      ApiRes.error(res, error.message || "Lỗi hệ thống", error, 500);
-    });
-}
-
-module.exports = handleRequest;
+    .then(data => ApiRes.success(res, message, data))
+    .catch(err => ApiRes.error(res, err.message || "Lỗi hệ thống", err.status || 500));

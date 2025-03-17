@@ -1,23 +1,14 @@
 class ApiRes {
-  constructor({ status, success, message = null, data = null, error = null }) {
-    this.status = status;
-    this.success = success;
-    this.message = message;
-    this.data = data;
-    this.error = error;
-  }
-
-  static send(res, options) {
-    if (!res || typeof res.status !== "function") throw new Error("Invalid response object");
-    return res.status(options.status).json(new ApiRes(options));
+  static send(res, { status, success, message, data = null }) {
+    return res.status(status).json({ status, success, message, data });
   }
 
   static success(res, message, data = null) {
     return this.send(res, { status: 200, success: true, message, data });
   }
 
-  static error(res, message, error, status = 400) {
-    return this.send(res, { status, success: false, message, error });
+  static error(res, message, status = 400) {
+    return this.send(res, { status: status instanceof Error ? status.status || 500 : status, success: false, message });
   }
 }
 
