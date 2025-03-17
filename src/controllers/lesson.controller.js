@@ -48,13 +48,14 @@ const LessonController = {
 
   getAllDraftLesson: function (req, res) {
     handleRequest(res, function () {
-      return LessonService.findAllDraftLesson({ limit: req.query.limit, skip: req.query.skip });
+      return LessonService.findAllDraftLesson();
     }, "Lấy danh sách bài học nháp");
   },
 
   getAllReleaseLesson: function (req, res) {
     handleRequest(res, function () {
-      return LessonService.findAllReleaseLesson({ limit: req.query.limit, skip: req.query.skip });
+      validateRequiredFields(["lesson_id"], req.params);
+      return LessonService.findAllReleaseLesson(req.params.lesson_id);
     }, "Lấy danh sách bài học phát hành");
   }
 };
