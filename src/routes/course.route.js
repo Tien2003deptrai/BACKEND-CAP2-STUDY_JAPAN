@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/register', CourseController.registerCourse)
 
-router.post('/all', CourseController.getAllCourse)
+router.post('/all', CourseController.getAllCourses)
 
 router.post('', CourseController.createCourse)
 

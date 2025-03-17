@@ -1,46 +1,34 @@
-const ApiResponse = require("../core/apiResponse");
 const CourseService = require("../services/course.service");
+const { validateRequiredFields } = require("../validators");
+const handleRequest = require("./BaseController");
 
+const CourseController = {
+  registerCourse: function (req, res) {
+    handleRequest(res, function () {
+      var payload = Object.assign({}, req.body, { userId: req.user.userId });
+      return CourseService.registerCourse(payload);
+    }, "Đăng ký khóa học thành công");
+  },
 
-function CourseController() { }
+  getAllCourses: function (req, res) {
+    handleRequest(res, function () {
+      return CourseService.getAllCourse(req.user.userId);
+    }, "Lấy thông tin tất cả khóa học thành công");
+  },
 
-CourseController.registerCourse = async (req, res) => {
-  try {
-    const data = await CourseService.registerCourse({ ...req.body, userId: req.user.userId });
-    return ApiResponse.success(res, "Đăng ký khóa học thành công", data);
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
-  }
-}
+  createCourse: function (req, res) {
+    handleRequest(res, function () {
+      validateRequiredFields(["name", "thumb"], req.body);
+      var courseData = { name: req.body.name, thumb: req.body.thumb, user: req.user.userId };
+      return CourseService.createCourse(courseData);
+    }, "Tạo khóa học thành công");
+  },
 
-CourseController.getAllCourse = async function (req, res) {
-  try {
-    const data = await CourseService.getAllCourse(req.user.userId);
-    return ApiResponse.success(res, "Lấy thông tin tất cả khóa học thành công", data);
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
-  }
-};
-
-CourseController.createCourse = async function (req, res) {
-  try {
-    const { name, thumb } = req.body;
-    if (!name || !thumb) throw new Error("Name and thumbnail are required");
-    const data = await CourseService.createCourse({ name, thumb, user: req.user.userId });
-    return ApiResponse.success(res, "Tạo khóa học thành công", data);
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
-  }
-};
-
-CourseController.updateCourse = async function (req, res) {
-  try {
-    const { course_id } = req.params;
-    if (!course_id) throw new Error("Course ID is required");
-    const data = await CourseService.updateCourse(course_id, req.body);
-    return ApiResponse.success(res, "Cập nhật khóa học thành công", data);
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
+  updateCourse: function (req, res) {
+    handleRequest(res, function () {
+      validateRequiredFields(["course_id"], req.params);
+      return CourseService.updateCourse(req.params.course_id, req.body);
+    }, "Cập nhật khóa học thành công");
   }
 };
 

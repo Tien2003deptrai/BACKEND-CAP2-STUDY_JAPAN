@@ -1,37 +1,22 @@
-const ApiResponse = require("../core/apiResponse");
+
 const AuthService = require("../services/auth.service");
+const handleRequest = require("./BaseController");
+const validateRequiredFields = require("../validators").validateRequiredFields;
 
+const AuthController = {
+  signUp: function (req, res) {
+    handleRequest(res, function () {
+      validateRequiredFields(["name", "email"], req.body);
+      return AuthService.signUp({ name: req.body.name, email: req.body.email });
+    }, "Tạo tài khoản thành công");
+  },
 
-function AuthController() { }
-
-AuthController.signUp = async (req, res) => {
-  try {
-    const { name, email } = req.body;
-    console.log('name', name, 'email', email)
-    const data = await AuthService.signUp({ name, email });
-    return ApiResponse.success(res, 'Tạo tài khoản thành công', data);
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
-  }
-}
-
-AuthController.login = async function (req, res) {
-  try {
-    const { email, password } = req.body;
-    const result = await AuthService.login({ email, password });
-
-    if (!result.success) {
-      return ApiResponse.error(res, result.message);
-    }
-
-    return ApiResponse.success(res, "Đăng nhập thành công!", {
-      user: result.user,
-      token: result.token,
-    });
-  } catch (error) {
-    return ApiResponse.serverError(res, error.message);
+  login: function (req, res) {
+    handleRequest(res, function () {
+      validateRequiredFields(["email", "password"], req.body);
+      return AuthService.login({ email: req.body.email, password: req.body.password });
+    }, "Đăng nhập thành công!");
   }
 };
-
 
 module.exports = AuthController;

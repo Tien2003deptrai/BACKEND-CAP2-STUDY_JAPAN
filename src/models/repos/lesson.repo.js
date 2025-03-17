@@ -1,6 +1,5 @@
 const lessonModel = require('../lesson.model');
 const { convert2ObjectId } = require('../../utils');
-const { NotFoundError } = require('../../core/error.response');
 
 const LessonRepo = {
   findById: async (lesson_id) => lessonModel.findById(convert2ObjectId(lesson_id)).lean(),
@@ -44,14 +43,14 @@ const LessonRepo = {
 
   addContent: async (lesson_id, type, content_id) => {
     const lesson = await lessonModel.findById(convert2ObjectId(lesson_id));
-    if (!lesson) throw new NotFoundError('Lesson not found');
+    if (!lesson) throw new Error('Lesson not found');
     lesson.contents[type].push(content_id);
     await lesson.save();
   },
 
   removeContent: async (lesson_id, type, content_id) => {
     const lesson = await lessonModel.findById(convert2ObjectId(lesson_id));
-    if (!lesson) throw new NotFoundError('Lesson not found');
+    if (!lesson) throw new Error('Lesson not found');
     lesson.contents[type] = lesson.contents[type].filter(id => id.toString() !== content_id.toString());
     await lesson.save();
   },

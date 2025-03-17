@@ -1,0 +1,4 @@
+const { userId } = req.user;
+const userId = req.user.userId;
+
+// 2 trường hợp này same
