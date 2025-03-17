@@ -2,7 +2,7 @@ const lessonModel = require('../lesson.model');
 const { convert2ObjectId } = require('../../utils');
 
 const LessonRepo = {
-  findById: async (lesson_id) => lessonModel.findById(convert2ObjectId(lesson_id)).lean(),
+  findLessonById: async (lesson_id) => lessonModel.findById(convert2ObjectId(lesson_id)).lean(),
 
   findOne: async (lesson_id) => lessonModel
     .findOne({ _id: convert2ObjectId(lesson_id) })
@@ -12,9 +12,9 @@ const LessonRepo = {
     .lean()
     .exec(),
 
-  getAll: async (course_id) => lessonModel.find({ course: convert2ObjectId(course_id) }).lean(),
+  getAllLesson: async (course_id) => lessonModel.find({ course: convert2ObjectId(course_id) }).lean(),
 
-  update: async (lesson_id, bodyUpdate, isNew = true) => lessonModel.findByIdAndUpdate(
+  updateLesson: async (lesson_id, bodyUpdate, isNew = true) => lessonModel.findByIdAndUpdate(
     convert2ObjectId(lesson_id),
     bodyUpdate,
     { new: isNew }

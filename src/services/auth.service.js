@@ -16,7 +16,7 @@ const AuthService = {
 
     const randomPassword = generateRandomPassword(10);
     const hashedPassword = await this._hashPassword(randomPassword);
-
+    console.log('randomPassword', randomPassword)
     const newUser = await userModel.create({
       name,
       email,

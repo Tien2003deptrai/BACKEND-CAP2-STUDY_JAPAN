@@ -83,7 +83,7 @@ const LessonService = {
     if (lesson_title) {
       await this._checkLessonExists(convert2ObjectId(course_id), lesson_title, lesson_id);
     }
-    return await LessonRepo.update(lesson_id, removeUnderfinedObjectKey(bodyUpdate));
+    return await LessonRepo.updateLesson(lesson_id, removeUnderfinedObjectKey(bodyUpdate));
   },
 
   // Xuất bản bài học
