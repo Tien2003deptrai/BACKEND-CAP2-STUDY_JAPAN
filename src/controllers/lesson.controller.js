@@ -5,9 +5,8 @@ const validateRequiredFields = require("../validators").validateRequiredFields;
 const LessonController = {
   createLesson: function (req, res) {
     handleRequest(res, function () {
-      validateRequiredFields(["lesson_title"], req.body);
-      const lessonData = Object.assign({}, req.body, { course_id: req.params.course_id });
-      return LessonService.createLesson(lessonData);
+      validateRequiredFields(["lesson_title", "course_id"], req.body);
+      return LessonService.createLesson(req.body);
     }, "Tạo bài học thành công");
   },
 
@@ -48,16 +47,22 @@ const LessonController = {
 
   getAllDraftLesson: function (req, res) {
     handleRequest(res, function () {
-      return LessonService.findAllDraftLesson();
+      const { limit = 25, skip = 0 } = req.query;
+      return LessonService.findAllDraftLesson({ limit: Number(limit), skip: Number(skip) });
     }, "Lấy danh sách bài học nháp");
   },
 
   getAllReleaseLesson: function (req, res) {
     handleRequest(res, function () {
-      validateRequiredFields(["lesson_id"], req.params);
-      return LessonService.findAllReleaseLesson(req.params.lesson_id);
+      validateRequiredFields(["course_id"], req.params);
+      const course_id = req.params.course_id;
+      const { limit = 25, skip = 0 } = req.query;
+      return LessonService.findAllReleaseLesson({
+        course_id, limit: Number(limit), skip: Number(skip)
+      });
     }, "Lấy danh sách bài học phát hành");
   }
+
 };
 
 module.exports = LessonController;

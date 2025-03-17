@@ -13,7 +13,7 @@ router.patch('/:lesson_id', LessonController.updateLesson)
 
 router.post('/release/:lesson_id', LessonController.releaseLesson)
 
-router.post('/unRelease/:release_id', LessonController.unReleaseLesson)
+router.post('/unRelease/:lesson_id', LessonController.unReleaseLesson)
 
 /**
  * @desc get all darft of lesson (All no need id course)
