@@ -44,7 +44,7 @@ const registerEmailTemplate = (name, email, password) => {
       </table>
     </body>
     </html>
-  `;
-};
+  `
+}
 
-module.exports = registerEmailTemplate;
+module.exports = registerEmailTemplate

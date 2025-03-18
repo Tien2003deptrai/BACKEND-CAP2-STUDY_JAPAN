@@ -1,8 +1,8 @@
 const validateRequiredFields = (fields, source) => {
-  const missingFields = fields.filter(field => !source[field]);
+  const missingFields = fields.filter(field => !source[field])
   if (missingFields.length) {
-    throw new Error(`Missing required fields: ${missingFields.join(", ")}`);
+    throw new Error(`Missing required fields: ${missingFields.join(', ')}`)
   }
-};
+}
 
-module.exports = { validateRequiredFields };
+module.exports = { validateRequiredFields }

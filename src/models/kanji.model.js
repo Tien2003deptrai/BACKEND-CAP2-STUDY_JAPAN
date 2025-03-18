@@ -12,8 +12,8 @@ const kanjiSchema = new Schema(
       {
         ja: String,
         hira: String,
-        vi: String,
-      },
+        vi: String
+      }
     ],
     explain: String,
     jlpt: String,
@@ -22,11 +22,11 @@ const kanjiSchema = new Schema(
     onyomi: [String],
     stroke_num: Number,
     svg_path: String,
-    unicode: String,
+    unicode: String
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

@@ -8,30 +8,30 @@ const courseSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: true
     },
     thumb: {
-      type: String,
+      type: String
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'User'
     },
     course_slug: {
-      type: String,
+      type: String
     },
     type: String,
     author: {
-      type: String,
+      type: String
     },
     stu_num: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 courseSchema.pre('save', function (next) {

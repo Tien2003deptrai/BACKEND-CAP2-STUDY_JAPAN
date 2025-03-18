@@ -23,12 +23,12 @@ const examSchema = new Schema(
     time_limit: { type: Number },
     total_points: {
       type: Number,
-      required: true,
+      required: true
     },
     level: { type: String, required: true },
     isPublish: {
       type: Boolean,
-      default: false,
+      default: false
       // select: false
     },
     tags: String,
@@ -41,20 +41,20 @@ const examSchema = new Schema(
             content_text: { type: String },
             value: { type: String },
             quiz: { type: Array },
-            point: { type: Number, required: true },
-          },
+            point: { type: Number, required: true }
+          }
         ],
         content_text: { type: String },
         point: { type: Number, required: true },
         value: { type: String },
         url_audio: { type: String, default: null },
-        quiz: { type: Array },
-      },
-    ],
+        quiz: { type: Array }
+      }
+    ]
   },
   {
     collection: COLLECTION_NAME,
-    timestamps: true,
+    timestamps: true
   }
 )
 

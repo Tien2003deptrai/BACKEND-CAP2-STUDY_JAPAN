@@ -1,14 +1,49 @@
-const handleRequest = require("./BaseController");
-const { validateRequiredFields } = require("../validators");
-const VocabularyService = require("../services/vocabulary.service");
+const handleRequest = require('./BaseController')
+const { validateRequiredFields } = require('../validators')
+const VocabularyService = require('../services/vocabulary.service')
 
 const VocabularyController = {
+  addVocabulary: (req, res) =>
+    handleRequest(
+      res,
+      () => {
+        return VocabularyService.addVocabulary(req.body)
+      },
+      'Thêm từ vựng thành công'
+    ),
 
-  createLesson: (req, res) =>
-    handleRequest(res, () => {
-      return VocabularyService.addVocabulary(req.body);
-    }, "Tạo bài học thành công"),
+  getAllVocabularies: (req, res) =>
+    handleRequest(
+      res,
+      () => {
+        validateRequiredFields(['lesson_id'], req.params)
+        return VocabularyService.getAllVocabularies(req.params)
+      },
+      'Lấy danh sách từ vựng thành công'
+    ),
 
-};
+  updateVocabulary: (req, res) =>
+    handleRequest(
+      res,
+      () => {
+        validateRequiredFields(['vocab_id', 'lesson_id'], {
+          ...req.params,
+          ...req.body
+        })
+        return VocabularyService.updateVocabulary(req.params.vocab_id, req.body)
+      },
+      'Cập nhật từ vựng thành công'
+    ),
 
-module.exports = VocabularyController;
+  deleteVocabulary: (req, res) =>
+    handleRequest(
+      res,
+      () => {
+        validateRequiredFields(['vocab_id', 'lesson_id'], req.params)
+        return VocabularyService.deleteVocab(req.params.vocab_id, req.params)
+      },
+      'Xóa từ vựng thành công'
+    )
+}
+
+module.exports = VocabularyController

@@ -13,30 +13,30 @@ const notificationSchema = new Schema(
     noti_type: {
       type: String,
       enum: ['EXAM-001', 'EXAM-002', 'COURSE-001'],
-      required: true,
+      required: true
     },
     noti_senderId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: true
     },
     noti_receivedId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: true
     },
     noti_content: {
       type: String,
-      required: true,
+      required: true
     },
     noti_options: {
       type: Object,
-      default: {},
-    },
+      default: {}
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

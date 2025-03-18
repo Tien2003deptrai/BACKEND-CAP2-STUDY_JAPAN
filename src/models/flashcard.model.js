@@ -13,11 +13,11 @@ const flcardSchema = new Schema(
     back: { type: String },
     tags: [String],
     reviewDate: Date,
-    interval: Number,
+    interval: Number
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

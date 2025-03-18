@@ -8,39 +8,39 @@ const lessonSchema = new Schema(
     course: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
-      required: true,
+      required: true
     },
     lesson_title: {
       type: String,
-      required: true,
+      required: true
     },
     isPublic: {
       type: Boolean,
       default: false,
-      index: true,
+      index: true
       // select: false,
     },
     contents: {
       vocabulary: [
         {
           type: Schema.Types.ObjectId,
-          ref: 'Vocabulary',
-        },
+          ref: 'Vocabulary'
+        }
       ],
       grammar: [
         {
           type: Schema.Types.ObjectId,
-          ref: 'Grammar',
-        },
+          ref: 'Grammar'
+        }
       ],
       kaiwa: {
-        type: Array,
-      },
-    },
+        type: Array
+      }
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

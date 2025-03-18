@@ -9,13 +9,13 @@ const hinaSchema = new Schema(
     course: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
-      required: true,
+      required: true
     },
     lesson_id: String,
     lesson_title: String,
     name_type: {
       type: Number,
-      enum: [0, 1], //0: hiragana, 1: katakana
+      enum: [0, 1] //0: hiragana, 1: katakana
     },
     points: Number,
     words: [
@@ -24,8 +24,8 @@ const hinaSchema = new Schema(
         trans: String,
         audio: String,
         svg_path: [String],
-        note: String,
-      },
+        note: String
+      }
     ],
     questions: [
       {
@@ -35,19 +35,19 @@ const hinaSchema = new Schema(
         sentence: String,
         value: String,
         quiz: [String],
-        point: Number,
-      },
-    ],
+        point: Number
+      }
+    ]
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 
 hinaSchema.pre('save', async function (next) {
   this.svg_path = JapaneseToUnicode(this.word)
-  this.words.forEach((w) => {
+  this.words.forEach(w => {
     w.svg_path.forEach((v, i) => {
       w.svg_path[i] = `colorized-kanji-stroke/${v}.svg`
     })

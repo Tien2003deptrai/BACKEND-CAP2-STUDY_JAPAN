@@ -7,35 +7,35 @@ const grammarSchema = new Schema(
   {
     lesson: {
       type: Schema.Types.ObjectId,
-      ref: 'Lesson',
+      ref: 'Lesson'
     },
     title: {
-      type: String,
+      type: String
     },
     structure: {
       type: String,
-      required: true,
+      required: true
     },
     explain: {
       type: String,
-      required: true,
+      required: true
     },
     examples: [
       {
         ja: String,
-        vi: String,
-      },
+        vi: String
+      }
     ],
     level: {
-      type: String,
+      type: String
     },
     mean: {
-      type: String,
-    },
+      type: String
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

@@ -7,46 +7,46 @@ const progressSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'User'
     },
     achievements: [
       {
         title: String,
-        image: String,
-      },
+        image: String
+      }
     ], //later
     progress: [
       {
         course: {
           type: Schema.Types.ObjectId,
-          ref: 'Course',
+          ref: 'Course'
         },
         lessons: [
           {
             type: Schema.Types.ObjectId,
-            refPath: 'progress.lessonType',
-          },
+            refPath: 'progress.lessonType'
+          }
         ],
         lessonType: {
           type: String,
-          enum: ['Lesson', 'Hina'],
-        },
-      },
+          enum: ['Lesson', 'Hina']
+        }
+      }
     ],
     examsProgress: [
       {
         exam: {
           type: Schema.Types.ObjectId,
-          ref: 'Exam',
+          ref: 'Exam'
         },
         point: Number,
-        note: String,
-      },
-    ],
+        note: String
+      }
+    ]
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

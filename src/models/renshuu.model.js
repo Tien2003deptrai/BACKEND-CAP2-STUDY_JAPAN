@@ -8,11 +8,11 @@ const renshuuSchema = new Schema(
     title: { type: String },
     lesson: {
       type: Schema.Types.ObjectId,
-      ref: 'Lesson',
+      ref: 'Lesson'
     },
     total_points: {
       type: Number,
-      required: true,
+      required: true
     },
     contents: [
       {
@@ -20,13 +20,13 @@ const renshuuSchema = new Schema(
         point: { type: Number, required: true },
         value: { type: String, required: true },
         url_audio: { type: String, default: null },
-        quiz: { type: Array, required: true },
-      },
-    ],
+        quiz: { type: Array, required: true }
+      }
+    ]
   },
   {
     collection: COLLECTION_NAME,
-    timestamps: true,
+    timestamps: true
   }
 )
 

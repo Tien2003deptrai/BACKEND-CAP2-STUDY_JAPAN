@@ -8,13 +8,13 @@ const deckSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: 'User'
     },
-    deck_title: { type: String, required: true },
+    deck_title: { type: String, required: true }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

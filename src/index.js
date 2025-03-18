@@ -1,37 +1,37 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const cors = require("cors");
-const routes = require("./routes");
-const errorHandler = require("./middleware/errorHandler");
-const app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const cors = require('cors')
+const routes = require('./routes')
+const errorHandler = require('./middleware/errorHandler')
+const app = express()
 // const mongoose = require("./config/db"); // Đã import Mongoose từ config
 // console.log("Database module imported:", dtb);
-require("./config/db"); 
-// require("./models/index"); 
+require('./config/db')
+// require("./models/index");
 
 // * Cors
-app.use(cors());
+app.use(cors())
 
 // * Body Parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("short"));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(morgan('short'))
 
 // * Api routes
-app.use("/api", routes);
+app.use('/api', routes)
 
-app.use(errorHandler);
+app.use(errorHandler)
 
-app.get("/", (req, res) => {
-  console.log("hello");
-  res.send("hello");
-});
+app.get('/', (req, res) => {
+  console.log('hello')
+  res.send('hello')
+})
 
-app.use("*", (req, res) => {
-  res.send("Route not found");
-});
+app.use('*', (req, res) => {
+  res.send('Route not found')
+})
 
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 3000
 
-app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`))

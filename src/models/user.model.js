@@ -1,39 +1,39 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose')
 
-const DOCUMENT_NAME = 'User';
-const COLLECTION_NAME = 'Users';
+const DOCUMENT_NAME = 'User'
+const COLLECTION_NAME = 'Users'
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
       trim: true,
-      maxLength: 150,
+      maxLength: 150
     },
     email: {
       type: String,
       trim: true,
       unique: true,
-      required: true,
+      required: true
     },
     password: {
-      type: String,
+      type: String
     },
     status: {
       type: String,
       enum: ['active', 'pending', 'block'],
-      default: 'pending',
+      default: 'pending'
     },
     date_of_birth: {
       type: Date,
-      default: null,
+      default: null
     },
     sex: {
-      type: Number,
+      type: Number
     },
     avatar: {
       type: String,
-      default: '',
+      default: ''
     },
     roles: {
       type: String,
@@ -42,13 +42,13 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
-);
+)
 
-module.exports = model(DOCUMENT_NAME, userSchema);
+module.exports = model(DOCUMENT_NAME, userSchema)

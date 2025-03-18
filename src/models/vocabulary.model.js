@@ -8,43 +8,43 @@ const vocabularySchema = new Schema(
   {
     lesson: {
       type: Schema.Types.ObjectId,
-      ref: 'Lesson',
+      ref: 'Lesson'
     },
     word: {
       type: String,
-      required: true,
+      required: true
     },
     kanji: {
-      type: String,
+      type: String
     },
     kana: {
       type: String, //phát âm ra hira và kata
-      require: true,
+      require: true
     },
     hex_string: {
       type: Array,
-      default: [],
+      default: []
     },
     meaning: {
       type: String,
-      required: true,
+      required: true
     },
     audio: {
-      type: String,
+      type: String
     },
     example: {
-      type: String,
+      type: String
     },
     tags: {
-      type: String,
+      type: String
     },
     notes: {
-      type: String, //ghi chú (nếu có)
-    },
+      type: String //ghi chú (nếu có)
+    }
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: COLLECTION_NAME
   }
 )
 

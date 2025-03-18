@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "prepare": "husky install",
+    "format": "prettier --write ."
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -30,5 +37,10 @@
     "nodemon": "^2.0.15",
     "slugify": "^1.6.6",
     "wanakana": "^5.3.1"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3"
   }
 }

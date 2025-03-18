@@ -2,28 +2,28 @@ const wanakana = require('wanakana')
 const { Types } = require('mongoose')
 const _ = require('lodash')
 const moment = require('moment')
-const crypto = require("crypto");
-const jwt = require('jsonwebtoken');
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 //moment().format() // 2024-05-20T00:00:00+07:00(moment) === 2024-05-20T17:00:00.000+00:00(mongodb)
 
 const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields)
 }
 
-const removeUnderfinedObjectKey = (obj) => {
-  Object.keys(obj).forEach((key) => {
+const removeUnderfinedObjectKey = obj => {
+  Object.keys(obj).forEach(key => {
     if (obj[key] == null) delete obj[key]
   })
 
   return obj
 }
 
-const updateNestedObjectParser = (obj) => {
+const updateNestedObjectParser = obj => {
   const final = {}
-  Object.keys(obj).forEach((key) => {
+  Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'Object' && !Array.isArray(obj[key])) {
       const res = updateNestedObjectParser(obj[key])
-      Object.keys(res).forEach((a) => {
+      Object.keys(res).forEach(a => {
         final[`${key}.${a}`] = res[a]
       })
     } else {
@@ -34,7 +34,7 @@ const updateNestedObjectParser = (obj) => {
   return final
 }
 
-const JapaneseToUnicode = (kanji) => {
+const JapaneseToUnicode = kanji => {
   if (kanji == '' || kanji == null) {
     return
   }
@@ -51,12 +51,12 @@ const JapaneseToUnicode = (kanji) => {
   return unicodeArray
 }
 
-const convert2ObjectId = (id) => {
+const convert2ObjectId = id => {
   return new Types.ObjectId(id)
 }
 
 const replacePlaceholder = (template, params) => {
-  Object.keys(params).forEach((key) => {
+  Object.keys(params).forEach(key => {
     const placeholder = `{{${key}}}`
     template = template.replace(new RegExp(placeholder, 'g'), params[key])
   })
@@ -80,25 +80,15 @@ const filterFieldToUpdate = (update, field_name, name) => {
   return result
 }
 
-const filterFieldToUpdateNestedObject = (
-  update,
-  field_name,
-  name,
-  nested_field,
-  nested_name
-) => {
+const filterFieldToUpdateNestedObject = (update, field_name, name, nested_field, nested_name) => {
   const result = {}
 
   for (const key in update) {
     if (key == 'quiz') {
-      result[
-        `${field_name}.$[${name}].${nested_field}.$[${nested_name}].${key}`
-      ] = update[key]
+      result[`${field_name}.$[${name}].${nested_field}.$[${nested_name}].${key}`] = update[key]
     } else {
       if (!Array.isArray(update[key])) {
-        result[
-          `${field_name}.$[${name}].${nested_field}.$[${nested_name}].${key}`
-        ] = update[key]
+        result[`${field_name}.$[${name}].${nested_field}.$[${nested_name}].${key}`] = update[key]
       }
     }
   }
@@ -118,14 +108,14 @@ const filterFieldToUpdateNestedObject = (
  * level 4: (14 ngay)
  * level 5: (30 ngay)
  */
-const nextReviewDate = (level) => {
+const nextReviewDate = level => {
   const levelObj = {
     0: 0,
     1: 1,
     2: 3,
     3: 7,
     4: 14,
-    5: 30,
+    5: 30
   }
   let newInterval = levelObj[level]
   const nextReviewDate = moment().startOf('day')
@@ -134,26 +124,25 @@ const nextReviewDate = (level) => {
   return { date: nextReviewDate, interval: newInterval }
 }
 
-const generateToken = (user) => {
+const generateToken = user => {
   if (!user || !user._id) {
-    throw new Error("Invalid user data for token generation");
+    throw new Error('Invalid user data for token generation')
   }
 
   return jwt.sign(
     {
       id: user._id.toString(),
       email: user.email,
-      roles: user.roles,
+      roles: user.roles
     },
-    "default_secret",
-    { expiresIn: "7d" }
-  );
-};
+    'default_secret',
+    { expiresIn: '7d' }
+  )
+}
 
 const generateRandomPassword = (length = 10) => {
-  return crypto.randomBytes(length).toString("hex").slice(0, length);
-};
-
+  return crypto.randomBytes(length).toString('hex').slice(0, length)
+}
 
 module.exports = {
   nextReviewDate,
