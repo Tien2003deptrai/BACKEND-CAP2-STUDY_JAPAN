@@ -8,7 +8,8 @@
     "start": "nodemon src/index.js",
     "prepare": "husky install",
     "lint": "eslint . --ext .js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "seed": "node src/utils/seed.js"
   },
   "lint-staged": {
     "*.js": [

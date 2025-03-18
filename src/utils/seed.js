@@ -16,135 +16,145 @@ const Notification = require('../models/notification.model')
 const Hina = require('../models/hina.model')
 const Renshuu = require('../models/renshuu.model')
 
+const bcrypt = require('bcrypt')
+
 // Kết nối MongoDB
 mongoose.connect('mongodb://localhost:27017/japanese_learning', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10)
+  return await bcrypt.hash(password, salt)
+}
+
 // Dữ liệu seed giả (copy từ các mảng mình đã gửi)
-const users = [
-  {
-    _id: '605c72ef5f5b2c1d4c8e1001',
-    name: 'Nguyen Van An',
-    email: 'nguyen.an@example.com',
-    password: 'hashed_password_123',
-    status: 'active',
-    date_of_birth: new Date('1990-01-15'),
-    sex: 1,
-    avatar: 'https://example.com/avatars/an.jpg',
-    roles: 'admin',
-    phone: '0901234567'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1002',
-    name: 'Tran Thi Bich',
-    email: 'tran.bich@example.com',
-    password: 'hashed_password_456',
-    status: 'pending',
-    date_of_birth: new Date('1995-06-20'),
-    sex: 0,
-    avatar: '',
-    roles: 'teacher',
-    phone: '0912345678'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1003',
-    name: 'Le Van Cuong',
-    email: 'le.cuong@example.com',
-    password: 'hashed_password_789',
-    status: 'block',
-    date_of_birth: new Date('1988-03-10'),
-    sex: 1,
-    avatar: '',
-    roles: 'user',
-    phone: '0923456789'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1004',
-    name: 'Pham Thi Dung',
-    email: 'pham.dung@example.com',
-    password: 'hashed_password_101',
-    status: 'active',
-    date_of_birth: new Date('1992-11-25'),
-    sex: 0,
-    avatar: 'https://example.com/avatars/dung.jpg',
-    roles: 'teacher',
-    phone: '0934567890'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1005',
-    name: 'Hoang Van Em',
-    email: 'hoang.em@example.com',
-    password: 'hashed_password_202',
-    status: 'pending',
-    date_of_birth: new Date('1993-07-12'),
-    sex: 1,
-    avatar: '',
-    roles: 'user',
-    phone: '0945678901'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1006',
-    name: 'Vu Thi Phuong',
-    email: 'vu.phuong@example.com',
-    password: 'hashed_password_303',
-    status: 'active',
-    date_of_birth: new Date('1991-09-30'),
-    sex: 0,
-    avatar: 'https://example.com/avatars/phuong.jpg',
-    roles: 'admin',
-    phone: '0956789012'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1007',
-    name: 'Do Van Giang',
-    email: 'do.giang@example.com',
-    password: 'hashed_password_404',
-    status: 'pending',
-    date_of_birth: new Date('1989-04-05'),
-    sex: 1,
-    avatar: '',
-    roles: 'teacher',
-    phone: '0967890123'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1008',
-    name: 'Bui Thi Hoa',
-    email: 'bui.hoa@example.com',
-    password: 'hashed_password_505',
-    status: 'active',
-    date_of_birth: new Date('1996-12-15'),
-    sex: 0,
-    avatar: 'https://example.com/avatars/hoa.jpg',
-    roles: 'user',
-    phone: '0978901234'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e1009',
-    name: 'Dang Van Khanh',
-    email: 'dang.khanh@example.com',
-    password: 'hashed_password_606',
-    status: 'block',
-    date_of_birth: new Date('1987-08-22'),
-    sex: 1,
-    avatar: '',
-    roles: 'admin',
-    phone: '0989012345'
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e100a',
-    name: 'Ngo Thi Linh',
-    email: 'ngo.linh@example.com',
-    password: 'hashed_password_707',
-    status: 'active',
-    date_of_birth: new Date('1994-02-28'),
-    sex: 0,
-    avatar: 'https://example.com/avatars/linh.jpg',
-    roles: 'teacher',
-    phone: '0990123456'
-  }
-]
+const createSeedData = async () => {
+  const users = [
+    {
+      _id: '605c72ef5f5b2c1d4c8e1001',
+      name: 'Nguyen Van An',
+      email: 'nguyen.an@example.com',
+      password: await hashPassword('admin123'),
+      status: 'active',
+      date_of_birth: new Date('1990-01-15'),
+      sex: 1,
+      avatar: 'https://example.com/avatars/an.jpg',
+      roles: 'admin',
+      phone: '0901234567'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1002',
+      name: 'Tran Thi Bich',
+      email: 'tran.bich@example.com',
+      password: await hashPassword('teacher123'),
+      status: 'pending',
+      date_of_birth: new Date('1995-06-20'),
+      sex: 0,
+      avatar: '',
+      roles: 'teacher',
+      phone: '0912345678'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1003',
+      name: 'Le Van Cuong',
+      email: 'le.cuong@example.com',
+      password: await hashPassword('student123'),
+      status: 'block',
+      date_of_birth: new Date('1988-03-10'),
+      sex: 1,
+      avatar: '',
+      roles: 'student',
+      phone: '0923456789'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1004',
+      name: 'Pham Thi Dung',
+      email: 'pham.dung@example.com',
+      password: 'hashed_password_101',
+      status: 'active',
+      date_of_birth: new Date('1992-11-25'),
+      sex: 0,
+      avatar: 'https://example.com/avatars/dung.jpg',
+      roles: 'teacher',
+      phone: '0934567890'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1005',
+      name: 'Hoang Van Em',
+      email: 'hoang.em@example.com',
+      password: 'hashed_password_202',
+      status: 'pending',
+      date_of_birth: new Date('1993-07-12'),
+      sex: 1,
+      avatar: '',
+      roles: 'student',
+      phone: '0945678901'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1006',
+      name: 'Vu Thi Phuong',
+      email: 'vu.phuong@example.com',
+      password: 'hashed_password_303',
+      status: 'active',
+      date_of_birth: new Date('1991-09-30'),
+      sex: 0,
+      avatar: 'https://example.com/avatars/phuong.jpg',
+      roles: 'admin',
+      phone: '0956789012'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1007',
+      name: 'Do Van Giang',
+      email: 'do.giang@example.com',
+      password: 'hashed_password_404',
+      status: 'pending',
+      date_of_birth: new Date('1989-04-05'),
+      sex: 1,
+      avatar: '',
+      roles: 'teacher',
+      phone: '0967890123'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1008',
+      name: 'Bui Thi Hoa',
+      email: 'bui.hoa@example.com',
+      password: 'hashed_password_505',
+      status: 'active',
+      date_of_birth: new Date('1996-12-15'),
+      sex: 0,
+      avatar: 'https://example.com/avatars/hoa.jpg',
+      roles: 'student',
+      phone: '0978901234'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e1009',
+      name: 'Dang Van Khanh',
+      email: 'dang.khanh@example.com',
+      password: 'hashed_password_606',
+      status: 'block',
+      date_of_birth: new Date('1987-08-22'),
+      sex: 1,
+      avatar: '',
+      roles: 'admin',
+      phone: '0989012345'
+    },
+    {
+      _id: '605c72ef5f5b2c1d4c8e100a',
+      name: 'Ngo Thi Linh',
+      email: 'ngo.linh@example.com',
+      password: 'hashed_password_707',
+      status: 'active',
+      date_of_birth: new Date('1994-02-28'),
+      sex: 0,
+      avatar: 'https://example.com/avatars/linh.jpg',
+      roles: 'teacher',
+      phone: '0990123456'
+    }
+  ]
+  return users
+}
 
 const courses = [
   {
@@ -1268,7 +1278,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee001',
     noti_type: 'EXAM-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1001',
-    noti_receivedId: 1,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1001', // Sửa thành ObjectId hợp lệ
     noti_content: '新しい試験「N5模擬試験1」が作成されました。',
     noti_options: { examId: '605c72ef5f5b2c1d4c8ec001' }
   },
@@ -1276,7 +1286,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee002',
     noti_type: 'COURSE-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1002',
-    noti_receivedId: 2,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1002', // Sửa thành ObjectId hợp lệ
     noti_content: '新しいコース「漢字マスターN5」が追加されました。',
     noti_options: { courseId: '605c72ef5f5b2c1d4c8e2002' }
   },
@@ -1284,7 +1294,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee003',
     noti_type: 'EXAM-002',
     noti_senderId: '605c72ef5f5b2c1d4c8e1003',
-    noti_receivedId: 3,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1003', // Sửa thành ObjectId hợp lệ
     noti_content: '試験「N4文法試験」の終了時間が近づきました。',
     noti_options: { examId: '605c72ef5f5b2c1d4c8ec003' }
   },
@@ -1292,7 +1302,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee004',
     noti_type: 'COURSE-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1004',
-    noti_receivedId: 4,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1004', // Sửa thành ObjectId hợp lệ
     noti_content: '新しいコース「文法N4基礎」が追加されました。',
     noti_options: { courseId: '605c72ef5f5b2c1d4c8e2004' }
   },
@@ -1300,7 +1310,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee005',
     noti_type: 'EXAM-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1005',
-    noti_receivedId: 5,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1005', // Sửa thành ObjectId hợp lệ
     noti_content: '新しい試験「N3模擬試験」が作成されました。',
     noti_options: { examId: '605c72ef5f5b2c1d4c8ec005' }
   },
@@ -1308,7 +1318,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee006',
     noti_type: 'COURSE-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1006',
-    noti_receivedId: 6,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1006', // Sửa thành ObjectId hợp lệ
     noti_content: '新しいコース「漢字マスターN3」が追加されました。',
     noti_options: { courseId: '605c72ef5f5b2c1d4c8e2006' }
   },
@@ -1316,7 +1326,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee007',
     noti_type: 'EXAM-002',
     noti_senderId: '605c72ef5f5b2c1d4c8e1007',
-    noti_receivedId: 7,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1007', // Sửa thành ObjectId hợp lệ
     noti_content: '試験「N5実践試験」の終了時間が近づきました。',
     noti_options: { examId: '605c72ef5f5b2c1d4c8ec007' }
   },
@@ -1324,7 +1334,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee008',
     noti_type: 'COURSE-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1008',
-    noti_receivedId: 8,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1008', // Sửa thành ObjectId hợp lệ
     noti_content: '新しいコース「文法N5入門」が追加されました。',
     noti_options: { courseId: '605c72ef5f5b2c1d4c8e2008' }
   },
@@ -1332,7 +1342,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee009',
     noti_type: 'EXAM-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e1009',
-    noti_receivedId: 9,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e1009', // Sửa thành ObjectId hợp lệ
     noti_content: '新しい試験「ビジネス会話試験」が作成されました。',
     noti_options: { examId: '605c72ef5f5b2c1d4c8ec009' }
   },
@@ -1340,7 +1350,7 @@ const notifications = [
     _id: '605c72ef5f5b2c1d4c8ee00a',
     noti_type: 'COURSE-001',
     noti_senderId: '605c72ef5f5b2c1d4c8e100a',
-    noti_receivedId: 10,
+    noti_receivedId: '605c72ef5f5b2c1d4c8e100a', // Sửa thành ObjectId hợp lệ
     noti_content: '新しいコース「漢字マスターN2」が追加されました。',
     noti_options: { courseId: '605c72ef5f5b2c1d4c8e200a' }
   }
@@ -1574,6 +1584,7 @@ const seedDatabase = async () => {
     console.log('Đã xóa toàn bộ dữ liệu cũ!')
 
     // Chèn dữ liệu mới
+    const users = await createSeedData()
     await User.insertMany(users)
     await Course.insertMany(courses)
     await Lesson.insertMany(lessons)
