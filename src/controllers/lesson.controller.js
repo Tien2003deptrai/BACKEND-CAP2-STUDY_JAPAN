@@ -84,6 +84,13 @@ const LessonController = {
         })
       },
       'Lấy danh sách bài học phát hành'
+    ),
+
+  getAllCourseTitles: (req, res) =>
+    handleRequest(
+      res,
+      () => LessonService.getAllCourseTitles(),
+      'Lấy danh sách tiêu đề tất cả khóa học thành công'
     )
 }
 

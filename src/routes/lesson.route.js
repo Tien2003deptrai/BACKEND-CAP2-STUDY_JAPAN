@@ -17,5 +17,6 @@ router.post('/unRelease/:lesson_id', LessonController.unReleaseLesson)
  */
 router.get('/drafts', LessonController.getAllDraftLesson)
 router.get('/release/all/:course_id', LessonController.getAllReleaseLesson)
+router.get('/all/titles', LessonController.getAllCourseTitles)
 
 module.exports = router
