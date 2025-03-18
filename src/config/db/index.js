@@ -11,35 +11,35 @@ if (!mongoose.connection.readyState) {
     .catch((err) => console.error('❌ MongoDB connection error:', err))
 }
 
-const createCollections = async () => {
-  try {
-    const collections = [
-      'Users',
-      'Courses',
-      'Lessons',
-      'Hinas',
-      'Vocabularys',
-      'Grammars',
-      'Kanjis',
-      'Decks',
-      'Flashcards',
-      'Exams',
-      'Progressions',
-      'Notifications',
-      'Renshuus'
-    ]
+// const createCollections = async () => {
+//   try {
+//     const collections = [
+//       'Users',
+//       'Courses',
+//       'Lessons',
+//       'Hinas',
+//       'Vocabularys',
+//       'Grammars',
+//       'Kanjis',
+//       'Decks',
+//       'Flashcards',
+//       'Exams',
+//       'Progressions',
+//       'Notifications',
+//       'Renshuus'
+//     ]
 
-    for (const collection of collections) {
-      await mongoose.connection.db.createCollection(collection)
-      // console.log(`✅ Created collection: ${collection}`);
-    }
-  } catch (err) {
-    console.error('❌ Error creating collections:', err)
-  }
-}
+//     for (const collection of collections) {
+//       await mongoose.connection.db.createCollection(collection)
+//       console.log(`✅ Created collection: ${collection}`);
+//     }
+//   } catch (err) {
+//     console.error('❌ Error creating collections:', err)
+//   }
+// }
 
-mongoose.connection.once('open', () => {
-  createCollections()
-})
+// mongoose.connection.once('open', () => {
+//   createCollections()
+// })
 
 module.exports = mongoose
