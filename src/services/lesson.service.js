@@ -122,8 +122,8 @@ const LessonService = {
     })
   },
 
-  async getAllCourseTitles() {
-    const courseTitles = await LessonRepo.getAllCourseTitles()
+  async getAllLessonTitles() {
+    const courseTitles = await LessonRepo.getAllLessonTitles()
     if (!courseTitles?.length) throwError('No courses found')
     return courseTitles
   }

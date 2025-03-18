@@ -72,7 +72,7 @@ const LessonRepo = {
   removeVocabIdFromLesson: async ({ lesson_id, vocab_id }) =>
     LessonRepo.removeContent(lesson_id, 'vocabulary', vocab_id),
 
-  getAllCourseTitles: async () => lessonModel.find().select('lesson_title').lean()
+  getAllLessonTitles: async () => lessonModel.find().select('lesson_title').lean()
 }
 
 module.exports = LessonRepo

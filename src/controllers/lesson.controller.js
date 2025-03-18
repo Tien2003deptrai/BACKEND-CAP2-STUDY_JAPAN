@@ -86,10 +86,10 @@ const LessonController = {
       'Lấy danh sách bài học phát hành'
     ),
 
-  getAllCourseTitles: (req, res) =>
+  getAllLessonTitles: (req, res) =>
     handleRequest(
       res,
-      () => LessonService.getAllCourseTitles(),
+      () => LessonService.getAllLessonTitles(),
       'Lấy danh sách tiêu đề tất cả khóa học thành công'
     )
 }
