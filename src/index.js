@@ -8,7 +8,7 @@ const app = express()
 // const mongoose = require("./config/db"); // Đã import Mongoose từ config
 // console.log("Database module imported:", dtb);
 require('./config/db')
-// require("./models/index");
+require('./models/index')
 
 // * Cors
 app.use(cors())

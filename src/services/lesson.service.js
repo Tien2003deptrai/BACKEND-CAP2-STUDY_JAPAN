@@ -38,22 +38,21 @@ const LessonService = {
   // Lấy danh sách bài học - Refactor ngắn gọn và clean
   async getAllLesson({ userId, course_id }) {
     const userObjectId = convert2ObjectId(userId)
-    const courseObjectId = convert2ObjectId(course_id)
 
     const course =
-      (await courseModel.findById(courseObjectId).select('name type').lean()) ||
+      (await courseModel.findById(course_id).select('name thumb author type').lean()) ||
       throwError('Course not found')
 
     const userProgression =
       (await progressionModel.findOne({ user: userObjectId })) ||
       throwError('User progression not found')
 
-    const listLessons = await this._fetchLessons(course, courseObjectId)
+    const listLessons = await this._fetchLessons(course, course_id)
     if (!listLessons?.length) return null
 
     const result =
       course.type === 'Hina'
-        ? this._mapHinaLessons(listLessons, userProgression, courseObjectId)
+        ? this._mapHinaLessons(listLessons, userProgression, course_id)
         : { course, listLessons, type: 'Course' }
 
     return result
@@ -63,17 +62,17 @@ const LessonService = {
   async _fetchLessons(course, courseId) {
     return course.type === 'Hina'
       ? hinaModel.find({ course: courseId }).select('lesson_id lesson_title').lean()
-      : LessonRepo.getAll(courseId)
+      : LessonRepo.getAllLesson(courseId)
   },
 
   // Xử lý danh sách bài học Hina với progression
   _mapHinaLessons(listLessons, userProgression, courseId) {
     const courseProgress =
-      (userProgression.progress || []).find(p => p.course.toString() === courseId.toString())
+      (userProgression.progress || []).find((p) => p.course.toString() === courseId.toString())
         ?.lessons || []
 
-    const lessonProgressSet = new Set(courseProgress.map(String)) // Tối ưu tìm kiếm với Set
-    const mappedLessons = listLessons.map(lesson => ({
+    const lessonProgressSet = new Set(courseProgress.map(String))
+    const mappedLessons = listLessons.map((lesson) => ({
       ...lesson,
       learnt: lessonProgressSet.has(lesson._id.toString())
     }))

@@ -35,9 +35,7 @@ const LessonController = {
       res,
       () => {
         validateRequiredFields(['lesson_id'], req.params)
-        return LessonService.updateLesson(req.params.lesson_id, {
-          ...req.body
-        })
+        return LessonService.updateLesson(req.params.lesson_id, req.body)
       },
       'Cập nhật bài học thành công'
     ),

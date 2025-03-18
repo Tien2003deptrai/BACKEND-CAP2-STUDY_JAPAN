@@ -2,9 +2,9 @@ const lessonModel = require('../lesson.model')
 const { convert2ObjectId } = require('../../utils')
 
 const LessonRepo = {
-  findLessonById: async lesson_id => lessonModel.findById(convert2ObjectId(lesson_id)).lean(),
+  findLessonById: async (lesson_id) => lessonModel.findById(convert2ObjectId(lesson_id)).lean(),
 
-  findOne: async lesson_id =>
+  findOne: async (lesson_id) =>
     lessonModel
       .findOne({ _id: convert2ObjectId(lesson_id) })
       .populate('course', 'name author -_id')
@@ -13,7 +13,8 @@ const LessonRepo = {
       .lean()
       .exec(),
 
-  getAllLesson: async course_id => lessonModel.find({ course: convert2ObjectId(course_id) }).lean(),
+  getAllLesson: async (course_id) =>
+    lessonModel.find({ course: convert2ObjectId(course_id) }).lean(),
 
   updateLesson: async (lesson_id, bodyUpdate, isNew = true) =>
     lessonModel.findByIdAndUpdate(convert2ObjectId(lesson_id), bodyUpdate, {
@@ -53,13 +54,13 @@ const LessonRepo = {
     const lesson = await lessonModel.findById(convert2ObjectId(lesson_id))
     if (!lesson) throw new Error('Lesson not found')
     lesson.contents[type] = lesson.contents[type].filter(
-      id => id.toString() !== content_id.toString()
+      (id) => id.toString() !== content_id.toString()
     )
     await lesson.save()
   },
 
-  releaseLesson: async lesson_id => LessonRepo.toggleReleaseStatus(lesson_id, true),
-  unReleaseLesson: async lesson_id => LessonRepo.toggleReleaseStatus(lesson_id, false),
+  releaseLesson: async (lesson_id) => LessonRepo.toggleReleaseStatus(lesson_id, true),
+  unReleaseLesson: async (lesson_id) => LessonRepo.toggleReleaseStatus(lesson_id, false),
 
   addGrammarIdToLesson: async ({ lesson_id, grammar_id }) =>
     LessonRepo.addContent(lesson_id, 'grammar', grammar_id),

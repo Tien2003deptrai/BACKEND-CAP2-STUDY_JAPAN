@@ -42,7 +42,7 @@ const authenticateJWT = async (req, res, next) => {
   }
 }
 
-const authorizeRole = roles => (req, res, next) => {
+const authorizeRole = (roles) => (req, res, next) => {
   if (!roles.includes(req.user.roles)) {
     return ApiRes.error(res, 'Forbidden: Access denied')
   }

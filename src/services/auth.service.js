@@ -6,13 +6,12 @@ const { sendRegistrationEmail } = require('../config/services/mailService')
 const throwError = require('../res/throwError')
 
 // Trả về thông tin user đã lọc
-const filterUserData = user =>
+const filterUserData = (user) =>
   getInfoData({ fields: ['_id', 'name', 'email', 'roles'], object: user })
 
 const AuthService = {
   // Đăng ký người dùng mới
   async signUp({ name, email }) {
-    // AuthValidator.validatorSignUp(name, email); // Giữ nguyên nếu cần validation
     await this._checkUserExists(email)
 
     const randomPassword = generateRandomPassword(10)

@@ -37,10 +37,10 @@ const CourseService = {
     if (!listCourse.length) return []
 
     const registeredCourses = new Set(
-      (userProgression?.progress || []).map(p => p.course.toString())
+      (userProgression?.progress || []).map((p) => p.course.toString())
     )
 
-    return listCourse.map(course => ({
+    return listCourse.map((course) => ({
       _id: course._id,
       name: course.name,
       thumb: course.thumb,
@@ -111,7 +111,9 @@ const CourseService = {
 
   // Helper: Kiểm tra xem user đã đăng ký course chưa
   _checkCourseRegistration(userProgression, courseId) {
-    const isRegistered = userProgression.progress.some(prog => prog.course.toString() === courseId)
+    const isRegistered = userProgression.progress.some(
+      (prog) => prog.course.toString() === courseId
+    )
     if (isRegistered) throwError('User has already registered this course')
   }
 }

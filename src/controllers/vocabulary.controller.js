@@ -4,13 +4,7 @@ const VocabularyService = require('../services/vocabulary.service')
 
 const VocabularyController = {
   addVocabulary: (req, res) =>
-    handleRequest(
-      res,
-      () => {
-        return VocabularyService.addVocabulary(req.body)
-      },
-      'Thêm từ vựng thành công'
-    ),
+    handleRequest(res, () => VocabularyService.addVocabulary(req.body), 'Thêm từ vựng thành công'),
 
   getAllVocabularies: (req, res) =>
     handleRequest(
@@ -39,8 +33,8 @@ const VocabularyController = {
     handleRequest(
       res,
       () => {
-        validateRequiredFields(['vocab_id', 'lesson_id'], req.params)
-        return VocabularyService.deleteVocab(req.params.vocab_id, req.params)
+        validateRequiredFields(['vocab_id'], req.params)
+        return VocabularyService.deleteVocab(req.params.vocab_id, req.body)
       },
       'Xóa từ vựng thành công'
     )

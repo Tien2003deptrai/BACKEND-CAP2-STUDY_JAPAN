@@ -8,7 +8,7 @@ if (!mongoose.connection.readyState) {
       useUnifiedTopology: true
     })
     .then(() => console.log(`✅ MongoDB connected! ${MONGO_URI}`))
-    .catch(err => console.error('❌ MongoDB connection error:', err))
+    .catch((err) => console.error('❌ MongoDB connection error:', err))
 }
 
 const createCollections = async () => {

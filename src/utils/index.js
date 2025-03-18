@@ -10,20 +10,20 @@ const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields)
 }
 
-const removeUnderfinedObjectKey = obj => {
-  Object.keys(obj).forEach(key => {
+const removeUnderfinedObjectKey = (obj) => {
+  Object.keys(obj).forEach((key) => {
     if (obj[key] == null) delete obj[key]
   })
 
   return obj
 }
 
-const updateNestedObjectParser = obj => {
+const updateNestedObjectParser = (obj) => {
   const final = {}
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     if (typeof obj[key] === 'Object' && !Array.isArray(obj[key])) {
       const res = updateNestedObjectParser(obj[key])
-      Object.keys(res).forEach(a => {
+      Object.keys(res).forEach((a) => {
         final[`${key}.${a}`] = res[a]
       })
     } else {
@@ -34,7 +34,7 @@ const updateNestedObjectParser = obj => {
   return final
 }
 
-const JapaneseToUnicode = kanji => {
+const JapaneseToUnicode = (kanji) => {
   if (kanji == '' || kanji == null) {
     return
   }
@@ -51,12 +51,12 @@ const JapaneseToUnicode = kanji => {
   return unicodeArray
 }
 
-const convert2ObjectId = id => {
+const convert2ObjectId = (id) => {
   return new Types.ObjectId(id)
 }
 
 const replacePlaceholder = (template, params) => {
-  Object.keys(params).forEach(key => {
+  Object.keys(params).forEach((key) => {
     const placeholder = `{{${key}}}`
     template = template.replace(new RegExp(placeholder, 'g'), params[key])
   })
@@ -108,7 +108,7 @@ const filterFieldToUpdateNestedObject = (update, field_name, name, nested_field,
  * level 4: (14 ngay)
  * level 5: (30 ngay)
  */
-const nextReviewDate = level => {
+const nextReviewDate = (level) => {
   const levelObj = {
     0: 0,
     1: 1,
@@ -124,7 +124,7 @@ const nextReviewDate = level => {
   return { date: nextReviewDate, interval: newInterval }
 }
 
-const generateToken = user => {
+const generateToken = (user) => {
   if (!user || !user._id) {
     throw new Error('Invalid user data for token generation')
   }

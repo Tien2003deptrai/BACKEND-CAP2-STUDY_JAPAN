@@ -19,7 +19,7 @@ const VocabularyService = {
   // public methods
 
   async addVocabulary({ lesson_id, ...bodyData }) {
-    await checkLessonExists(lesson_id)
+    await this._checkLessonExists(lesson_id)
 
     if (await this._checkVocabExists(lesson_id, bodyData.word)) {
       throwError('Vocabulary already exists')
@@ -33,14 +33,14 @@ const VocabularyService = {
     if (!newVocab) throwError('Vocabulary creation failed')
 
     await LessonRepo.addVocabIdToLesson({
-      lessonObjectId: lesson_id,
+      lesson_id: convert2ObjectId(lesson_id),
       vocab_id: newVocab._id
     })
     return newVocab
   },
 
   async getAllVocabularies({ lesson_id }) {
-    await checkLessonExists(lesson_id)
+    await this._checkLessonExists(lesson_id)
 
     const listVocab = await VocabularyRepo.getAllByLesson(lesson_id)
     if (!listVocab.length) throwError('No vocabulary found')
@@ -50,9 +50,10 @@ const VocabularyService = {
 
   async updateVocabulary(vocab_id, { lesson_id, ...bodyUpdate }) {
     const vocab = await vocabularyModel.findById(vocab_id).lean()
+    console.log('vocab', vocab)
     if (!vocab) throwError('Vocabulary not found')
 
-    if (await checkVocabExists(lesson_id, bodyUpdate.word)) {
+    if (await this._checkVocabExists(lesson_id, bodyUpdate.word)) {
       throwError('Vocabulary already exists')
     }
 
@@ -60,7 +61,7 @@ const VocabularyService = {
       bodyUpdate.hex_string = JapaneseToUnicode(bodyUpdate.kanji)
     }
 
-    return VocabularyRepo.updateVocabulary(vocab_id, bodyUpdate)
+    return VocabularyRepo.update(vocab_id, bodyUpdate)
   },
 
   async deleteVocab(vocab_id, { lesson_id }) {
