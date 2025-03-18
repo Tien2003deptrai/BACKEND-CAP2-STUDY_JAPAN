@@ -264,6 +264,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5001',
     course: '605c72ef5f5b2c1d4c8e2001',
     lesson_title: 'あいさつ',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Bài học về cách chào hỏi trong tiếng Nhật.',
     isPublic: true,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7001'],
@@ -275,6 +277,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5002',
     course: '605c72ef5f5b2c1d4c8e2002',
     lesson_title: '漢字の基本',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Giới thiệu về chữ Hán và cách sử dụng cơ bản.',
     isPublic: false,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7002'],
@@ -286,6 +290,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5003',
     course: '605c72ef5f5b2c1d4c8e2003',
     lesson_title: '自己紹介',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Cách giới thiệu bản thân trong tiếng Nhật.',
     isPublic: true,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7003'],
@@ -297,6 +303,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5004',
     course: '605c72ef5f5b2c1d4c8e2004',
     lesson_title: '動詞の活用',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Học cách chia động từ trong tiếng Nhật.',
     isPublic: false,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7004'],
@@ -308,6 +316,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5005',
     course: '605c72ef5f5b2c1d4c8e2005',
     lesson_title: '日常会話',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Hội thoại trong cuộc sống hàng ngày.',
     isPublic: true,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7005'],
@@ -319,6 +329,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5006',
     course: '605c72ef5f5b2c1d4c8e2006',
     lesson_title: '漢字の読み方',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Học cách đọc chữ Hán đúng cách.',
     isPublic: false,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7006'],
@@ -330,6 +342,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5007',
     course: '605c72ef5f5b2c1d4c8e2007',
     lesson_title: 'レストランで',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Tiếng Nhật giao tiếp khi ở nhà hàng.',
     isPublic: true,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7007'],
@@ -341,6 +355,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5008',
     course: '605c72ef5f5b2c1d4c8e2008',
     lesson_title: '助詞の使い方',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Cách sử dụng các trợ từ trong tiếng Nhật.',
     isPublic: false,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7008'],
@@ -352,6 +368,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5009',
     course: '605c72ef5f5b2c1d4c8e2009',
     lesson_title: 'ビジネス会話',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Hội thoại trong môi trường kinh doanh.',
     isPublic: true,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7009'],
@@ -363,6 +381,8 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e500a',
     course: '605c72ef5f5b2c1d4c8e200a',
     lesson_title: '漢字の書き方',
+    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
+    description: 'Cách viết chữ Hán đúng chuẩn.',
     isPublic: false,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e700a'],

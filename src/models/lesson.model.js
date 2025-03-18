@@ -14,11 +14,19 @@ const lessonSchema = new Schema(
       type: String,
       required: true
     },
+    video_url: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    },
     isPublic: {
       type: Boolean,
       default: false,
-      index: true
-      // select: false,
+      index: true,
+      select: false
     },
     contents: {
       vocabulary: [

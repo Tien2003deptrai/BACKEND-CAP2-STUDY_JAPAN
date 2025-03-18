@@ -11,7 +11,12 @@ require('./config/db')
 require('./models/index')
 
 // * Cors
-app.use(cors())
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true
+}
+
+app.use(cors(corsOptions))
 
 // * Body Parser
 app.use(bodyParser.json())
