@@ -26,7 +26,11 @@ const examSchema = new Schema(
       required: true,
     },
     level: { type: String, required: true },
-    isPublish: { type: Boolean, default: false, select: false },
+    isPublish: {
+      type: Boolean,
+      default: false,
+      // select: false
+    },
     tags: String,
     contents: [
       {

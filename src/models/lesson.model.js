@@ -18,7 +18,7 @@ const lessonSchema = new Schema(
       type: Boolean,
       default: false,
       index: true,
-      select: false,
+      // select: false,
     },
     contents: {
       vocabulary: [

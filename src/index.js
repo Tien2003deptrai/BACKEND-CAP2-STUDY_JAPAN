@@ -1,19 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("./config/db");
 const morgan = require("morgan");
 const cors = require("cors");
 const routes = require("./routes");
 const errorHandler = require("./middleware/errorHandler");
 const app = express();
-
-
-// * Database connection
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-  console.log("db connected!");
-});
+// const mongoose = require("./config/db"); // Đã import Mongoose từ config
+// console.log("Database module imported:", dtb);
+require("./config/db"); 
+// require("./models/index"); 
 
 // * Cors
 app.use(cors());

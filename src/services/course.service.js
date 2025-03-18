@@ -69,13 +69,16 @@ const CourseService = {
       author: author.name,
     }) || throwError("Create course failed");
 
-    // Fire-and-forget notification
-    NotificationService.pushNotificationToSystem({
-      type: "COURSE-001",
-      receivedId: 1,
-      senderId: userObjectId,
-      option: { course_name: newCourse.name },
-    }).catch(console.error); // Log error nhưng không chặn flow chính
+    const allStudents = await userModel.find({ roles: 'user' }).distinct('_id');
+
+    if (allStudents.length > 0) {
+      NotificationService.pushNotificationToSystem({
+        type: "COURSE-001",
+        receivedIds: allStudents,
+        senderId: userObjectId,
+        option: { course_name: newCourse.name },
+      }).catch(console.error);
+    }
 
     return newCourse;
   },

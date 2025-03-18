@@ -21,7 +21,8 @@ const notificationSchema = new Schema(
       required: true,
     },
     noti_receivedId: {
-      type: Number, //TEST
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     noti_content: {
