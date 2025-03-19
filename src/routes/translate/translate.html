@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Dịch & Tra cứu</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
+      .container {
+        width: 50%;
+        margin: auto;
+      }
+      textarea,
+      button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+      }
+      button {
+        cursor: pointer;
+        background: #007bff;
+        color: white;
+        border: none;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .result {
+        text-align: left;
+        background: #f1f1f1;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      pre {
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Dịch & Tra cứu</h1>
+
+    <div class="container">
+      <h3>Nhập văn bản cần dịch</h3>
+      <textarea id="inputText" rows="3" placeholder="Nhập văn bản..."></textarea>
+      <button onclick="callAPI('/translate/vi-to-ja/', 'result1')">Dịch sang tiếng Nhật</button>
+      <div id="result1" class="result">Kết quả sẽ hiển thị ở đây...</div>
+
+      <h3>Nhập văn bản cần tra cứu</h3>
+      <textarea id="lookupText" rows="3" placeholder="Nhập từ/cụm từ..."></textarea>
+      <button onclick="callAPI('/dictionary/lookup', 'result2')">Tra cứu nghĩa</button>
+      <div id="result2" class="result">Kết quả sẽ hiển thị ở đây...</div>
+    </div>
+
+    <script>
+      async function callAPI(endpoint, resultId) {
+        const textArea = resultId === 'result1' ? 'inputText' : 'lookupText'
+        const text = document.getElementById(textArea).value
+
+        if (!text.trim()) {
+          alert('Vui lòng nhập văn bản!')
+          return
+        }
+
+        try {
+          const response = await fetch(`http://localhost:3000/api/language${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text })
+          })
+
+          const data = await response.json()
+          document.getElementById(resultId).innerHTML =
+            `<pre>${JSON.stringify(data, null, 2)}</pre>`
+        } catch (error) {
+          document.getElementById(resultId).innerHTML = 'Lỗi khi gửi yêu cầu!'
+          console.error('Lỗi API:', error)
+        }
+      }
+    </script>
+  </body>
+</html>
