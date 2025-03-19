@@ -11,8 +11,10 @@ const hinaSchema = new Schema(
       ref: 'Course',
       required: true
     },
-    lesson_id: String,
-    lesson_title: String,
+    lesson: {
+      type: Schema.Types.ObjectId,
+      ref: 'Lesson'
+    },
     name_type: {
       type: Number,
       enum: [0, 1] //0: hiragana, 1: katakana

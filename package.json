@@ -9,7 +9,8 @@
     "prepare": "husky install",
     "lint": "eslint . --ext .js",
     "format": "prettier --write .",
-    "seed": "node src/utils/seed.js"
+    "seed": "node src/utils/seed.js",
+    "seed-data": "node src/utils/seedData.js"
   },
   "lint-staged": {
     "*.js": [

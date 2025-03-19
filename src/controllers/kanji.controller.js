@@ -47,8 +47,8 @@ const KanjiController = {
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['name'], req.params)
-        return await KanjiService.getKanjiByName(req.params.name)
+        validateRequiredFields(['word'], req.query)
+        return await KanjiService.kanjiByName(req.query.word)
       },
       'Lấy kanji theo tên thành công'
     )

@@ -263,6 +263,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5001',
     course: '605c72ef5f5b2c1d4c8e2001',
+    lesson_id: 'L1',
     lesson_title: 'あいさつ',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Bài học về cách chào hỏi trong tiếng Nhật.',
@@ -276,6 +277,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5002',
     course: '605c72ef5f5b2c1d4c8e2002',
+    lesson_id: 'L2',
     lesson_title: '漢字の基本',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Giới thiệu về chữ Hán và cách sử dụng cơ bản.',
@@ -289,6 +291,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5003',
     course: '605c72ef5f5b2c1d4c8e2003',
+    lesson_id: 'L3',
     lesson_title: '自己紹介',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Cách giới thiệu bản thân trong tiếng Nhật.',
@@ -302,6 +305,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5004',
     course: '605c72ef5f5b2c1d4c8e2004',
+    lesson_id: 'L4',
     lesson_title: '動詞の活用',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Học cách chia động từ trong tiếng Nhật.',
@@ -315,6 +319,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5005',
     course: '605c72ef5f5b2c1d4c8e2005',
+    lesson_id: 'L5',
     lesson_title: '日常会話',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Hội thoại trong cuộc sống hàng ngày.',
@@ -328,6 +333,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5006',
     course: '605c72ef5f5b2c1d4c8e2006',
+    lesson_id: 'L6',
     lesson_title: '漢字の読み方',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Học cách đọc chữ Hán đúng cách.',
@@ -341,6 +347,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5007',
     course: '605c72ef5f5b2c1d4c8e2007',
+    lesson_id: 'L7',
     lesson_title: 'レストランで',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Tiếng Nhật giao tiếp khi ở nhà hàng.',
@@ -354,6 +361,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5008',
     course: '605c72ef5f5b2c1d4c8e2008',
+    lesson_id: 'L8',
     lesson_title: '助詞の使い方',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Cách sử dụng các trợ từ trong tiếng Nhật.',
@@ -367,6 +375,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e5009',
     course: '605c72ef5f5b2c1d4c8e2009',
+    lesson_id: 'L9',
     lesson_title: 'ビジネス会話',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Hội thoại trong môi trường kinh doanh.',
@@ -380,6 +389,7 @@ const lessons = [
   {
     _id: '605c72ef5f5b2c1d4c8e500a',
     course: '605c72ef5f5b2c1d4c8e200a',
+    lesson_id: 'L10',
     lesson_title: '漢字の書き方',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Cách viết chữ Hán đúng chuẩn.',

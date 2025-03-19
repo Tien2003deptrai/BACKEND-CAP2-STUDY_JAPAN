@@ -41,9 +41,16 @@ const KanjiService = {
     return newKanji
   },
 
-  kanjiByName: async ({ word }) => {
+  // kanjiByName: async (word) => {
+  //   const result = await KanjiRepo.getKanjiByCharacter(word)
+  //   if (!result) throwError(`Kanji with word ${word} not found`)
+  //   return result
+  // }
+  kanjiByName: async (word) => {
+    // console.log('Received word:', word)
+    if (!word) throwError('Invalid kanji query parameter')
     const result = await KanjiRepo.getKanjiByCharacter(word)
-    if (!result) throwError(`Kanji with word ${word} not found`)
+    if (!result) throwError(`Kanji with word '${word}' not found`)
     return result
   }
 }

@@ -28,8 +28,8 @@ const examSchema = new Schema(
     level: { type: String, required: true },
     isPublish: {
       type: Boolean,
-      default: false
-      // select: false
+      default: false,
+      select: false
     },
     tags: String,
     contents: [

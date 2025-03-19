@@ -15,7 +15,9 @@ const KanjiRepo = {
     return { kanji: kanjiList, count }
   },
 
-  getKanjiByCharacter: (kanji) => kanjiModel.findOne({ kanji }).lean(),
+  getKanjiByCharacter: (kanji) => {
+    return kanjiModel.findOne({ kanji: kanji }).lean()
+  },
 
   getAllKanji: async (level) => {
     const kanjiList = await kanjiModel.find({ jlpt: level }).lean()
