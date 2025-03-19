@@ -98,6 +98,41 @@ const LessonService = {
     const courseTitles = await LessonRepo.getAllLessonTitles()
     if (!courseTitles?.length) throwError('No courses found')
     return courseTitles
+  },
+
+  createMultipleLessons: async ({ course_id, lessons }) => {
+    if (!course_id) {
+      throwError('course_id is required')
+    }
+
+    const courseObjectId = convert2ObjectId(course_id)
+
+    const courseExists = await courseModel.findById(courseObjectId).lean()
+    if (!courseExists) {
+      throwError('Course not found')
+    }
+
+    if (!Array.isArray(lessons) || lessons.length === 0) {
+      throwError('Lessons list is empty or invalid')
+    }
+
+    const lessonsToInsert = lessons.map((lesson) => {
+      if (!lesson.lesson_title) {
+        throwError('Each lesson must have a lesson_title')
+      }
+      return {
+        course: courseObjectId,
+        lesson_title: lesson.lesson_title
+      }
+    })
+
+    const insertedLessons = await lessonModel.insertMany(lessonsToInsert)
+
+    if (!insertedLessons || insertedLessons.length === 0) {
+      throwError('Failed to create lessons')
+    }
+
+    return insertedLessons
   }
 }
 

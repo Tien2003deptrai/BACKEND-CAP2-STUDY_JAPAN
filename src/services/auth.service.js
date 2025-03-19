@@ -34,7 +34,6 @@ const AuthService = {
   login: async ({ email, password }) => {
     const user = await AuthService._validateUserCredentials(email, password)
     const token = generateToken(user)
-
     return { success: true, token, user: filterUserData(user) }
   },
 

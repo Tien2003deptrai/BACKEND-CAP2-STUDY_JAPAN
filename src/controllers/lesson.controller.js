@@ -6,9 +6,9 @@ const LessonController = {
   createLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['lesson_title', 'course_id'], req.body)
-        LessonService.createLesson(req.body)
+        return await LessonService.createLesson(req.body)
       },
       'Tạo bài học thành công'
     ),
@@ -16,16 +16,19 @@ const LessonController = {
   getAllLesson: (req, res) =>
     handleRequest(
       res,
-      () => LessonService.getAllLesson({ userId: req.user.userId, ...req.body }),
+      async () => {
+        return await LessonService.getAllLesson({ userId: req.user.userId, ...req.body })
+      },
       'Lấy thông tin tất cả bài học'
     ),
 
   getOneLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
+        // ✅ Thêm async để có thể dùng await nếu cần
         validateRequiredFields(['lesson_id'], req.params)
-        LessonService.getOneLesson(req.params.lesson_id)
+        return await LessonService.getOneLesson(req.params.lesson_id)
       },
       'Lấy thông tin bài học'
     ),
@@ -33,9 +36,9 @@ const LessonController = {
   updateLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['lesson_id'], req.params)
-        LessonService.updateLesson(req.params.lesson_id, req.body)
+        return await LessonService.updateLesson(req.params.lesson_id, req.body)
       },
       'Cập nhật bài học thành công'
     ),
@@ -43,9 +46,9 @@ const LessonController = {
   releaseLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['lesson_id'], req.params)
-        LessonService.releaseLesson(req.params.lesson_id)
+        return await LessonService.releaseLesson(req.params.lesson_id)
       },
       'Xuất bản bài học thành công'
     ),
@@ -53,9 +56,9 @@ const LessonController = {
   unReleaseLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['lesson_id'], req.params)
-        LessonService.unReleaseLesson(req.params.lesson_id)
+        return await LessonService.unReleaseLesson(req.params.lesson_id)
       },
       'Gỡ bài học xuất bản thành công'
     ),
@@ -63,9 +66,9 @@ const LessonController = {
   getAllDraftLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         const { limit = 25, skip = 0 } = req.query
-        LessonService.findAllDraftLesson({ limit: +limit, skip: +skip })
+        return await LessonService.findAllDraftLesson({ limit: +limit, skip: +skip })
       },
       'Lấy danh sách bài học nháp'
     ),
@@ -73,11 +76,11 @@ const LessonController = {
   getAllReleaseLesson: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['course_id'], req.params)
         const { course_id } = req.params
         const { limit = 25, skip = 0 } = req.query
-        LessonService.findAllReleaseLesson({
+        return await LessonService.findAllReleaseLesson({
           course_id,
           limit: +limit,
           skip: +skip
@@ -89,7 +92,9 @@ const LessonController = {
   getAllLessonTitles: (req, res) =>
     handleRequest(
       res,
-      () => LessonService.getAllLessonTitles(),
+      async () => {
+        return await LessonService.getAllLessonTitles()
+      },
       'Lấy danh sách tiêu đề tất cả khóa học thành công'
     )
 }

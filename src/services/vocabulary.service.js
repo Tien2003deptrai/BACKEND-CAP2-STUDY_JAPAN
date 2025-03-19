@@ -49,6 +49,7 @@ const VocabularyService = {
   },
 
   updateVocabulary: async (vocab_id, { lesson_id, ...bodyUpdate }) => {
+    // console.log('vocab_id', vocab_id)
     const vocab = await vocabularyModel.findById(vocab_id).lean()
     if (!vocab) throwError('Vocabulary not found')
 

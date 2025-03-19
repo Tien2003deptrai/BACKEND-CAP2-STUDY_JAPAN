@@ -6,34 +6,40 @@ const CourseController = {
   registerCourse: (req, res) =>
     handleRequest(
       res,
-      () => CourseService.registerCourse({ ...req.body, userId: req.user.userId }),
+      async () => {
+        return await CourseService.registerCourse({ ...req.body, userId: req.user.userId })
+      },
       'Đăng ký khóa học thành công'
     ),
 
   getAllCourses: (req, res) =>
     handleRequest(
       res,
-      () => CourseService.getAllCourse(req.user.userId),
+      async () => {
+        return await CourseService.getAllCourse(req.user.userId)
+      },
       'Lấy thông tin tất cả khóa học thành công'
     ),
 
-  createCourse: (req, res) => {
-    validateRequiredFields(['name', 'thumb'], req.body)
+  createCourse: (req, res) =>
     handleRequest(
       res,
-      () => CourseService.createCourse({ ...req.body, user: req.user.userId }),
-      'Tạo khóa học thành công'
-    )
-  },
+      async () => {
+        validateRequiredFields(['name', 'thumb'], req.body)
+        return await CourseService.createCourse({ ...req.body, user: req.user.userId })
+      },
+      'Tạo khóa học và bài học thành công'
+    ),
 
-  updateCourse: (req, res) => {
-    validateRequiredFields(['course_id'], req.params)
+  updateCourse: (req, res) =>
     handleRequest(
       res,
-      () => CourseService.updateCourse(req.params.course_id, req.body),
+      async () => {
+        validateRequiredFields(['course_id'], req.params)
+        return await CourseService.updateCourse(req.params.course_id, req.body)
+      },
       'Cập nhật khóa học thành công'
     )
-  }
 }
 
 module.exports = CourseController

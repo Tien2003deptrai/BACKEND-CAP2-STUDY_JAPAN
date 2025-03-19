@@ -6,9 +6,9 @@ const AuthController = {
   signUp: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['name', 'email'], req.body)
-        AuthService.signUp(req.body)
+        return await AuthService.signUp(req.body)
       },
       'Tạo tài khoản thành công'
     ),
@@ -16,9 +16,9 @@ const AuthController = {
   login: (req, res) =>
     handleRequest(
       res,
-      () => {
+      async () => {
         validateRequiredFields(['email', 'password'], req.body)
-        AuthService.login(req.body)
+        return await AuthService.login(req.body)
       },
       'Đăng nhập thành công!'
     )
