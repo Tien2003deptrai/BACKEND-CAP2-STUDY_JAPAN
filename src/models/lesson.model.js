@@ -10,6 +10,11 @@ const lessonSchema = new Schema(
       ref: 'Course',
       required: true
     },
+    lesson_id: {
+      type: String,
+      required: true,
+      unique: true
+    },
     lesson_title: {
       type: String,
       required: true

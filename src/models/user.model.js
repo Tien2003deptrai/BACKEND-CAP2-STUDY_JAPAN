@@ -38,7 +38,7 @@ const userSchema = new Schema(
     roles: {
       type: String,
       required: true,
-      default: 'user'
+      default: 'studnet'
     },
     phone: {
       type: String,

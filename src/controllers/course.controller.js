@@ -39,6 +39,16 @@ const CourseController = {
         return await CourseService.updateCourse(req.params.course_id, req.body)
       },
       'Cập nhật khóa học thành công'
+    ),
+
+  getCoursesByTeacher: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['teacher_id'], req.params)
+        return await CourseService.getCoursesByTeacher(req.params.teacher_id)
+      },
+      'Lấy danh sách khoá học theo giáo viên thành công'
     )
 }
 

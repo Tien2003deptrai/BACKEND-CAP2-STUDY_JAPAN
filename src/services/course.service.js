@@ -107,6 +107,20 @@ const CourseService = {
       (prog) => prog.course.toString() === courseId
     )
     if (isRegistered) throwError('User has already registered this course')
+  },
+
+  getCoursesByTeacher: async (teacher_id) => {
+    const teacher = await userModel.findOne({ _id: teacher_id, roles: 'teacher' }).lean()
+    if (!teacher) {
+      throwError('User is not a teacher')
+    }
+
+    const courses = await courseModel.find({ user: convert2ObjectId(teacher_id) }).lean()
+    if (!courses || courses.length === 0) {
+      throwError('No courses found for this teacher')
+    }
+
+    return courses
   }
 }
 
