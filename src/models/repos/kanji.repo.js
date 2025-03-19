@@ -3,7 +3,7 @@ const kanjiModel = require('../kanji.model')
 const KanjiRepo = {
   add: (data) => kanjiModel.create(data),
 
-  getByLevel: async (level, page = 1, limit = 25) => {
+  getAllKanjiByLevel: async (level, page = 1, limit = 25) => {
     const kanjiList = await kanjiModel
       .find({ jlpt: level })
       .limit(limit)
@@ -15,9 +15,9 @@ const KanjiRepo = {
     return { kanji: kanjiList, count }
   },
 
-  findByCharacter: (kanji) => kanjiModel.findOne({ kanji }).lean(),
+  getKanjiByCharacter: (kanji) => kanjiModel.findOne({ kanji }).lean(),
 
-  getAllByLevel: async (level) => {
+  getAllKanji: async (level) => {
     const kanjiList = await kanjiModel.find({ jlpt: level }).lean()
     const count = await kanjiModel.countDocuments({ jlpt: level })
 

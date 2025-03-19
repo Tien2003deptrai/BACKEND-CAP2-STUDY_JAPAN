@@ -7,31 +7,31 @@ const NotificationService = {
     EXAM: 'EXAM-001'
   },
 
-  pushNotificationToSystem: function ({ type, receivedIds, senderId, option }) {
+  pushNotificationToSystem: async ({ type, receivedIds, senderId, option }) => {
     if (!Array.isArray(receivedIds) || receivedIds.length === 0) {
       throw new Error('No recipients provided for the notification')
     }
 
-    const notificationContent = this._getNotificationContent(type || this.TYPE.COURSE)
+    const notificationContent = NotificationService._getNotificationContent(
+      type || NotificationService.TYPE.COURSE
+    )
 
-    const notifications = receivedIds.map(function (id) {
-      return {
-        noti_type: type || NotificationService.TYPE.COURSE,
-        noti_content: notificationContent,
-        noti_senderId: convert2ObjectId(senderId),
-        noti_receivedId: convert2ObjectId(id),
-        noti_options: option
-      }
-    })
+    const notifications = receivedIds.map((id) => ({
+      noti_type: type || NotificationService.TYPE.COURSE,
+      noti_content: notificationContent,
+      noti_senderId: convert2ObjectId(senderId),
+      noti_receivedId: convert2ObjectId(id),
+      noti_options: option
+    }))
 
-    return notificationModel.insertMany(notifications)
+    return await notificationModel.insertMany(notifications)
   },
 
-  _getNotificationContent: function (type) {
+  _getNotificationContent: (type) => {
     switch (type) {
-      case this.TYPE.EXAM:
+      case NotificationService.TYPE.EXAM:
         return '@@@ create new exam in @@@'
-      case this.TYPE.COURSE:
+      case NotificationService.TYPE.COURSE:
       default:
         return '@@@ create new course @@@'
     }

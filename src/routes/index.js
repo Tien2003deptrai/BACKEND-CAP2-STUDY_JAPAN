@@ -5,7 +5,10 @@ const CourseRoute = require('./course.route')
 const LessonRoute = require('./lesson.route')
 const VocabularyRoute = require('./vocabulary.route')
 const GrammarRoute = require('./grammar.route')
-const TranslateRoute = require('./translate/translate.route')
+const KanjiRoute = require('./kanji.route')
+
+// Configuration Routes * /api/config/*
+const TranslateRoute = require('./translation/translate.route')
 const router = express.Router()
 
 // AUTH Routes * /api/auth/*
@@ -14,6 +17,9 @@ router.use('/course', authenticateJWT, CourseRoute)
 router.use('/lesson', authenticateJWT, LessonRoute)
 router.use('/vocabulary', authenticateJWT, VocabularyRoute)
 router.use('/grammar', authenticateJWT, GrammarRoute)
+router.use('/kanji', authenticateJWT, KanjiRoute)
+
+// Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)
 
 module.exports = router

@@ -35,8 +35,9 @@ const GrammarService = {
     return await GrammarRepo.delete(grammar_id)
   },
 
-  getGrammarByLevel: async (level, page, limit) =>
-    await GrammarRepo.getGrammarByLevel(level, page, limit),
+  getGrammarByLevel: async (level, page, limit) => {
+    return await GrammarRepo.getGrammarByLevel(level, page, limit)
+  },
 
   getAllGrammar: async ({ lesson_id }) => {
     const foundLesson = await LessonRepo.findLessonById(lesson_id)

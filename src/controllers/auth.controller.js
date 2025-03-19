@@ -8,7 +8,7 @@ const AuthController = {
       res,
       () => {
         validateRequiredFields(['name', 'email'], req.body)
-        return AuthService.signUp(req.body)
+        AuthService.signUp(req.body)
       },
       'Tạo tài khoản thành công'
     ),
@@ -18,7 +18,7 @@ const AuthController = {
       res,
       () => {
         validateRequiredFields(['email', 'password'], req.body)
-        return AuthService.login(req.body)
+        AuthService.login(req.body)
       },
       'Đăng nhập thành công!'
     )

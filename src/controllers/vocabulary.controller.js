@@ -11,7 +11,7 @@ const VocabularyController = {
       res,
       () => {
         validateRequiredFields(['lesson_id'], req.params)
-        return VocabularyService.getAllVocabularies(req.params)
+        VocabularyService.getAllVocabularies(req.params)
       },
       'Lấy danh sách từ vựng thành công'
     ),
@@ -24,7 +24,7 @@ const VocabularyController = {
           ...req.params,
           ...req.body
         })
-        return VocabularyService.updateVocabulary(req.params.vocab_id, req.body)
+        VocabularyService.updateVocabulary(req.params.vocab_id, req.body)
       },
       'Cập nhật từ vựng thành công'
     ),
@@ -34,7 +34,7 @@ const VocabularyController = {
       res,
       () => {
         validateRequiredFields(['vocab_id'], req.params)
-        return VocabularyService.deleteVocab(req.params.vocab_id, req.body)
+        VocabularyService.deleteVocab(req.params.vocab_id, req.body)
       },
       'Xóa từ vựng thành công'
     )

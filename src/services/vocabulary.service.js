@@ -6,22 +6,22 @@ const { convert2ObjectId, JapaneseToUnicode } = require('../utils')
 
 const VocabularyService = {
   // private methods
-  async _checkLessonExists(lesson_id) {
+  _checkLessonExists: async (lesson_id) => {
     const lesson = await LessonRepo.findLessonById(lesson_id)
     if (!lesson) throwError('Lesson not found')
     return lesson
   },
 
-  async _checkVocabExists(lesson_id, word) {
+  _checkVocabExists: async (lesson_id, word) => {
     return await vocabularyModel.findOne({ lesson: convert2ObjectId(lesson_id), word }).lean()
   },
 
   // public methods
 
-  async addVocabulary({ lesson_id, ...bodyData }) {
-    await this._checkLessonExists(lesson_id)
+  addVocabulary: async ({ lesson_id, ...bodyData }) => {
+    await VocabularyService._checkLessonExists(lesson_id)
 
-    if (await this._checkVocabExists(lesson_id, bodyData.word)) {
+    if (await VocabularyService._checkVocabExists(lesson_id, bodyData.word)) {
       throwError('Vocabulary already exists')
     }
 
@@ -39,8 +39,8 @@ const VocabularyService = {
     return newVocab
   },
 
-  async getAllVocabularies({ lesson_id }) {
-    await this._checkLessonExists(lesson_id)
+  getAllVocabularies: async ({ lesson_id }) => {
+    await VocabularyService._checkLessonExists(lesson_id)
 
     const listVocab = await VocabularyRepo.getAllByLesson(lesson_id)
     if (!listVocab.length) throwError('No vocabulary found')
@@ -48,12 +48,11 @@ const VocabularyService = {
     return listVocab
   },
 
-  async updateVocabulary(vocab_id, { lesson_id, ...bodyUpdate }) {
+  updateVocabulary: async (vocab_id, { lesson_id, ...bodyUpdate }) => {
     const vocab = await vocabularyModel.findById(vocab_id).lean()
-    console.log('vocab', vocab)
     if (!vocab) throwError('Vocabulary not found')
 
-    if (await this._checkVocabExists(lesson_id, bodyUpdate.word)) {
+    if (await VocabularyService._checkVocabExists(lesson_id, bodyUpdate.word)) {
       throwError('Vocabulary already exists')
     }
 
@@ -64,7 +63,7 @@ const VocabularyService = {
     return VocabularyRepo.update(vocab_id, bodyUpdate)
   },
 
-  async deleteVocab(vocab_id, { lesson_id }) {
+  deleteVocab: async (vocab_id, { lesson_id }) => {
     const vocab = await vocabularyModel.findById(vocab_id).lean()
     if (!vocab) throwError('Vocabulary not found')
 

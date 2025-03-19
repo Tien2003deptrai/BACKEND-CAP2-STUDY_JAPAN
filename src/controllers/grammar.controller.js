@@ -7,7 +7,7 @@ const GrammarController = {
     handleRequest(
       res,
       () => {
-        return GrammarService.addGrammar(req.body)
+        GrammarService.addGrammar(req.body)
       },
       'Thêm ngữ pháp thành công'
     ),
@@ -17,7 +17,7 @@ const GrammarController = {
       res,
       () => {
         validateRequiredFields(['lesson_id'], req.params)
-        return GrammarService.updateGrammar(req.params.lesson_id, { ...req.body })
+        GrammarService.updateGrammar(req.params.lesson_id, { ...req.body })
       },
       'Cập nhật ngữ pháp thành công'
     ),
@@ -27,7 +27,7 @@ const GrammarController = {
       res,
       () => {
         validateRequiredFields(['lesson_id', 'grammar_id'], req.params)
-        return GrammarService.deleteGrammar(req.params.grammar_id, req.params)
+        GrammarService.deleteGrammar(req.params.grammar_id, req.params)
       },
       'Xóa ngữ pháp thành công'
     ),
@@ -37,7 +37,7 @@ const GrammarController = {
       res,
       () => {
         validateRequiredFields(['level', 'page'], req.query)
-        return GrammarService.getGrammarByLevel(req.query.level, Number(req.query.page))
+        GrammarService.getGrammarByLevel(req.query.level, Number(req.query.page))
       },
       'Lấy danh sách ngữ pháp theo cấp độ'
     ),
@@ -47,7 +47,7 @@ const GrammarController = {
       res,
       () => {
         validateRequiredFields(['lesson_id'], req.params)
-        return GrammarService.getAllGrammar(req.params)
+        GrammarService.getAllGrammar(req.params)
       },
       'Lấy tất cả ngữ pháp của bài học'
     )

@@ -10,13 +10,13 @@ const filterUserData = (user) =>
   getInfoData({ fields: ['_id', 'name', 'email', 'roles'], object: user })
 
 const AuthService = {
-  // Đăng ký người dùng mới
-  async signUp({ name, email }) {
-    await this._checkUserExists(email)
+  signUp: async ({ name, email }) => {
+    await AuthService._checkUserExists(email)
 
     const randomPassword = generateRandomPassword(10)
-    const hashedPassword = await this._hashPassword(randomPassword)
+    const hashedPassword = await AuthService._hashPassword(randomPassword)
     console.log('randomPassword', randomPassword)
+
     const newUser =
       (await userModel.create({
         name,
@@ -31,29 +31,25 @@ const AuthService = {
     return { success: true, user: filterUserData(newUser) }
   },
 
-  // Đăng nhập người dùng
-  async login({ email, password }) {
-    const user = await this._validateUserCredentials(email, password)
+  login: async ({ email, password }) => {
+    const user = await AuthService._validateUserCredentials(email, password)
     const token = generateToken(user)
 
     return { success: true, token, user: filterUserData(user) }
   },
 
-  // Helper: Kiểm tra user đã tồn tại chưa
-  async _checkUserExists(email) {
+  _checkUserExists: async (email) => {
     if (await userModel.findOne({ email }).lean()) {
       throwError('User already exists')
     }
   },
 
-  // Helper: Hash mật khẩu
-  async _hashPassword(password) {
+  _hashPassword: async (password) => {
     const salt = await bcrypt.genSalt(10)
     return await bcrypt.hash(password, salt)
   },
 
-  // Helper: Xác thực thông tin đăng nhập
-  async _validateUserCredentials(email, password) {
+  _validateUserCredentials: async (email, password) => {
     const user = (await userModel.findOne({ email })) || throwError('Invalid email or password')
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) throwError('Invalid email or password')

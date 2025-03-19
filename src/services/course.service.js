@@ -7,18 +7,17 @@ const CourseRepo = require('../models/repos/course.repo')
 const throwError = require('../res/throwError')
 
 const CourseService = {
-  // Đăng ký khóa học
-  async registerCourse({ userId, courseId }) {
+  registerCourse: async ({ userId, courseId }) => {
     const userObjectId = convert2ObjectId(userId)
     const courseObjectId = convert2ObjectId(courseId)
 
     const [user, course, userProgression] = await Promise.all([
-      this._validateUser(userObjectId),
-      this._validateCourse(courseObjectId),
-      this._getUserProgression(userObjectId)
+      CourseService._validateUser(userObjectId),
+      CourseService._validateCourse(courseObjectId),
+      CourseService._getUserProgression(userObjectId)
     ])
 
-    this._checkCourseRegistration(userProgression, courseId)
+    CourseService._checkCourseRegistration(userProgression, courseId)
 
     course.stu_num += 1
     userProgression.progress.push({ course: courseObjectId })
@@ -26,8 +25,7 @@ const CourseService = {
     return 1
   },
 
-  // Lấy tất cả khóa học
-  async getAllCourse(userId) {
+  getAllCourse: async (userId) => {
     const userObjectId = convert2ObjectId(userId)
     const [listCourse, userProgression] = await Promise.all([
       CourseRepo.getAll(),
@@ -55,8 +53,7 @@ const CourseService = {
     }))
   },
 
-  // Tạo khóa học mới
-  async createCourse({ name, thumb, user }) {
+  createCourse: async ({ name, thumb, user }) => {
     const userObjectId = convert2ObjectId(user)
 
     if (await CourseRepo.findByName(name)) throwError('Course name already exists')
@@ -70,7 +67,7 @@ const CourseService = {
         author: author.name
       })) || throwError('Create course failed')
 
-    const allStudents = await userModel.find({ roles: 'user' }).distinct('_id')
+    const allStudents = await userModel.find({ roles: 'student' }).distinct('_id')
 
     if (allStudents.length > 0) {
       NotificationService.pushNotificationToSystem({
@@ -84,33 +81,28 @@ const CourseService = {
     return newCourse
   },
 
-  // Cập nhật khóa học
-  async updateCourse(course_id, bodyUpdate) {
+  updateCourse: async (course_id, bodyUpdate) => {
     const courseObjectId = convert2ObjectId(course_id)
-    await this._validateCourse(courseObjectId)
+    await CourseService._validateCourse(courseObjectId)
     return await CourseRepo.updateCourse(courseObjectId, removeUnderfinedObjectKey(bodyUpdate))
   },
 
-  // Helper: Validate user tồn tại
-  async _validateUser(userId) {
+  _validateUser: async (userId) => {
     return (await userModel.findById(userId)) || throwError('User not found')
   },
 
-  // Helper: Validate course tồn tại
-  async _validateCourse(courseId) {
+  _validateCourse: async (courseId) => {
     return (await courseModel.findById(courseId)) || throwError('Course not found')
   },
 
-  // Helper: Lấy progression của user
-  async _getUserProgression(userId) {
+  _getUserProgression: async (userId) => {
     return (
       (await progressionModel.findOne({ user: userId })) ||
       throwError('User progression data not found')
     )
   },
 
-  // Helper: Kiểm tra xem user đã đăng ký course chưa
-  _checkCourseRegistration(userProgression, courseId) {
+  _checkCourseRegistration: (userProgression, courseId) => {
     const isRegistered = userProgression.progress.some(
       (prog) => prog.course.toString() === courseId
     )
