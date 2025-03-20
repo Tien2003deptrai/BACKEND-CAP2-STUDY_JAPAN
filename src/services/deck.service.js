@@ -13,6 +13,18 @@ const DeckService = {
     })
 
     return newDeck
+  },
+
+  getAllDeckByUserId: async ({ user_id }) => {
+    console.log('user_id', user_id)
+    const listDeck = await deckModel
+      .find({
+        user: convert2ObjectId(user_id)
+      })
+      .select('deck_title -_id')
+      .lean()
+    if (!listDeck) throwError('Deck already exists')
+    return listDeck
   }
 }
 

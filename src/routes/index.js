@@ -7,6 +7,7 @@ const VocabularyRoute = require('./vocabulary.route')
 const GrammarRoute = require('./grammar.route')
 const KanjiRoute = require('./kanji.route')
 const DeckRoute = require('./deck.route')
+const FlashcardRoute = require('./flashcard.route')
 
 // Configuration Routes * /api/config/*
 const TranslateRoute = require('./translation/translate.route')
@@ -20,6 +21,7 @@ router.use('/vocabulary', authenticateJWT, VocabularyRoute)
 router.use('/grammar', authenticateJWT, GrammarRoute)
 router.use('/kanji', authenticateJWT, KanjiRoute)
 router.use('/deck', authenticateJWT, DeckRoute)
+router.use('/deck', authenticateJWT, FlashcardRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)
