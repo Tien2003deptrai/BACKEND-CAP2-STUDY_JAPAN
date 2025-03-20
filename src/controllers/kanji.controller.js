@@ -27,8 +27,8 @@ const KanjiController = {
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['level', 'page'], req.params)
-        return await KanjiService.getAllKanjiByLevel(req.params.level, req.params.page)
+        validateRequiredFields(['jlpt', 'page'], req.params)
+        return await KanjiService.getAllKanjiByLevel(req.params.jlpt, req.params.page)
       },
       'Lấy tất cả kanji theo cấp độ thành công'
     ),
