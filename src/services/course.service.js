@@ -1,41 +1,85 @@
 const courseModel = require('../models/course.model')
 const progressionModel = require('../models/progression.model')
 const userModel = require('../models/user.model')
+const enrollmentModel = require('../models/enrollment.model')
 const { removeUnderfinedObjectKey, convert2ObjectId } = require('../utils')
 const NotificationService = require('./notification.service')
 const CourseRepo = require('../models/repos/course.repo')
 const throwError = require('../res/throwError')
+const lessonModel = require('../models/lesson.model')
 
 const CourseService = {
   registerCourse: async ({ userId, courseId }) => {
     const userObjectId = convert2ObjectId(userId)
     const courseObjectId = convert2ObjectId(courseId)
 
-    const [user, course, userProgression] = await Promise.all([
+    const [user, course] = await Promise.all([
       CourseService._validateUser(userObjectId),
-      CourseService._validateCourse(courseObjectId),
-      CourseService._getUserProgression(userObjectId)
+      CourseService._validateCourse(courseObjectId)
     ])
 
-    CourseService._checkCourseRegistration(userProgression, courseId)
+    // Check if user is already enrolled in this course
+    const existingEnrollment = await enrollmentModel.findOne({
+      user: userObjectId,
+      course: courseObjectId
+    })
 
+    if (existingEnrollment) throwError('User has already registered this course')
+
+    // Create enrollment record
+    await enrollmentModel.create({
+      user: userObjectId,
+      course: courseObjectId
+    })
+
+    // Update course student count
     course.stu_num += 1
-    userProgression.progress.push({ course: courseObjectId })
-    await Promise.all([course.save(), userProgression.save()])
+    await course.save()
+
+    // Also update user progression for backward compatibility
+    const userProgression = await CourseService._getUserProgression(userObjectId)
+    if (!userProgression.progress.some((prog) => prog.course.toString() === courseId)) {
+      userProgression.progress.push({ course: courseObjectId })
+      await userProgression.save()
+    }
+
     return 1
   },
 
   getAllCourse: async (userId) => {
     const userObjectId = convert2ObjectId(userId)
-    const [listCourse, userProgression] = await Promise.all([
-      CourseRepo.getAll(),
-      progressionModel.findOne({ user: userObjectId }).lean()
-    ])
 
+    // Get all courses
+    const listCourse = await CourseRepo.getAll()
     if (!listCourse.length) return []
 
+    // Get user enrollments
+    const userEnrollments = await enrollmentModel.find({ user: userObjectId }).lean()
     const registeredCourses = new Set(
-      (userProgression?.progress || []).map((p) => p.course.toString())
+      userEnrollments.map((enrollment) => enrollment.course.toString())
+    )
+
+    // Get all enrollments for each course
+    const courseEnrollments = await Promise.all(
+      listCourse.map(async (course) => {
+        const enrollments = await enrollmentModel
+          .find({ course: course._id })
+          .populate('user', 'name email avatar')
+          .lean()
+
+        return {
+          courseId: course._id,
+          enrollments: enrollments.map((enrollment) => ({
+            ...enrollment.user,
+            enrolledAt: enrollment.enrolledAt
+          }))
+        }
+      })
+    )
+
+    // Create a map of course enrollments for easy lookup
+    const enrollmentMap = new Map(
+      courseEnrollments.map((ce) => [ce.courseId.toString(), ce.enrollments])
     )
 
     return listCourse.map((course) => ({
@@ -49,11 +93,12 @@ const CourseService = {
       stu_num: course.stu_num,
       createdAt: course.createdAt,
       updatedAt: course.updatedAt,
-      registered: registeredCourses.has(course._id.toString())
+      registered: registeredCourses.has(course._id.toString()),
+      enrolledStudents: enrollmentMap.get(course._id.toString()) || []
     }))
   },
 
-  createCourse: async ({ name, thumb, user }) => {
+  createCourse: async ({ name, thumb, user, lessons = [] }) => {
     const userObjectId = convert2ObjectId(user)
 
     if (await CourseRepo.findByName(name)) throwError('Course name already exists')
@@ -66,6 +111,17 @@ const CourseService = {
         user: userObjectId,
         author: author.name
       })) || throwError('Create course failed')
+
+    // Create lessons if provided
+    if (Array.isArray(lessons) && lessons.length > 0) {
+      const lessonsToInsert = lessons.map((lesson) => ({
+        course: newCourse._id,
+        lesson_id: lesson.lesson_id,
+        lesson_title: lesson.lesson_title || lesson.title
+      }))
+
+      await lessonModel.insertMany(lessonsToInsert)
+    }
 
     const allStudents = await userModel.find({ roles: 'student' }).distinct('_id')
 
@@ -102,13 +158,6 @@ const CourseService = {
     )
   },
 
-  _checkCourseRegistration: (userProgression, courseId) => {
-    const isRegistered = userProgression.progress.some(
-      (prog) => prog.course.toString() === courseId
-    )
-    if (isRegistered) throwError('User has already registered this course')
-  },
-
   getCoursesByTeacher: async (teacher_id) => {
     const teacher = await userModel.findOne({ _id: teacher_id, roles: 'teacher' }).lean()
     if (!teacher) {
@@ -121,6 +170,64 @@ const CourseService = {
     }
 
     return courses
+  },
+
+  // New method to get all enrolled students for a course
+  getEnrolledStudents: async (courseId) => {
+    const courseObjectId = convert2ObjectId(courseId)
+    await CourseService._validateCourse(courseObjectId)
+
+    const enrollments = await enrollmentModel
+      .find({ course: courseObjectId })
+      .populate('user', 'name email avatar')
+      .lean()
+
+    return enrollments.map((enrollment) => ({
+      ...enrollment.user,
+      enrolledAt: enrollment.enrolledAt
+    }))
+  },
+
+  // New method to unenroll a student from a course
+  unenrollStudent: async ({ userId, courseId }) => {
+    const userObjectId = convert2ObjectId(userId)
+    const courseObjectId = convert2ObjectId(courseId)
+
+    const [user, course] = await Promise.all([
+      CourseService._validateUser(userObjectId),
+      CourseService._validateCourse(courseObjectId)
+    ])
+
+    // Check if enrollment exists
+    const existingEnrollment = await enrollmentModel.findOne({
+      user: userObjectId,
+      course: courseObjectId
+    })
+
+    if (!existingEnrollment) throwError('User is not enrolled in this course')
+
+    // Delete enrollment
+    await enrollmentModel.deleteOne({
+      user: userObjectId,
+      course: courseObjectId
+    })
+
+    // Update course student count
+    if (course.stu_num > 0) {
+      course.stu_num -= 1
+      await course.save()
+    }
+
+    // Also update progression for backward compatibility
+    const userProgression = await progressionModel.findOne({ user: userObjectId })
+    if (userProgression) {
+      userProgression.progress = userProgression.progress.filter(
+        (prog) => prog.course.toString() !== courseId
+      )
+      await userProgression.save()
+    }
+
+    return 1
   }
 }
 

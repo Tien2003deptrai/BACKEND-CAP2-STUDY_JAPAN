@@ -1,6 +1,7 @@
 const LessonService = require('../services/lesson.service')
 const handleRequest = require('./BaseController')
 const { validateRequiredFields } = require('../validators')
+const lessonModel = require('../models/lesson.model')
 
 const LessonController = {
   createLesson: (req, res) =>
@@ -8,7 +9,16 @@ const LessonController = {
       res,
       async () => {
         validateRequiredFields(['lesson_title', 'course_id'], req.body)
-        return await LessonService.createLesson(req.body)
+        const newLesson = await LessonService.createLesson(req.body)
+        if (Array.isArray(req.body.lessons) && req.body.lessons.length > 0) {
+          const lessonsToInsert = req.body.lessons.map((lesson) => ({
+            course: newLesson._id,
+            lesson_id: lesson.lesson_id,
+            lesson_title: lesson.title
+          }))
+          await lessonModel.insertMany(lessonsToInsert)
+        }
+        return newLesson
       },
       'Tạo bài học thành công'
     ),
@@ -28,7 +38,7 @@ const LessonController = {
       async () => {
         // ✅ Thêm async để có thể dùng await nếu cần
         validateRequiredFields(['lesson_id'], req.params)
-        return await LessonService.getOneLesson(req.params.lesson_id)
+        return await LessonService.getOneLesson(req.params.lesson_id, req.user.userId)
       },
       'Lấy thông tin bài học'
     ),

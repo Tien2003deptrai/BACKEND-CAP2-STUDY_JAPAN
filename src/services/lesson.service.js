@@ -2,6 +2,7 @@ const courseModel = require('../models/course.model')
 const hinaModel = require('../models/hina.model')
 const lessonModel = require('../models/lesson.model')
 const progressionModel = require('../models/progression.model')
+const enrollmentModel = require('../models/enrollment.model')
 const LessonRepo = require('../models/repos/lesson.repo')
 const throwError = require('../res/throwError')
 const { convert2ObjectId, removeUnderfinedObjectKey } = require('../utils')
@@ -17,6 +18,16 @@ const LessonService = {
     if (lesson && (!excludeLessonId || lesson._id.toString() !== excludeLessonId.toString())) {
       throwError('Lesson already exists')
     }
+  },
+
+  _checkUserEnrollment: async (userId, courseId) => {
+    // Check if user is enrolled in the course
+    const isEnrolled = await enrollmentModel.exists({
+      user: userId,
+      course: courseId
+    })
+
+    if (!isEnrolled) throwError('User is not enrolled in this course')
   },
 
   // public methods
@@ -35,6 +46,11 @@ const LessonService = {
 
   getAllLesson: async ({ userId, course_id }) => {
     const userObjectId = convert2ObjectId(userId)
+    const courseObjectId = convert2ObjectId(course_id)
+
+    // Check if user is enrolled in this course
+    await LessonService._checkUserEnrollment(userObjectId, courseObjectId)
+
     const course =
       (await courseModel.findById(course_id).select('name thumb author type').lean()) ||
       throwError('Course not found')
@@ -72,8 +88,46 @@ const LessonService = {
     }
   },
 
-  getOneLesson: async (lesson_id) => {
+  getOneLesson: async (lesson_id, userId) => {
+    // Lấy lesson từ repo
     const lesson = (await LessonRepo.findOne(lesson_id)) || throwError('Lesson not found')
+
+    if (userId) {
+      // Kiểm tra nếu cần xác thực enrollment
+      try {
+        // Kiểm tra xem course có _id không
+        if (lesson.course && typeof lesson.course === 'object' && !lesson.course._id) {
+          // Nếu không có _id, cần lấy lại course từ database
+          const courseInfo = await courseModel
+            .findOne({
+              name: lesson.course.name,
+              author: lesson.course.author
+            })
+            .lean()
+
+          if (!courseInfo) {
+            throwError('Course not found')
+          }
+
+          // Kiểm tra enrollment với courseInfo._id
+          const userObjectId = convert2ObjectId(userId)
+          await LessonService._checkUserEnrollment(userObjectId, courseInfo._id)
+        } else {
+          // Xử lý như trước nếu có _id
+          const userObjectId = convert2ObjectId(userId)
+          const courseId = lesson.course._id || lesson.course
+          await LessonService._checkUserEnrollment(userObjectId, courseId)
+        }
+      } catch (error) {
+        // Xử lý trường hợp không thể kiểm tra enrollment
+        if (error.message.includes('Cast to ObjectId failed')) {
+          throwError('Invalid course information')
+        } else {
+          throw error
+        }
+      }
+    }
+
     return lesson
   },
 

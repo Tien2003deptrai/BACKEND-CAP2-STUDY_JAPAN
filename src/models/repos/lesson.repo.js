@@ -7,7 +7,7 @@ const LessonRepo = {
   findOne: async (lesson_id) =>
     lessonModel
       .findOne({ _id: convert2ObjectId(lesson_id) })
-      .populate('course', 'name author -_id')
+      .populate('course', 'name author')
       .populate({ path: 'contents', populate: { path: 'vocabulary' } })
       .populate({ path: 'contents', populate: { path: 'grammar' } })
       .lean()

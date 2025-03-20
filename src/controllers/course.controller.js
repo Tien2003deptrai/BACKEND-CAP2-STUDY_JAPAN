@@ -49,6 +49,29 @@ const CourseController = {
         return await CourseService.getCoursesByTeacher(req.params.teacher_id)
       },
       'Lấy danh sách khoá học theo giáo viên thành công'
+    ),
+
+  getEnrolledStudents: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['course_id'], req.params)
+        return await CourseService.getEnrolledStudents(req.params.course_id)
+      },
+      'Lấy danh sách học viên đã đăng ký khóa học thành công'
+    ),
+
+  unenrollStudent: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['courseId'], req.body)
+        return await CourseService.unenrollStudent({
+          userId: req.body.userId || req.user.userId,
+          courseId: req.body.courseId
+        })
+      },
+      'Hủy đăng ký khóa học thành công'
     )
 }
 
