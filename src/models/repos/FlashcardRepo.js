@@ -6,7 +6,7 @@ const FlashcardRepo = {
   },
 
   findById: async (id) => {
-    return await flashcardModel.findById(id).lean()
+    return await flashcardModel.findById(id)
   },
 
   deleteById: async (id) => {
@@ -16,7 +16,7 @@ const FlashcardRepo = {
   findAllByDeck: async (deckId) => {
     return await flashcardModel
       .find({ deck: deckId })
-      .populate('vocabulary', '')
+      .populate('vocab', '')
       .populate('kanji', '')
       .populate('grammar', '')
       .select('vocab grammar interval reviewDate')
@@ -29,7 +29,7 @@ const FlashcardRepo = {
         deck: deckId,
         reviewDate: { $lte: reviewDate }
       })
-      .populate('vocabulary', '')
+      .populate('vocab', '')
       .populate('kanji', '')
       .populate('grammar', '')
       .select('vocab grammar interval reviewDate')

@@ -17,17 +17,20 @@ const FlashcardController = {
       res,
       async () => {
         validateRequiredFields(['flashcard_id'], req.params)
-        return await FlashcardService.updateFlashcard(req.params.flashcard_id)
+        return await FlashcardService.updateFlashcard({
+          flashcard_id: req.params.flashcard_id,
+          ...req.body
+        })
       },
       'Cập nhật flashcard thành công'
     ),
 
-  getAllFlCardByDeck: (req, res) =>
+  getAllFlashcardByDeck: (req, res) =>
     handleRequest(
       res,
       async () => {
         validateRequiredFields(['deck_id'], req.params)
-        return await FlashcardService.getAllFlCardByDeck(req.params)
+        return await FlashcardService.getAllFlashcardByDeck(req.params)
       },
       'Lấy tất cả flashcard theo deck thành công'
     ),
@@ -37,7 +40,9 @@ const FlashcardController = {
       res,
       async () => {
         validateRequiredFields(['userId'], req.user)
-        return await FlashcardService.getFlashCardReview(req.user.userId)
+        return await FlashcardService.getFlashCardReview({
+          user_id: req.user.userId
+        })
       },
       'Lấy flashcard để ôn tập thành công'
     )

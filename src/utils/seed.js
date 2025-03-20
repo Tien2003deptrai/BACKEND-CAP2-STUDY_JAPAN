@@ -968,7 +968,7 @@ const flashcards = [
     front: '木',
     back: 'Cây',
     tags: ['kanji', 'N5'],
-    reviewDate: new Date('2025-03-29'),
+    reviewDate: new Date('2025-03-20'),
     interval: 2
   }
 ]

@@ -117,11 +117,11 @@ const nextReviewDate = (level) => {
     4: 14,
     5: 30
   }
-  let newInterval = levelObj[level]
-  const nextReviewDate = moment().startOf('day')
-  nextReviewDate.day(nextReviewDate.day() + newInterval)
-  const test = new Date()
-  return { date: nextReviewDate, interval: newInterval }
+
+  let newInterval = levelObj[level] || 1
+  const nextReviewDate = moment().startOf('day').add(newInterval, 'days')
+
+  return { date: nextReviewDate.toDate(), interval: newInterval }
 }
 
 const generateToken = (user) => {

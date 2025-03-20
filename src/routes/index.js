@@ -21,7 +21,7 @@ router.use('/vocabulary', authenticateJWT, VocabularyRoute)
 router.use('/grammar', authenticateJWT, GrammarRoute)
 router.use('/kanji', authenticateJWT, KanjiRoute)
 router.use('/deck', authenticateJWT, DeckRoute)
-router.use('/deck', authenticateJWT, FlashcardRoute)
+router.use('/flashcard', authenticateJWT, FlashcardRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

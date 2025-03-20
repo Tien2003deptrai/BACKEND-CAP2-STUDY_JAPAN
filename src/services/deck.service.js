@@ -21,7 +21,7 @@ const DeckService = {
       .find({
         user: convert2ObjectId(user_id)
       })
-      .select('deck_title -_id')
+      .select('deck_title _id')
       .lean()
     if (!listDeck) throwError('Deck already exists')
     return listDeck
