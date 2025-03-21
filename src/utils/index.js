@@ -4,6 +4,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const winston = require('winston')
 //moment().format() // 2024-05-20T00:00:00+07:00(moment) === 2024-05-20T17:00:00.000+00:00(mongodb)
 
 const getInfoData = ({ fields = [], object = {} }) => {
@@ -52,6 +53,10 @@ const JapaneseToUnicode = (kanji) => {
 }
 
 const convert2ObjectId = (id) => {
+  if (!Types.ObjectId.isValid(id)) {
+    console.log('🚨 Invalid ObjectId:', id)
+    return id
+  }
   return new Types.ObjectId(id)
 }
 
@@ -144,6 +149,37 @@ const generateRandomPassword = (length = 10) => {
   return crypto.randomBytes(length).toString('hex').slice(0, length)
 }
 
+const customLevels = {
+  levels: {
+    executive: 0, // Cấp cao nhất (ưu tiên cao nhất)
+    error: 1,
+    warn: 2,
+    info: 3,
+    debug: 4
+  },
+  colors: {
+    executive: 'magenta', // Màu cho log executive
+    error: 'red',
+    warn: 'yellow',
+    info: 'blue',
+    debug: 'green'
+  }
+}
+
+const logger = winston.createLogger({
+  levels: customLevels.levels,
+  format: winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.printf(({ timestamp, level, message }) => {
+      return `[${timestamp}] ${level.toUpperCase()}: ${message}`
+    })
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'logs/executive.log' })
+  ]
+})
+
 module.exports = {
   nextReviewDate,
   getInfoData,
@@ -155,5 +191,6 @@ module.exports = {
   filterFieldToUpdate,
   filterFieldToUpdateNestedObject,
   generateToken,
-  generateRandomPassword
+  generateRandomPassword,
+  logger
 }
