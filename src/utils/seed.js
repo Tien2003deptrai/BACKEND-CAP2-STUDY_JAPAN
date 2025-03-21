@@ -16,6 +16,7 @@ const Notification = require('../models/notification.model')
 const Hina = require('../models/hina.model')
 const Renshuu = require('../models/renshuu.model')
 const Enrollment = require('../models/enrollment.model')
+const Result = require('../models/result.model')
 
 const bcrypt = require('bcrypt')
 
@@ -978,196 +979,250 @@ const exams = [
   {
     _id: '605c72ef5f5b2c1d4c8ec001',
     title: 'N5模擬試験1',
+    description: 'Bài kiểm tra mô phỏng JLPT N5 đầu tiên',
     time_limit: 60,
     total_points: 100,
     level: 'N5',
-    isPublish: true,
-    tags: 'mock',
-    contents: [
+    sections: [
       {
-        type: 'listening',
-        content_text: 'こんにちは',
-        point: 10, // Đảm bảo có point
-        value: 'Xin chào',
-        url_audio: 'https://example.com/audio/exam1.mp3',
-        quiz: ['Xin chào', 'Tạm biệt']
+        title: 'Phần nghe',
+        description: 'Kiểm tra khả năng nghe hiểu',
+        type: 'listening'
+      },
+      {
+        title: 'Phần đọc',
+        description: 'Kiểm tra khả năng đọc hiểu',
+        type: 'reading'
       }
-    ]
+    ],
+    creator: '605c72ef5f5b2c1d4c8e1001',
+    isPublished: true,
+    tags: ['mock', 'N5', 'beginner'],
+    questions: [
+      {
+        id: 'q001',
+        type: 'listening',
+        content: 'Nghe đoạn hội thoại và chọn câu trả lời đúng',
+        instruction: 'Hãy nghe đoạn hội thoại và chọn câu trả lời đúng',
+        mediaUrl: 'https://example.com/audio/exam1.mp3',
+        options: [
+          { id: 'a', text: 'Xin chào' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Xin lỗi' }
+        ],
+        correctAnswer: 'a',
+        point: 10
+      },
+      {
+        id: 'q002',
+        type: 'multiple_choice',
+        content: 'こんにちは nghĩa là gì?',
+        options: [
+          { id: 'a', text: 'Xin chào' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Xin lỗi' }
+        ],
+        correctAnswer: 'a',
+        point: 10
+      },
+      {
+        id: 'q003',
+        type: 'fill_in',
+        content: 'Hoàn thành câu: わたしは＿＿＿です。',
+        correctAnswer: 'がくせい',
+        point: 15
+      }
+    ],
+    difficultyLevel: 'beginner',
+    passingScore: 60,
+    allowedAttempts: 2
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec002',
     title: '漢字N5テスト',
+    description: 'Bài kiểm tra chữ Hán trình độ N5',
     time_limit: 30,
     total_points: 50,
     level: 'N5',
-    isPublish: false,
-    tags: 'kanji',
-    contents: [
+    sections: [
       {
-        type: 'reading',
-        content_text: '山',
-        point: 5, // Đảm bảo có point
-        value: 'やま',
-        quiz: ['やま', 'かわ']
+        title: 'Phần đọc chữ Hán',
+        description: 'Kiểm tra cách đọc chữ Hán',
+        type: 'reading'
       }
-    ]
+    ],
+    creator: '605c72ef5f5b2c1d4c8e1002',
+    isPublished: false,
+    tags: ['kanji', 'N5', 'beginner'],
+    questions: [
+      {
+        id: 'q001',
+        type: 'multiple_choice',
+        content: '山 đọc là gì?',
+        options: [
+          { id: 'a', text: 'やま' },
+          { id: 'b', text: 'かわ' },
+          { id: 'c', text: 'もり' },
+          { id: 'd', text: 'うみ' }
+        ],
+        correctAnswer: 'a',
+        point: 5
+      },
+      {
+        id: 'q002',
+        type: 'multiple_choice',
+        content: '川 đọc là gì?',
+        options: [
+          { id: 'a', text: 'やま' },
+          { id: 'b', text: 'かわ' },
+          { id: 'c', text: 'もり' },
+          { id: 'd', text: 'うみ' }
+        ],
+        correctAnswer: 'b',
+        point: 5
+      }
+    ],
+    difficultyLevel: 'beginner',
+    passingScore: 30,
+    allowedAttempts: 3
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec003',
     title: 'N4文法試験',
+    description: 'Bài kiểm tra ngữ pháp N4',
     time_limit: 45,
     total_points: 80,
     level: 'N4',
-    isPublish: true,
-    tags: 'grammar',
-    contents: [
+    sections: [
       {
-        type: 'grammar',
-        content_text: 'N + に + V',
-        point: 10, // Đảm bảo có point
-        value: 'Đích đến',
-        quiz: ['Đích đến', 'Tân ngữ']
+        title: 'Ngữ pháp cơ bản',
+        description: 'Kiểm tra kiến thức ngữ pháp cơ bản N4',
+        type: 'grammar'
+      },
+      {
+        title: 'Ngữ pháp nâng cao',
+        description: 'Kiểm tra kiến thức ngữ pháp nâng cao N4',
+        type: 'grammar'
       }
-    ]
+    ],
+    creator: '605c72ef5f5b2c1d4c8e1004',
+    isPublished: true,
+    tags: ['grammar', 'N4', 'intermediate'],
+    questions: [
+      {
+        id: 'q001',
+        type: 'multiple_choice',
+        content: '＿＿＿ とても きれいです。',
+        instruction: 'Chọn trợ từ thích hợp điền vào chỗ trống',
+        options: [
+          { id: 'a', text: 'が' },
+          { id: 'b', text: 'に' },
+          { id: 'c', text: 'を' },
+          { id: 'd', text: 'で' }
+        ],
+        correctAnswer: 'a',
+        point: 10
+      },
+      {
+        id: 'q002',
+        type: 'multiple_choice',
+        content: '学校＿＿＿ いきます。',
+        instruction: 'Chọn trợ từ thích hợp điền vào chỗ trống',
+        options: [
+          { id: 'a', text: 'が' },
+          { id: 'b', text: 'に' },
+          { id: 'c', text: 'を' },
+          { id: 'd', text: 'で' }
+        ],
+        correctAnswer: 'b',
+        point: 10
+      }
+    ],
+    difficultyLevel: 'intermediate',
+    passingScore: 60,
+    allowedAttempts: 2
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec004',
     title: '会話N5テスト',
+    description: 'Bài kiểm tra hội thoại N5',
     time_limit: 20,
     total_points: 40,
     level: 'N5',
-    isPublish: false,
-    tags: 'conversation',
-    contents: [
+    sections: [
       {
-        type: 'speaking',
-        content_text: 'おはよう',
-        point: 10, // Đảm bảo có point
-        value: 'Chào buổi sáng',
-        quiz: ['Chào buổi sáng', 'Tạm biệt']
+        title: 'Hội thoại cơ bản',
+        description: 'Kiểm tra khả năng giao tiếp cơ bản',
+        type: 'listening'
       }
-    ]
+    ],
+    creator: '605c72ef5f5b2c1d4c8e1002',
+    isPublished: false,
+    tags: ['conversation', 'N5', 'beginner'],
+    questions: [
+      {
+        id: 'q001',
+        type: 'listening',
+        content: 'Nghe đoạn hội thoại và chọn câu trả lời đúng',
+        mediaUrl: 'https://example.com/audio/ohayou.mp3',
+        options: [
+          { id: 'a', text: 'Chào buổi sáng' },
+          { id: 'b', text: 'Chào buổi chiều' },
+          { id: 'c', text: 'Chào buổi tối' },
+          { id: 'd', text: 'Tạm biệt' }
+        ],
+        correctAnswer: 'a',
+        point: 10
+      }
+    ],
+    difficultyLevel: 'beginner',
+    passingScore: 30,
+    allowedAttempts: 2
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec005',
     title: 'N3模擬試験',
+    description: 'Bài kiểm tra mô phỏng JLPT N3',
     time_limit: 90,
     total_points: 120,
     level: 'N3',
-    isPublish: true,
-    tags: 'mock',
-    contents: [
+    sections: [
       {
+        title: 'Ngữ pháp và Từ vựng',
+        description: 'Kiểm tra ngữ pháp và từ vựng N3',
+        type: 'grammar'
+      },
+      {
+        title: 'Đọc hiểu',
+        description: 'Kiểm tra kỹ năng đọc hiểu N3',
+        type: 'reading'
+      }
+    ],
+    creator: '605c72ef5f5b2c1d4c8e1004',
+    isPublished: true,
+    tags: ['mock', 'N3', 'intermediate'],
+    questions: [
+      {
+        id: 'q001',
         type: 'reading',
-        dokkai_text: '川がきれいです。',
-        point: 10, // Thêm point cho contents
-        dokkai_ask: [
-          {
-            content_text: '川はどうですか？',
-            value: 'きれいです',
-            quiz: ['きれいです', '高いです'],
-            point: 10 // Đảm bảo có point trong dokkai_ask
-          }
-        ]
+        content: 'Đọc đoạn văn sau và trả lời câu hỏi',
+        readingPassage: '川がきれいです。山も高いです。空も青いです。',
+        instruction: '川はどうですか？',
+        options: [
+          { id: 'a', text: 'きれいです' },
+          { id: 'b', text: '高いです' },
+          { id: 'c', text: '青いです' },
+          { id: 'd', text: '大きいです' }
+        ],
+        correctAnswer: 'a',
+        point: 10
       }
-    ]
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec006',
-    title: '漢字N3テスト',
-    time_limit: 35,
-    total_points: 60,
-    level: 'N3',
-    isPublish: false,
-    tags: 'kanji',
-    contents: [
-      {
-        type: 'reading',
-        content_text: '木',
-        point: 5, // Đảm bảo có point
-        value: 'き',
-        quiz: ['き', 'かわ']
-      }
-    ]
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec007',
-    title: 'N5実践試験',
-    time_limit: 50,
-    total_points: 90,
-    level: 'N5',
-    isPublish: true,
-    tags: 'practice',
-    contents: [
-      {
-        type: 'listening',
-        content_text: 'メニューをください',
-        point: 10, // Đảm bảo có point
-        value: 'Cho tôi thực đơn',
-        url_audio: 'https://example.com/audio/exam7.mp3',
-        quiz: ['Cho tôi thực đơn', 'Xin chào']
-      }
-    ]
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec008',
-    title: 'N4読解テスト',
-    time_limit: 60,
-    total_points: 100,
-    level: 'N4',
-    isPublish: false,
-    tags: 'reading',
-    contents: [
-      {
-        type: 'reading',
-        dokkai_text: '学校に行きます。',
-        point: 10, // Thêm point cho contents
-        dokkai_ask: [
-          {
-            content_text: 'どこに行きますか？',
-            value: '学校',
-            quiz: ['学校', '会社'],
-            point: 10 // Đảm bảo có point trong dokkai_ask
-          }
-        ]
-      }
-    ]
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec009',
-    title: 'ビジネス会話試験',
-    time_limit: 40,
-    total_points: 70,
-    level: 'N3',
-    isPublish: true,
-    tags: 'business',
-    contents: [
-      {
-        type: 'speaking',
-        content_text: '会社で働きます',
-        point: 10, // Đảm bảo có point
-        value: 'Làm việc ở công ty',
-        quiz: ['Làm việc ở công ty', 'Đi đến trường']
-      }
-    ]
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec00a',
-    title: 'N2漢字テスト',
-    time_limit: 45,
-    total_points: 80,
-    level: 'N2',
-    isPublish: false,
-    tags: 'kanji',
-    contents: [
-      {
-        type: 'reading',
-        content_text: '水',
-        point: 5, // Đảm bảo có point
-        value: 'みず',
-        quiz: ['みず', 'ひ']
-      }
-    ]
+    ],
+    difficultyLevel: 'intermediate',
+    passingScore: 80,
+    allowedAttempts: 2
   }
 ]
 
@@ -1671,6 +1726,104 @@ const enrollments = [
   }
 ]
 
+const results = [
+  {
+    _id: '605c72ef5f5b2c1d4c8ef301',
+    user: '605c72ef5f5b2c1d4c8e1003', // Le Van Cuong (student)
+    exam: '605c72ef5f5b2c1d4c8ec001', // N5模擬試験1
+    startTime: new Date('2023-03-15T10:00:00'),
+    endTime: new Date('2023-03-15T11:00:00'),
+    totalScore: 85,
+    status: 'completed',
+    timeSpent: 3600,
+    answers: [
+      {
+        questionId: 'q001',
+        userAnswer: 'a',
+        isCorrect: true,
+        score: 10
+      },
+      {
+        questionId: 'q002',
+        userAnswer: 'a',
+        isCorrect: true,
+        score: 10
+      },
+      {
+        questionId: 'q003',
+        userAnswer: 'がくせい',
+        isCorrect: true,
+        score: 15
+      }
+    ]
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef302',
+    user: '605c72ef5f5b2c1d4c8e1005', // Hoang Van Em (student)
+    exam: '605c72ef5f5b2c1d4c8ec001', // N5模擬試験1
+    startTime: new Date('2023-03-16T09:00:00'),
+    endTime: new Date('2023-03-16T10:00:00'),
+    totalScore: 70,
+    status: 'completed',
+    timeSpent: 3600,
+    answers: [
+      {
+        questionId: 'q001',
+        userAnswer: 'a',
+        isCorrect: true,
+        score: 10
+      },
+      {
+        questionId: 'q002',
+        userAnswer: 'a',
+        isCorrect: true,
+        score: 10
+      },
+      {
+        questionId: 'q003',
+        userAnswer: 'せんせい',
+        isCorrect: false,
+        score: 0
+      }
+    ]
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef303',
+    user: '605c72ef5f5b2c1d4c8e1008', // Bui Thi Hoa (student)
+    exam: '605c72ef5f5b2c1d4c8ec003', // N4文法試験
+    startTime: new Date('2023-03-17T14:00:00'),
+    endTime: new Date('2023-03-17T15:00:00'),
+    totalScore: 20,
+    status: 'completed',
+    timeSpent: 3600,
+    answers: [
+      {
+        questionId: 'q001',
+        userAnswer: 'a',
+        isCorrect: true,
+        score: 10
+      },
+      {
+        questionId: 'q002',
+        userAnswer: 'a',
+        isCorrect: false,
+        score: 0
+      }
+    ]
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef304',
+    user: '605c72ef5f5b2c1d4c8e1003', // Le Van Cuong (student)
+    exam: '605c72ef5f5b2c1d4c8ec005', // N3模擬試験
+    startTime: new Date('2023-03-20T10:00:00'),
+    endTime: null,
+    totalScore: 0,
+    status: 'in-progress',
+    timeSpent: 0,
+    answers: []
+  }
+]
+
 const seedDatabase = async () => {
   try {
     // Xóa toàn bộ dữ liệu cũ
@@ -1681,6 +1834,8 @@ const seedDatabase = async () => {
     const users = await createSeedData()
     await User.insertMany(users)
     await Course.insertMany(courses)
+    await Notification.insertMany(notifications)
+    await Enrollment.insertMany(enrollments)
     await Lesson.insertMany(lessons)
     await Vocabulary.insertMany(vocabularies)
     await Grammar.insertMany(grammars)
@@ -1689,10 +1844,9 @@ const seedDatabase = async () => {
     await Flashcard.insertMany(flashcards)
     await Exam.insertMany(exams)
     await Progression.insertMany(progressions)
-    await Notification.insertMany(notifications)
     await Hina.insertMany(hinas)
     await Renshuu.insertMany(renshuus)
-    await Enrollment.insertMany(enrollments)
+    await Result.insertMany(results)
 
     console.log('Dữ liệu đã được seed thành công!')
   } catch (error) {

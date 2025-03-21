@@ -1,12 +1,9 @@
-createLesson: async ({ course_id, lesson_title, ...bodyData }) => {
-    const courseObjectId = convert2ObjectId(course_id)
-    await LessonService._validateCourse(courseObjectId)
-    await LessonService._checkLessonExists(courseObjectId, lesson_title)
+bug :
 
-    const newLesson = await lessonModel.create({
-      course: courseObjectId,
-      lesson_title,
-      ...bodyData
-    })
-    return newLesson || throwError('New lesson not found')
-},
+bug - startExam - [21/03] - Nếu bắt đầu gọi lại startExam, sẽ bị lỗi Cannot read properties of undefined (reading 'length') - cần xử lý
+{
+    "status": 500,
+    "success": false,
+    "message": "Cannot read properties of undefined (reading 'length')",
+    "data": null
+}

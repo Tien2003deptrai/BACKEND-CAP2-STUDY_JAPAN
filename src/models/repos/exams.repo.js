@@ -1,9 +1,9 @@
 const examsModel = require('../exams.model')
 
 const ExamsRepo = {
-  findById: (id) => examsModel.findById(id).select('tags title contents -_id').lean(),
+  findById: (id) => examsModel.findById(id).lean(),
 
-  findByTagAndLevel: (tags, level) => ExamsRepo.queryExams({ tags, level, isPublish: true }),
+  findByTagAndLevel: (tags, level) => ExamsRepo.queryExams({ tags, level, isPublished: true }),
 
   getAll: () => examsModel.find().lean(),
 
@@ -14,7 +14,32 @@ const ExamsRepo = {
 
   delete: (exam_id) => examsModel.deleteOne({ _id: exam_id }),
 
-  queryExams: (query) => examsModel.find(query).select('-contents').lean()
+  queryExams: (query) => examsModel.find(query).select('-contents').lean(),
+
+  // Find exam for taking (without answers)
+  findForTaking: (id) =>
+    examsModel
+      .findById(id)
+      .select(
+        '_id title description time_limit total_points level sections tags questions difficultyLevel passingScore allowedAttempts'
+      )
+      .lean()
+      .then((exam) => {
+        if (!exam) return null
+
+        // Remove correct answers from questions
+        if (exam.questions) {
+          exam.questions = exam.questions.map((q) => ({
+            ...q,
+            correctAnswer: undefined
+          }))
+        }
+
+        return exam
+      }),
+
+  // Find exam with answers for scoring
+  findWithAnswers: (id) => examsModel.findById(id).select('_id title questions passingScore').lean()
 }
 
 module.exports = ExamsRepo

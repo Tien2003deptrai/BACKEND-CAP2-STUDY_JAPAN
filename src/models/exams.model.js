@@ -4,58 +4,81 @@ const DOCUMENT_NAME = 'Exam'
 const COLLECTION_NAME = 'Exams'
 
 /**
- * . title
- * . total point
- * . time limit (minutes)
- * .
- * . content {
- *  content_text
- *  point
- *  value
- *  url_audio
- *  quiz
- * }
+ * Schema cho câu hỏi trắc nghiệm
  */
+const questionSchema = new Schema({
+  id: { type: String, required: true }, // ID duy nhất cho câu hỏi
+  type: {
+    type: String,
+    enum: ['multiple_choice', 'fill_in', 'ordering', 'listening', 'reading'],
+    required: true
+  },
+  content: { type: String, required: true }, // Nội dung câu hỏi
+  instruction: { type: String }, // Hướng dẫn cho câu hỏi
+  mediaUrl: { type: String }, // URL đến media (audio, image)
+  readingPassage: { type: String }, // Đoạn văn cho câu hỏi reading
+  options: [{ text: String, id: String }], // Các lựa chọn cho câu hỏi trắc nghiệm
+  correctAnswer: { type: String, required: true }, // Đáp án đúng
+  point: { type: Number, required: true, default: 1 } // Điểm cho câu hỏi này
+})
 
+/**
+ * Schema cho đề thi
+ */
 const examSchema = new Schema(
   {
     title: { type: String, required: true },
-    time_limit: { type: Number },
-    total_points: {
-      type: Number,
+    description: { type: String },
+    time_limit: { type: Number, required: true }, // Thời gian làm bài (phút)
+    total_points: { type: Number, required: true },
+    level: {
+      type: String,
+      enum: ['N5', 'N4', 'N3', 'N2', 'N1'],
       required: true
     },
-    level: { type: String, required: true },
-    isPublish: {
-      type: Boolean,
-      default: false,
-      select: false
-    },
-    tags: String,
-    contents: [
+    sections: [
       {
-        type: { type: String },
-        dokkai_text: { type: String, default: '' },
-        dokkai_ask: [
-          {
-            content_text: { type: String },
-            value: { type: String },
-            quiz: { type: Array },
-            point: { type: Number, required: true }
-          }
-        ],
-        content_text: { type: String },
-        point: { type: Number, required: true },
-        value: { type: String },
-        url_audio: { type: String, default: null },
-        quiz: { type: Array }
+        title: String,
+        description: String,
+        type: {
+          type: String,
+          enum: ['listening', 'reading', 'vocabulary', 'grammar'],
+          required: true
+        }
       }
-    ]
+    ],
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    isPublished: {
+      type: Boolean,
+      default: false
+    },
+    tags: [String],
+    questions: [questionSchema],
+    // questions: [questionSchema], id === _id
+    allowedTime: { type: Number }, // Thời gian cho phép làm bài (phút) - có thể khác với time_limit
+    passingScore: { type: Number }, // Điểm đỗ
+    difficultyLevel: {
+      type: String,
+      enum: ['beginner', 'intermediate', 'advanced']
+    },
+    visibility: {
+      type: String,
+      enum: ['public', 'private', 'group'],
+      default: 'public'
+    },
+    allowedAttempts: { type: Number, default: 1 } // Số lần được phép làm bài
   },
   {
     collection: COLLECTION_NAME,
     timestamps: true
   }
 )
+
+// Tạo index để tối ưu truy vấn
+examSchema.index({ level: 1, tags: 1, isPublished: 1 })
+examSchema.index({ creator: 1 })
 
 module.exports = model(DOCUMENT_NAME, examSchema)

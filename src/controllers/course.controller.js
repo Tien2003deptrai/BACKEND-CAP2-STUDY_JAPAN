@@ -67,7 +67,7 @@ const CourseController = {
       async () => {
         validateRequiredFields(['courseId'], req.body)
         return await CourseService.unenrollStudent({
-          userId: req.body.userId || req.user.userId,
+          userId: req.user.userId,
           courseId: req.body.courseId
         })
       },

@@ -187,6 +187,7 @@ const CourseService = {
 
   // New method to unenroll a student from a course
   unenrollStudent: async ({ userId, courseId }) => {
+    console.log('unenrolling student', userId, courseId)
     const userObjectId = convert2ObjectId(userId)
     const courseObjectId = convert2ObjectId(courseId)
 
