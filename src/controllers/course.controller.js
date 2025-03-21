@@ -25,7 +25,7 @@ const CourseController = {
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['name', 'thumb'], req.body)
+        validateRequiredFields(['name'], req.body)
         return await CourseService.createCourse({ ...req.body, user: req.user.userId })
       },
       'Tạo khóa học và bài học thành công'

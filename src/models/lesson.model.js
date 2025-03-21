@@ -29,9 +29,10 @@ const lessonSchema = new Schema(
     },
     isPublic: {
       type: Boolean,
-      default: false,
-      index: true,
-      select: false
+      default: false
+    },
+    index: {
+      type: Number
     },
     contents: {
       vocabulary: [
