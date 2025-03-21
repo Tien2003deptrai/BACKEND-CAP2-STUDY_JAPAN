@@ -15,6 +15,7 @@ const Progression = require('../models/progression.model')
 const Notification = require('../models/notification.model')
 const Hina = require('../models/hina.model')
 const Renshuu = require('../models/renshuu.model')
+const Enrollment = require('../models/enrollment.model')
 
 const bcrypt = require('bcrypt')
 
@@ -1607,6 +1608,69 @@ const renshuus = [
   }
 ]
 
+const enrollments = [
+  {
+    _id: '605c72ef5f5b2c1d4c8ef201',
+    user: '605c72ef5f5b2c1d4c8e1003', // Le Van Cuong (student)
+    course: '605c72ef5f5b2c1d4c8e2001', // 日本語初級コース
+    enrolledAt: new Date('2023-01-15')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef202',
+    user: '605c72ef5f5b2c1d4c8e1003', // Le Van Cuong (student)
+    course: '605c72ef5f5b2c1d4c8e2002', // 漢字マスターN5
+    enrolledAt: new Date('2023-02-10')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef203',
+    user: '605c72ef5f5b2c1d4c8e1005', // Hoang Van Em (student)
+    course: '605c72ef5f5b2c1d4c8e2001', // 日本語初級コース
+    enrolledAt: new Date('2023-01-20')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef204',
+    user: '605c72ef5f5b2c1d4c8e1005', // Hoang Van Em (student)
+    course: '605c72ef5f5b2c1d4c8e2004', // 文法N4基礎
+    enrolledAt: new Date('2023-03-05')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef205',
+    user: '605c72ef5f5b2c1d4c8e1008', // Bui Thi Hoa (student)
+    course: '605c72ef5f5b2c1d4c8e2001', // 日本語初級コース
+    enrolledAt: new Date('2023-02-01')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef206',
+    user: '605c72ef5f5b2c1d4c8e1008', // Bui Thi Hoa (student)
+    course: '605c72ef5f5b2c1d4c8e2002', // 漢字マスターN5
+    enrolledAt: new Date('2023-02-15')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef207',
+    user: '605c72ef5f5b2c1d4c8e1008', // Bui Thi Hoa (student)
+    course: '605c72ef5f5b2c1d4c8e2003', // 会話練習中級
+    enrolledAt: new Date('2023-03-10')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef208',
+    user: '605c72ef5f5b2c1d4c8e1008', // Bui Thi Hoa (student)
+    course: '605c72ef5f5b2c1d4c8e2006', // 漢字マスターN3
+    enrolledAt: new Date('2023-04-01')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef209',
+    user: '605c72ef5f5b2c1d4c8e1005', // Hoang Van Em (student)
+    course: '605c72ef5f5b2c1d4c8e2007', // 会話練習初級
+    enrolledAt: new Date('2023-02-20')
+  },
+  {
+    _id: '605c72ef5f5b2c1d4c8ef210',
+    user: '605c72ef5f5b2c1d4c8e1003', // Le Van Cuong (student)
+    course: '605c72ef5f5b2c1d4c8e2008', // 文法N5入門
+    enrolledAt: new Date('2023-03-15')
+  }
+]
+
 const seedDatabase = async () => {
   try {
     // Xóa toàn bộ dữ liệu cũ
@@ -1628,6 +1692,7 @@ const seedDatabase = async () => {
     await Notification.insertMany(notifications)
     await Hina.insertMany(hinas)
     await Renshuu.insertMany(renshuus)
+    await Enrollment.insertMany(enrollments)
 
     console.log('Dữ liệu đã được seed thành công!')
   } catch (error) {

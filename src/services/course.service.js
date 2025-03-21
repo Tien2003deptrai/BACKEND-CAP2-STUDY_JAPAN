@@ -164,10 +164,7 @@ const CourseService = {
       throwError('User is not a teacher')
     }
 
-    const courses = await courseModel.find({ user: convert2ObjectId(teacher_id) }).lean()
-    if (!courses || courses.length === 0) {
-      throwError('No courses found for this teacher')
-    }
+    const courses = (await courseModel.find({ user: convert2ObjectId(teacher_id) }).lean()) || []
 
     return courses
   },
