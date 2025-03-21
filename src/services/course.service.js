@@ -117,7 +117,8 @@ const CourseService = {
       const lessonsToInsert = lessons.map((lesson) => ({
         course: newCourse._id,
         lesson_id: lesson.lesson_id,
-        lesson_title: lesson.lesson_title || lesson.title
+        lesson_title: lesson.lesson_title,
+        index: lesson.index
       }))
 
       await lessonModel.insertMany(lessonsToInsert)
