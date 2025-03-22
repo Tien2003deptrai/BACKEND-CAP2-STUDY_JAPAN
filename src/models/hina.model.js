@@ -48,12 +48,14 @@ const hinaSchema = new Schema(
 )
 
 hinaSchema.pre('save', async function (next) {
-  this.svg_path = JapaneseToUnicode(this.word)
   this.words.forEach((w) => {
-    w.svg_path.forEach((v, i) => {
-      w.svg_path[i] = `colorized-kanji-stroke/${v}.svg`
-    })
+    if (w.word) {
+      w.svg_path = (w.svg_path || []).concat(
+        JapaneseToUnicode(w.word).map((v) => `colorized-kanji-stroke/${v}.svg`)
+      )
+    }
   })
+  next()
 })
 
 module.exports = model(DOCUMENT_NAME, hinaSchema)

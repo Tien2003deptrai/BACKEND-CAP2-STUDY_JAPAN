@@ -32,9 +32,6 @@ const lessonSchema = new Schema(
       default: false
     },
     index: {
-      type: Number
-    },
-    index: {
       type: Number,
       required: true
     },

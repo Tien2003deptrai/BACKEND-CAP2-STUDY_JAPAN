@@ -9,7 +9,7 @@ const KanjiRoute = require('./kanji.route')
 const DeckRoute = require('./deck.route')
 const FlashcardRoute = require('./flashcard.route')
 const ExamRoute = require('./exam.route')
-
+const HinaRoute = require('./hina.route')
 // Configuration Routes * /api/config/*
 const TranslateRoute = require('./translation/translate.route')
 const router = express.Router()
@@ -24,6 +24,7 @@ router.use('/kanji', authenticateJWT, KanjiRoute)
 router.use('/deck', authenticateJWT, DeckRoute)
 router.use('/flashcard', authenticateJWT, FlashcardRoute)
 router.use('/exam', authenticateJWT, ExamRoute)
+router.use('/hina', authenticateJWT, HinaRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

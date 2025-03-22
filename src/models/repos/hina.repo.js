@@ -7,7 +7,8 @@ const HinaRepo = {
 
   getAll: () => hinaModel.find().lean(),
 
-  create: (course_id, bodyData) => hinaModel.create({ course: course_id, ...bodyData }),
+  create: (course_id, lesson_id, bodyData) =>
+    hinaModel.create({ course: course_id, lesson: lesson_id, ...bodyData }),
 
   update: (hina_id, bodyUpdate, isNew = true) =>
     hinaModel.findByIdAndUpdate(hina_id, bodyUpdate, { new: isNew }),
