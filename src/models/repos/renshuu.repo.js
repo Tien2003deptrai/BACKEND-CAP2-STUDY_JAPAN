@@ -6,6 +6,8 @@ const RenshuuRepo = {
 
   findById: (renshuu_id) => renshuuModel.findById(convert2ObjectId(renshuu_id)).lean(),
 
+  findByIdLesson: (lesson_id) => renshuuModel.findOne({ lesson: lesson_id }).lean(),
+
   findByTitle: (title) => renshuuModel.findOne({ title }).lean(),
 
   update: (renshuu_id, bodyUpdate, isNew = true) =>
