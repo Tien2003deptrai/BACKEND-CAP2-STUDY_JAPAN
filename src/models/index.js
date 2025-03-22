@@ -1,4 +1,4 @@
-const mongoose = require('../config/db') // Import Mongoose đã kết nối từ config/db.js
+const mongoose = require('../config/db')
 
 const db = {}
 db.mongoose = mongoose
@@ -17,7 +17,8 @@ db.notification = require('./notification.model')
 db.hina = require('./hina.model')
 db.renshuu = require('./renshuu.model')
 db.enrollment = require('./enrollment.model')
+db.result = require('./result.model')
 
 console.log('📌 DB Models Loaded:', Object.keys(db))
 
-module.exports = db // Xuất models để dùng trong toàn bộ ứng dụng
+module.exports = db

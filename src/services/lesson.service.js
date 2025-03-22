@@ -154,6 +154,14 @@ const LessonService = {
     return courseTitles
   },
 
+  getAlllessonByCourse: async (course_id) => {
+    const courseObjectId = convert2ObjectId(course_id)
+    const course = await courseModel.findById(courseObjectId).lean()
+    if (!course) throwError('Course not found')
+    const lessons = await lessonModel.find({ course: courseObjectId }).lean()
+    return { course, lessons }
+  },
+
   createMultipleLessons: async ({ course_id, lessons }) => {
     if (!course_id) {
       throwError('course_id is required')

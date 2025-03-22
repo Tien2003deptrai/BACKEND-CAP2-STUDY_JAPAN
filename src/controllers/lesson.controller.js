@@ -36,7 +36,6 @@ const LessonController = {
     handleRequest(
       res,
       async () => {
-        // ✅ Thêm async để có thể dùng await nếu cần
         validateRequiredFields(['lesson_id'], req.params)
         return await LessonService.getOneLesson(req.params.lesson_id, req.user.userId)
       },
@@ -106,6 +105,15 @@ const LessonController = {
         return await LessonService.getAllLessonTitles()
       },
       'Lấy danh sách tiêu đề tất cả khóa học thành công'
+    ),
+
+  getAllLessonByCourse: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await LessonService.getAlllessonByCourse(req.params.course_id)
+      },
+      'Lấy danh sách bài học theo khóa học'
     )
 }
 

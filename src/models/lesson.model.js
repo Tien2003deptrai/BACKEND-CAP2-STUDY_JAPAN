@@ -34,6 +34,10 @@ const lessonSchema = new Schema(
     index: {
       type: Number
     },
+    index: {
+      type: Number,
+      required: true
+    },
     contents: {
       vocabulary: [
         {
@@ -57,5 +61,7 @@ const lessonSchema = new Schema(
     collection: COLLECTION_NAME
   }
 )
+
+lessonSchema.index({ index: 1 })
 
 module.exports = model(DOCUMENT_NAME, lessonSchema)
