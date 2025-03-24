@@ -53,34 +53,8 @@ const LessonRepo = {
     return modifiedCount
   },
 
-  addContent: async (lesson_id, type, content_id) => {
-    const lesson = await lessonModel.findById(convert2ObjectId(lesson_id))
-    if (!lesson) throw new Error('Lesson not found')
-    lesson.contents[type].push(content_id)
-    await lesson.save()
-  },
-
-  removeContent: async (lesson_id, type, content_id) => {
-    const lesson = await lessonModel.findById(convert2ObjectId(lesson_id))
-    if (!lesson) throw new Error('Lesson not found')
-    lesson.contents[type] = lesson.contents[type].filter(
-      (id) => id.toString() !== content_id.toString()
-    )
-    await lesson.save()
-  },
-
   releaseLesson: async (lesson_id) => LessonRepo.toggleStatus(lesson_id, 'published'),
   unReleaseLesson: async (lesson_id) => LessonRepo.toggleStatus(lesson_id, 'draft'),
-
-  addGrammarIdToLesson: async ({ lesson_id, grammar_id }) =>
-    LessonRepo.addContent(lesson_id, 'grammar', grammar_id),
-  addVocabIdToLesson: async ({ lesson_id, vocab_id }) =>
-    LessonRepo.addContent(lesson_id, 'vocabulary', vocab_id),
-
-  removeGrammarIdFromLesson: async ({ lesson_id, grammar_id }) =>
-    LessonRepo.removeContent(lesson_id, 'grammar', grammar_id),
-  removeVocabIdFromLesson: async ({ lesson_id, vocab_id }) =>
-    LessonRepo.removeContent(lesson_id, 'vocabulary', vocab_id),
 
   getAllLessonTitles: async () => lessonModel.find().select('lesson_title').lean()
 }
