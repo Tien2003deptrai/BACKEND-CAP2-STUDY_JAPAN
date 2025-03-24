@@ -77,7 +77,7 @@ const LessonController = {
       res,
       async () => {
         const { limit = 25, skip = 0 } = req.query
-        return await LessonService.findAllDraftLesson({ limit: +limit, skip: +skip })
+        return await LessonService.findAllDraft({ limit: +limit, skip: +skip })
       },
       'Lấy danh sách bài học nháp'
     ),
@@ -89,7 +89,7 @@ const LessonController = {
         validateRequiredFields(['course_id'], req.params)
         const { course_id } = req.params
         const { limit = 25, skip = 0 } = req.query
-        return await LessonService.findAllReleaseLesson({
+        return await LessonService.findAllRelease({
           course_id,
           limit: +limit,
           skip: +skip

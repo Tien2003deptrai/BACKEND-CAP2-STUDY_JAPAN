@@ -21,8 +21,19 @@ const LessonRepo = {
       new: isNew
     }),
 
-  findAllDraft: async ({ query, limit, skip }) => LessonRepo.query({ query, limit, skip }),
-  findAllRelease: async ({ query, limit, skip }) => LessonRepo.query({ query, limit, skip }),
+  findAllDraft: async ({ query, limit, skip }) =>
+    LessonRepo.query({
+      query: { ...query, status: 'draft' },
+      limit,
+      skip
+    }),
+
+  findAllRelease: async ({ query, limit, skip }) =>
+    LessonRepo.query({
+      query: { ...query, status: 'published' },
+      limit,
+      skip
+    }),
 
   query: async ({ query, limit, skip }) =>
     lessonModel
@@ -34,11 +45,10 @@ const LessonRepo = {
       .lean()
       .exec(),
 
-  toggleReleaseStatus: async (lesson_id, isReleased) => {
+  toggleStatus: async (lesson_id, status) => {
     const lesson = await lessonModel.findById(convert2ObjectId(lesson_id))
     if (!lesson) return null
-    lesson.isRelease = isReleased
-    lesson.isDraft = !isReleased
+    lesson.status = status
     const { modifiedCount } = await lessonModel.updateOne({ _id: lesson._id }, lesson)
     return modifiedCount
   },
@@ -59,8 +69,8 @@ const LessonRepo = {
     await lesson.save()
   },
 
-  releaseLesson: async (lesson_id) => LessonRepo.toggleReleaseStatus(lesson_id, true),
-  unReleaseLesson: async (lesson_id) => LessonRepo.toggleReleaseStatus(lesson_id, false),
+  releaseLesson: async (lesson_id) => LessonRepo.toggleStatus(lesson_id, 'published'),
+  unReleaseLesson: async (lesson_id) => LessonRepo.toggleStatus(lesson_id, 'draft'),
 
   addGrammarIdToLesson: async ({ lesson_id, grammar_id }) =>
     LessonRepo.addContent(lesson_id, 'grammar', grammar_id),

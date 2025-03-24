@@ -41,7 +41,8 @@ const LessonService = {
       lesson_title,
       ...bodyData
     })
-    return newLesson || throwError('New lesson not found')
+    if (!newLesson) throwError('Create lesson failed')
+    return newLesson
   },
 
   getAllLesson: async ({ userId, course_id }) => {
@@ -135,28 +136,47 @@ const LessonService = {
     if (lesson_title) {
       await LessonService._checkLessonExists(convert2ObjectId(course_id), lesson_title, lesson_id)
     }
-    return await LessonRepo.updateLesson(lesson_id, removeUnderfinedObjectKey(bodyUpdate))
+    const updatedLesson = await LessonRepo.updateLesson(
+      lesson_id,
+      removeUnderfinedObjectKey(bodyUpdate)
+    )
+    if (!updatedLesson) throwError('Lesson not found')
+    return updatedLesson
   },
 
-  releaseLesson: async (lesson_id) => await LessonRepo.releaseLesson(lesson_id),
+  releaseLesson: async (lesson_id) => {
+    const result = await LessonRepo.releaseLesson(lesson_id)
+    if (!result) throwError('Lesson not found')
+    return { message: 'Lesson released successfully' }
+  },
 
-  unReleaseLesson: async (lesson_id) => await LessonRepo.unReleaseLesson(lesson_id),
+  unReleaseLesson: async (lesson_id) => {
+    const result = await LessonRepo.unReleaseLesson(lesson_id)
+    if (!result) throwError('Lesson not found')
+    return { message: 'Lesson unpublished successfully' }
+  },
 
-  findAllDraftLesson: async ({ limit = 25, skip = 0 }) =>
-    await LessonRepo.findAllDraft({ query: { isDraft: true }, limit, skip }),
+  findAllDraft: async ({ query, limit, skip }) => {
+    const lessons = await LessonRepo.findAllDraft({ query, limit, skip })
+    if (!lessons) throwError('Draft lessons not found')
+    return lessons
+  },
 
-  findAllReleaseLesson: async ({ course_id, limit = 25, skip = 0 }) =>
-    await LessonRepo.findAllRelease({ query: { course: course_id, isRelease: true }, limit, skip }),
+  findAllRelease: async ({ query, limit, skip }) => {
+    const lessons = await LessonRepo.findAllRelease({ query, limit, skip })
+    if (!lessons) throwError('Published lessons not found')
+    return lessons
+  },
 
   getAllLessonTitles: async () => {
-    const courseTitles = await LessonRepo.getAllLessonTitles()
-    if (!courseTitles?.length) throwError('No courses found')
-    return courseTitles
+    const titles = await LessonRepo.getAllLessonTitles()
+    if (!titles) throwError('Lesson titles not found')
+    return titles
   },
 
   getAlllessonByCourse: async (course_id) => {
     const courseObjectId = convert2ObjectId(course_id)
-    const course = await courseModel.findById(courseObjectId).lean()
+    const course = await courseModel.findById(course_id).lean()
     if (!course) throwError('Course not found')
     const lessons = await lessonModel.find({ course: courseObjectId }).lean()
     return { course, lessons }

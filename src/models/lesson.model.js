@@ -27,9 +27,10 @@ const lessonSchema = new Schema(
       type: String,
       default: ''
     },
-    isPublic: {
-      type: Boolean,
-      default: false
+    status: {
+      type: String,
+      enum: ['draft', 'published'],
+      default: 'draft'
     },
     index: {
       type: Number,
@@ -60,5 +61,6 @@ const lessonSchema = new Schema(
 )
 
 lessonSchema.index({ index: 1 })
+lessonSchema.index({ course: 1, status: 1 })
 
 module.exports = model(DOCUMENT_NAME, lessonSchema)

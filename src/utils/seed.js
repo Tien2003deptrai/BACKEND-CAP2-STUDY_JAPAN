@@ -266,56 +266,60 @@ const lessons = [
     _id: '605c72ef5f5b2c1d4c8e5001',
     course: '605c72ef5f5b2c1d4c8e2001',
     lesson_id: 'L1',
-    lesson_title: 'あいさつ',
+    lesson_title: 'Giới thiệu về tiếng Nhật',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Bài học về cách chào hỏi trong tiếng Nhật.',
-    isPublic: true,
+    description: 'Bài học giới thiệu về tiếng Nhật.',
+    status: 'published',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7001'],
       grammar: ['605c72ef5f5b2c1d4c8e8001'],
-      kaiwa: ['こんにちは、お元気ですか？']
+      kaiwa: ['こんにちは。']
     }
   },
   {
     _id: '605c72ef5f5b2c1d4c8e5002',
     course: '605c72ef5f5b2c1d4c8e2002',
     lesson_id: 'L2',
-    lesson_title: '漢字の基本',
+    lesson_title: 'Học bảng chữ cái Hiragana',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Giới thiệu về chữ Hán và cách sử dụng cơ bản.',
-    isPublic: false,
+    description: 'Bài học về bảng chữ cái Hiragana.',
+    status: 'published',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7002'],
-      grammar: [],
-      kaiwa: []
+      grammar: ['605c72ef5f5b2c1d4c8e8002'],
+      kaiwa: ['ありがとうございます。']
     }
   },
   {
     _id: '605c72ef5f5b2c1d4c8e5003',
     course: '605c72ef5f5b2c1d4c8e2003',
     lesson_id: 'L3',
-    lesson_title: '自己紹介',
+    lesson_title: 'Học bảng chữ cái Katakana',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Cách giới thiệu bản thân trong tiếng Nhật.',
-    isPublic: true,
+    description: 'Bài học về bảng chữ cái Katakana.',
+    status: 'published',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7003'],
-      grammar: ['605c72ef5f5b2c1d4c8e8002'],
-      kaiwa: ['はじめまして、私は佐藤です。']
+      grammar: ['605c72ef5f5b2c1d4c8e8003'],
+      kaiwa: ['さようなら。']
     }
   },
   {
     _id: '605c72ef5f5b2c1d4c8e5004',
     course: '605c72ef5f5b2c1d4c8e2004',
     lesson_id: 'L4',
-    lesson_title: '動詞の活用',
+    lesson_title: 'Ngữ pháp cơ bản',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Học cách chia động từ trong tiếng Nhật.',
-    isPublic: false,
+    description: 'Bài học ngữ pháp cơ bản.',
+    status: 'draft',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7004'],
-      grammar: ['605c72ef5f5b2c1d4c8e8003'],
-      kaiwa: []
+      grammar: ['605c72ef5f5b2c1d4c8e8004'],
+      kaiwa: ['おはようございます。']
     }
   },
   {
@@ -325,7 +329,8 @@ const lessons = [
     lesson_title: '日常会話',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Hội thoại trong cuộc sống hàng ngày.',
-    isPublic: true,
+    status: 'published',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7005'],
       grammar: ['605c72ef5f5b2c1d4c8e8004'],
@@ -339,7 +344,8 @@ const lessons = [
     lesson_title: '漢字の読み方',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Học cách đọc chữ Hán đúng cách.',
-    isPublic: false,
+    status: 'draft',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7006'],
       grammar: [],
@@ -353,7 +359,8 @@ const lessons = [
     lesson_title: 'レストランで',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Tiếng Nhật giao tiếp khi ở nhà hàng.',
-    isPublic: true,
+    status: 'published',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7007'],
       grammar: ['605c72ef5f5b2c1d4c8e8005'],
@@ -367,38 +374,11 @@ const lessons = [
     lesson_title: '助詞の使い方',
     video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
     description: 'Cách sử dụng các trợ từ trong tiếng Nhật.',
-    isPublic: false,
+    status: 'draft',
+    index: 1,
     contents: {
       vocabulary: ['605c72ef5f5b2c1d4c8e7008'],
       grammar: ['605c72ef5f5b2c1d4c8e8006'],
-      kaiwa: []
-    }
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e5009',
-    course: '605c72ef5f5b2c1d4c8e2009',
-    lesson_id: 'L9',
-    lesson_title: 'ビジネス会話',
-    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Hội thoại trong môi trường kinh doanh.',
-    isPublic: true,
-    contents: {
-      vocabulary: ['605c72ef5f5b2c1d4c8e7009'],
-      grammar: ['605c72ef5f5b2c1d4c8e8007'],
-      kaiwa: ['お世話になっております。']
-    }
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8e500a',
-    course: '605c72ef5f5b2c1d4c8e200a',
-    lesson_id: 'L10',
-    lesson_title: '漢字の書き方',
-    video_url: 'https://www.youtube.com/watch?v=FkESMTeT9As',
-    description: 'Cách viết chữ Hán đúng chuẩn.',
-    isPublic: false,
-    contents: {
-      vocabulary: ['605c72ef5f5b2c1d4c8e700a'],
-      grammar: [],
       kaiwa: []
     }
   }
