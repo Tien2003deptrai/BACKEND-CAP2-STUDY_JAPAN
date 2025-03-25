@@ -1,10 +1,10 @@
 const express = require('express')
 const AdminController = require('../controllers/admin.controller')
-const { authenticateJWT, authorizeRole } = require('../middleware/auth.middleware')
+const { authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
 // Apply authentication and admin role check to all admin routes
-router.use(authenticateJWT, authorizeRole(['admin']))
+router.use(authorizeRole(['admin']))
 
 // Dashboard statistics - Admin only
 router.get('/dashboard', AdminController.getDashboardStats)
