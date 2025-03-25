@@ -1,11 +1,34 @@
 const express = require('express')
-const VocabularyController = require('../controllers/vocabulary.controller')
+VocabularyController = require('../controllers/vocabulary.controller')
+const { authenticateJWT, authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
-router.post('/', VocabularyController.addVocabulary)
-router.patch('/multiple/update', VocabularyController.updateMultipleVocabularies)
-router.get('/:lesson_id', VocabularyController.getAllVocabularies)
-router.patch('/:vocab_id', VocabularyController.updateVocabulary)
-router.delete('/:vocab_id', VocabularyController.deleteVocabulary)
+// Protected routes - Require authentication
+router.use(authenticateJWT)
+
+// Student routes - Can view vocabulary
+router.get(
+  '/lesson/:lesson_id',
+  authorizeRole(['student', 'teacher', 'admin']),
+  VocabularyController.getAllVocabularies
+)
+
+// Teacher routes - Can manage vocabulary
+router.post(
+  '/lesson/:lesson_id',
+  authorizeRole(['teacher', 'admin']),
+  VocabularyController.addVocabulary
+)
+router.put('/:vocab_id', authorizeRole(['teacher', 'admin']), VocabularyController.updateVocabulary)
+router.delete(
+  '/:vocab_id',
+  authorizeRole(['teacher', 'admin']),
+  VocabularyController.deleteVocabulary
+)
+router.put(
+  '/lesson/:lesson_id/batch',
+  authorizeRole(['teacher', 'admin']),
+  VocabularyController.updateMultipleVocabularies
+)
 
 module.exports = router
