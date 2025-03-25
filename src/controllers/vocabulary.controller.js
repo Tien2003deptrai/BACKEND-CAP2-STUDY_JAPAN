@@ -1,6 +1,7 @@
 const handleRequest = require('./BaseController')
 const { validateRequiredFields } = require('../validators')
 const VocabularyService = require('../services/vocabulary.service')
+const throwError = require('../res/throwError')
 
 const VocabularyController = {
   addVocabulary: (req, res) =>
@@ -33,6 +34,22 @@ const VocabularyController = {
         return await VocabularyService.updateVocabulary(req.params.vocab_id, req.body)
       },
       'Cập nhật từ vựng thành công'
+    ),
+
+  updateMultipleVocabularies: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['lesson_id', 'vocabularies'], req.body)
+        if (!Array.isArray(req.body.vocabularies)) {
+          throwError('vocabularies must be an array')
+        }
+        return await VocabularyService.updateMultipleVocabularies(
+          req.body.lesson_id,
+          req.body.vocabularies
+        )
+      },
+      'Cập nhật nhiều từ vựng thành công'
     ),
 
   deleteVocabulary: (req, res) =>

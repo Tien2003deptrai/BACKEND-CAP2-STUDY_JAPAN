@@ -1,75 +1,137 @@
 const LessonRepo = require('../models/repos/lesson.repo')
 const VocabularyRepo = require('../models/repos/vocabulary.repo')
-const vocabularyModel = require('../models/vocabulary.model')
 const throwError = require('../res/throwError')
 const { convert2ObjectId, JapaneseToUnicode } = require('../utils')
 
 const VocabularyService = {
-  // private methods
-  _checkLessonExists: async (lesson_id) => {
-    const lesson = await LessonRepo.findLessonById(lesson_id)
-    if (!lesson) throwError('Lesson not found')
-    return lesson
-  },
-
-  _checkVocabExists: async (lesson_id, word) => {
-    return await vocabularyModel.findOne({ lesson: convert2ObjectId(lesson_id), word }).lean()
-  },
-
-  // public methods
-
-  addVocabulary: async ({ lesson_id, ...bodyData }) => {
-    await VocabularyService._checkLessonExists(lesson_id)
-
-    if (await VocabularyService._checkVocabExists(lesson_id, bodyData.word)) {
-      throwError('Vocabulary already exists')
+  // Private methods
+  _validateLesson: async (lesson_id) => {
+    try {
+      const lesson = await LessonRepo.findLessonById(lesson_id)
+      if (!lesson) throwError('Lesson not found')
+      return lesson
+    } catch (error) {
+      if (error.name === 'CastError') throwError('Invalid lesson ID format')
+      throw error
     }
+  },
 
-    const newVocab = await vocabularyModel.create({
+  _processKanji: (data) => {
+    if (data.kanji) {
+      data.hex_string = JapaneseToUnicode(data.kanji)
+    }
+    return data
+  },
+
+  // Public methods
+  addVocabulary: async ({ lesson_id, ...data }) => {
+    await VocabularyService._validateLesson(lesson_id)
+
+    const existingWord = await VocabularyRepo.findByWord(lesson_id, data.word)
+    if (existingWord) throwError('Vocabulary already exists')
+
+    const processedData = this._processKanji({
       lesson: convert2ObjectId(lesson_id),
-      ...bodyData
+      ...data
     })
 
+    const newVocab = await VocabularyRepo.create(processedData)
     if (!newVocab) throwError('Vocabulary creation failed')
 
     await LessonRepo.addVocabIdToLesson({
       lesson_id: convert2ObjectId(lesson_id),
       vocab_id: newVocab._id
     })
+
     return newVocab
   },
 
   getAllVocabularies: async ({ lesson_id }) => {
-    await VocabularyService._checkLessonExists(lesson_id)
-
-    const listVocab = await VocabularyRepo.getAllByLesson(lesson_id)
-    if (!listVocab.length) throwError('No vocabulary found')
-
-    return listVocab
+    await VocabularyService._validateLesson(lesson_id)
+    const vocabularies = await VocabularyRepo.findByLesson(lesson_id)
+    if (!vocabularies.length) throwError('No vocabulary found')
+    return vocabularies
   },
 
-  updateVocabulary: async (vocab_id, { lesson_id, ...bodyUpdate }) => {
-    // console.log('vocab_id', vocab_id)
-    const vocab = await vocabularyModel.findById(vocab_id).lean()
-    if (!vocab) throwError('Vocabulary not found')
+  updateVocabulary: async (vocab_id, { lesson_id, ...data }) => {
+    const existingVocab = await VocabularyRepo.findById(vocab_id)
+    if (!existingVocab) throwError('Vocabulary not found')
 
-    if (await VocabularyService._checkVocabExists(lesson_id, bodyUpdate.word)) {
-      throwError('Vocabulary already exists')
+    if (data.word) {
+      const existingWord = await VocabularyRepo.findByWordExcludingId(
+        lesson_id,
+        data.word,
+        vocab_id
+      )
+      if (existingWord) throwError('Vocabulary already exists')
     }
 
-    if (bodyUpdate.kanji) {
-      bodyUpdate.hex_string = JapaneseToUnicode(bodyUpdate.kanji)
-    }
-
-    return VocabularyRepo.update(vocab_id, bodyUpdate)
+    const processedData = this._processKanji(data)
+    return VocabularyRepo.update(vocab_id, processedData)
   },
 
-  deleteVocab: async (vocab_id, { lesson_id }) => {
-    const vocab = await vocabularyModel.findById(vocab_id).lean()
-    if (!vocab) throwError('Vocabulary not found')
+  updateMultipleVocabularies: async (lesson_id, vocabularies) => {
+    try {
+      const convertedLessonId = convert2ObjectId(lesson_id)
+      await VocabularyService._validateLesson(convertedLessonId)
 
-    await LessonRepo.removeVocabIdFromLesson({ lesson_id, vocab_id })
-    await vocabularyModel.deleteOne({ _id: vocab_id })
+      const results = await Promise.all(
+        vocabularies.map(async (vocab) => {
+          const { vocab_id, ...data } = vocab
+          const processedData = VocabularyService._processKanji(data)
+
+          if (!vocab_id) {
+            // Create new vocabulary
+            const existingWord = await VocabularyRepo.findByWord(convertedLessonId, data.word)
+            if (existingWord) throwError(`Word "${data.word}" already exists in this lesson`)
+
+            const newVocab = await VocabularyRepo.create({
+              lesson: convertedLessonId,
+              ...processedData
+            })
+
+            if (!newVocab) throwError('Failed to create new vocabulary')
+
+            await LessonRepo.addVocabIdToLesson({
+              lesson_id: convertedLessonId,
+              vocab_id: newVocab._id
+            })
+
+            return newVocab
+          }
+
+          // Update existing vocabulary
+          const existingVocab = await VocabularyRepo.findById(vocab_id)
+          if (!existingVocab) throwError(`Vocabulary with id ${vocab_id} not found`)
+
+          if (data.word) {
+            const existingWord = await VocabularyRepo.findByWordExcludingId(
+              convertedLessonId,
+              data.word,
+              vocab_id
+            )
+            if (existingWord) throwError(`Word "${data.word}" already exists in this lesson`)
+          }
+
+          return VocabularyRepo.update(vocab_id, processedData)
+        })
+      )
+
+      return results
+    } catch (error) {
+      if (error.name === 'CastError') throwError('Invalid ID format')
+      throw error
+    }
+  },
+
+  deleteVocabulary: async (vocab_id, { lesson_id }) => {
+    const existingVocab = await VocabularyRepo.findById(vocab_id)
+    if (!existingVocab) throwError('Vocabulary not found')
+
+    await Promise.all([
+      LessonRepo.removeVocabIdFromLesson({ lesson_id, vocab_id }),
+      VocabularyRepo.delete(vocab_id)
+    ])
 
     return true
   }
