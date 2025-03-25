@@ -4,19 +4,17 @@ const { authenticateJWT, authorizeRole } = require('../middleware/auth.middlewar
 const router = express.Router()
 
 // Public routes - No authentication required
-router.get('/titles', LessonController.getAllLessonTitles)
+router.get('/all/titles', LessonController.getAllLessonTitles)
 
 // Protected routes - Require authentication
-router.use(authenticateJWT)
-
 // Student routes - Can view published lessons
 router.get(
-  '/published/course/:course_id',
+  '/release/all/:course_id',
   authorizeRole(['student', 'teacher', 'admin']),
   LessonController.getAllReleaseLesson
 )
 router.get(
-  '/course/:course_id',
+  '/all/course/:course_id',
   authorizeRole(['student', 'teacher', 'admin']),
   LessonController.getAllLessonByCourse
 )

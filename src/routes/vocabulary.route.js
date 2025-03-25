@@ -1,11 +1,9 @@
 const express = require('express')
-VocabularyController = require('../controllers/vocabulary.controller')
+const VocabularyController = require('../controllers/vocabulary.controller')
 const { authenticateJWT, authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
 // Protected routes - Require authentication
-router.use(authenticateJWT)
-
 // Student routes - Can view vocabulary
 router.get(
   '/lesson/:lesson_id',
