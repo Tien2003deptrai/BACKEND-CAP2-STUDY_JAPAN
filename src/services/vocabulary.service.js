@@ -71,57 +71,40 @@ const VocabularyService = {
   },
 
   updateMultipleVocabularies: async (lesson_id, vocabularies) => {
-    try {
-      const convertedLessonId = convert2ObjectId(lesson_id)
-      await VocabularyService._validateLesson(convertedLessonId)
+    const convertedLessonId = convert2ObjectId(lesson_id)
+    await VocabularyService._validateLesson(convertedLessonId)
 
-      const results = await Promise.all(
-        vocabularies.map(async (vocab) => {
-          const { vocab_id, ...data } = vocab
-          const processedData = VocabularyService._processKanji(data)
+    const results = await Promise.all(
+      vocabularies.map(async (vocab) => {
+        const { vocab_id, ...data } = vocab
+        const processedData = VocabularyService._processKanji(data)
 
-          if (!vocab_id) {
-            // Create new vocabulary
-            const existingWord = await VocabularyRepo.findByWord(convertedLessonId, data.word)
-            if (existingWord) throwError(`Word "${data.word}" already exists in this lesson`)
+        if (!vocab_id) {
+          // Create new vocabulary
+          const newVocab = await VocabularyRepo.create({
+            lesson: convertedLessonId,
+            ...processedData
+          })
 
-            const newVocab = await VocabularyRepo.create({
-              lesson: convertedLessonId,
-              ...processedData
-            })
+          if (!newVocab) throwError('Failed to create new vocabulary')
 
-            if (!newVocab) throwError('Failed to create new vocabulary')
+          await LessonRepo.addVocabIdToLesson({
+            lesson_id: convertedLessonId,
+            vocab_id: newVocab._id
+          })
 
-            await LessonRepo.addVocabIdToLesson({
-              lesson_id: convertedLessonId,
-              vocab_id: newVocab._id
-            })
+          return newVocab
+        }
 
-            return newVocab
-          }
+        // Update existing vocabulary
+        const existingVocab = await VocabularyRepo.findById(vocab_id)
+        if (!existingVocab) throwError(`Vocabulary with id ${vocab_id} not found`)
 
-          // Update existing vocabulary
-          const existingVocab = await VocabularyRepo.findById(vocab_id)
-          if (!existingVocab) throwError(`Vocabulary with id ${vocab_id} not found`)
+        return VocabularyRepo.update(vocab_id, processedData)
+      })
+    )
 
-          if (data.word) {
-            const existingWord = await VocabularyRepo.findByWordExcludingId(
-              convertedLessonId,
-              data.word,
-              vocab_id
-            )
-            if (existingWord) throwError(`Word "${data.word}" already exists in this lesson`)
-          }
-
-          return VocabularyRepo.update(vocab_id, processedData)
-        })
-      )
-
-      return results
-    } catch (error) {
-      if (error.name === 'CastError') throwError('Invalid ID format')
-      throw error
-    }
+    return results
   },
 
   deleteVocabulary: async (vocab_id, { lesson_id }) => {
