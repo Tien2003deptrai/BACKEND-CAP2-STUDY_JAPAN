@@ -1,0 +1,13 @@
+GET /api/exams
+
+GET /api/exams/:exam_id
+
+GET /api/exams/take/:exam_id
+
+POST /api/exams/start/:exam_id
+
+POST /api/exams/submit/:attemptId
+
+GET /api/exams/result/:attemptId
+
+GET /api/exams/history

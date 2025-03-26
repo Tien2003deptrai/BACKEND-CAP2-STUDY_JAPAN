@@ -13,15 +13,15 @@ const KanjiController = {
       'Lấy tất cả kanji thành công'
     ),
 
-  getSvgContent: (req, res) =>
-    handleRequest(
-      res,
-      async () => {
-        validateRequiredFields(['kanji'], req.body)
-        return await KanjiService.getSvgContent(req.body)
-      },
-      'Lấy SVG thành công'
-    ),
+    // getSvgContent: (req, res) =>
+    //   handleRequest(
+    //     res,
+    //     async () => {
+    //       validateRequiredFields(['kanji'], req.body)
+    //       return await KanjiService.getSvgContent(req.body)
+    //     },
+    //     'Lấy SVG thành công'
+    //   ),
 
   getAllKanjiByLevel: (req, res) =>
     handleRequest(

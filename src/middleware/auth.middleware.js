@@ -46,6 +46,7 @@ const authorizeRole = (roles) => (req, res, next) => {
   if (!roles.includes(req.user.roles)) {
     return ApiRes.error(res, 'Forbidden: Access denied')
   }
+  console.log('roles', req.user.roles)
   next()
 }
 
