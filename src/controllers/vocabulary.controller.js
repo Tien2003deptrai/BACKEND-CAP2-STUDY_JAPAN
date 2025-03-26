@@ -57,7 +57,7 @@ const VocabularyController = {
       res,
       async () => {
         validateRequiredFields(['vocab_id'], req.params)
-        return await VocabularyService.deleteVocab(req.params.vocab_id, req.body)
+        return await VocabularyService.deleteVocabulary(req.params.vocab_id, req.body)
       },
       'Xóa từ vựng thành công'
     )
