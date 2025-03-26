@@ -1017,7 +1017,20 @@ const exams = [
     ],
     difficultyLevel: 'beginner',
     passingScore: 60,
-    allowedAttempts: 2
+    allowedAttempts: 2,
+    allowedTime: 60,
+    visibility: 'public',
+    allowedUsers: [],
+    allowedGroups: [],
+    startTime: new Date('2024-01-01T00:00:00Z'),
+    endTime: new Date('2024-12-31T23:59:59Z'),
+    settings: {
+      shuffleQuestions: true,
+      showResults: true,
+      showAnswers: false,
+      preventCopy: true,
+      fullScreen: true
+    }
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec002',
@@ -1066,7 +1079,20 @@ const exams = [
     ],
     difficultyLevel: 'beginner',
     passingScore: 30,
-    allowedAttempts: 3
+    allowedAttempts: 3,
+    allowedTime: 30,
+    visibility: 'private',
+    allowedUsers: ['605c72ef5f5b2c1d4c8e1001', '605c72ef5f5b2c1d4c8e1002'],
+    allowedGroups: [],
+    startTime: new Date('2024-01-01T00:00:00Z'),
+    endTime: new Date('2024-12-31T23:59:59Z'),
+    settings: {
+      shuffleQuestions: true,
+      showResults: true,
+      showAnswers: true,
+      preventCopy: true,
+      fullScreen: false
+    }
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec003',
@@ -1122,7 +1148,20 @@ const exams = [
     ],
     difficultyLevel: 'intermediate',
     passingScore: 60,
-    allowedAttempts: 2
+    allowedAttempts: 2,
+    allowedTime: 45,
+    visibility: 'group',
+    allowedUsers: [],
+    allowedGroups: ['N4_GROUP', 'ADVANCED_GROUP'],
+    startTime: new Date('2024-01-01T00:00:00Z'),
+    endTime: new Date('2024-12-31T23:59:59Z'),
+    settings: {
+      shuffleQuestions: true,
+      showResults: true,
+      showAnswers: false,
+      preventCopy: true,
+      fullScreen: true
+    }
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec004',
@@ -1159,7 +1198,20 @@ const exams = [
     ],
     difficultyLevel: 'beginner',
     passingScore: 30,
-    allowedAttempts: 2
+    allowedAttempts: 2,
+    allowedTime: 20,
+    visibility: 'private',
+    allowedUsers: ['605c72ef5f5b2c1d4c8e1001'],
+    allowedGroups: [],
+    startTime: new Date('2024-01-01T00:00:00Z'),
+    endTime: new Date('2024-12-31T23:59:59Z'),
+    settings: {
+      shuffleQuestions: false,
+      showResults: true,
+      showAnswers: true,
+      preventCopy: false,
+      fullScreen: false
+    }
   },
   {
     _id: '605c72ef5f5b2c1d4c8ec005',
@@ -1202,7 +1254,20 @@ const exams = [
     ],
     difficultyLevel: 'intermediate',
     passingScore: 80,
-    allowedAttempts: 2
+    allowedAttempts: 2,
+    allowedTime: 90,
+    visibility: 'public',
+    allowedUsers: [],
+    allowedGroups: [],
+    startTime: new Date('2024-01-01T00:00:00Z'),
+    endTime: new Date('2024-12-31T23:59:59Z'),
+    settings: {
+      shuffleQuestions: true,
+      showResults: true,
+      showAnswers: false,
+      preventCopy: true,
+      fullScreen: true
+    }
   }
 ]
 

@@ -39,7 +39,20 @@ const ExamsRepo = {
       }),
 
   // Find exam with answers for scoring
-  findWithAnswers: (id) => examsModel.findById(id).select('_id title questions passingScore').lean()
+  findWithAnswers: (id) =>
+    examsModel.findById(id).select('_id title questions passingScore').lean(),
+
+  checkUserAccess: async (userId, examId) => {
+    // Kiểm tra xem user có được phép làm bài thi này không
+    const exam = await examsModel
+      .findOne({
+        _id: examId,
+        $or: [{ allowedUsers: userId }, { creator: userId }]
+      })
+      .lean()
+
+    return !!exam
+  }
 }
 
 module.exports = ExamsRepo

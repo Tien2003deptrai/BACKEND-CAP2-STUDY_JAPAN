@@ -1,13 +1,66 @@
-GET /api/exams
+// 1. Xem danh sách bài thi có thể làm
+GET /exam
 
-GET /api/exams/:exam_id
+// 2. Xem chi tiết bài thi
+GET /exam/:exam_id
 
-GET /api/exams/take/:exam_id
+// 3. Bắt đầu làm bài
+POST /exam/start/:exam_id
 
-POST /api/exams/start/:exam_id
+// 4. Lưu tiến độ làm bài
+POST /exam/save-progress/:attemptId
+{
+  "answers": [
+    {
+      "questionId": "q001",
+      "userAnswer": "a",
+      "timeSpent": 120,
+      "isMarkedForReview": false
+    }
+  ],
+  "currentQuestionIndex": 1,
+  "timeSpent": 300,
+  "status": "in-progress"
+}
 
-POST /api/exams/submit/:attemptId
+// 5. Đánh dấu câu hỏi cần xem lại
+POST /exam/mark-question/:attemptId
+{
+  "questionId": "q001",
+  "isMarked": true
+}
 
-GET /api/exams/result/:attemptId
+// 6. Kiểm tra thời gian còn lại
+GET /exam/check-time/:attemptId
 
-GET /api/exams/history
+// 7. Xử lý gián đoạn (nếu có)
+POST /exam/handle-interruption/:attemptId
+
+// 8. Xem tiến độ làm bài
+GET /exam/progress/:attemptId
+
+// 9. Nộp bài
+POST /exam/submit/:attemptId
+{
+  "answers": [
+    {
+      "questionId": "q001",
+      "userAnswer": "a"
+    }
+  ]
+}
+
+// 10. Xem kết quả
+GET /exam/result/:attemptId
+
+// 11. Xem lịch sử làm bài
+GET /exam/history
+// Có thể thêm các filter:
+// - page: số trang
+// - limit: số kết quả mỗi trang
+// - status: trạng thái bài thi
+// - examId: ID bài thi cụ thể
+
+// 12. Kiểm tra tính hợp lệ của lần làm bài
+GET /exam/validate/:attemptId
+

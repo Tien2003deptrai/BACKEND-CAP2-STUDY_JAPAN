@@ -3,6 +3,7 @@ const examService = require('../services/exam.service')
 const handleRequest = require('./BaseController')
 
 const examController = {
+  // Public routes
   getExams: async (req, res) =>
     handleRequest(
       res,
@@ -27,6 +28,7 @@ const examController = {
       'Chi tiết bài kiểm tra'
     ),
 
+  // Protected routes for taking exam
   getExamForTaking: async (req, res) =>
     handleRequest(
       res,
@@ -86,19 +88,17 @@ const examController = {
           examId: req.query.examId,
           status: req.query.status
         }
-        console.log('filters', filters)
-
         return await examService.getUserExamHistory(req.user.userId, filters)
       },
       'Lịch sử kiểm tra'
     ),
 
+  // Admin/Teacher routes
   createExam: async (req, res) =>
     handleRequest(
       res,
       async () => {
         if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
-          console.log('req.user.role', req.user.role)
           throwError('Không có quyền tạo bài kiểm tra')
         }
         const examData = { ...req.body, creator: req.user.id }
@@ -112,12 +112,85 @@ const examController = {
     handleRequest(
       res,
       async () => {
-        if (req.user.role !== 'admin' && req.user.role !== 'teacher') {
-          throw new BadRequestError('Không có quyền xóa bài kiểm tra')
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền xóa bài kiểm tra')
         }
         return await examService.deleteExam(req.params.id)
       },
       'Xóa bài kiểm tra thành công'
+    ),
+
+  // New routes for exam features
+  checkExamTime: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await examService.checkExamTimeLimit(req.params.attemptId)
+      },
+      'Kiểm tra thời gian làm bài'
+    ),
+
+  handleExamInterruption: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await examService.handleExamInterruption(req.params.attemptId)
+      },
+      'Xử lý gián đoạn bài thi'
+    ),
+
+  saveExamProgress: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        const { answers } = req.body
+        if (!answers || !Array.isArray(answers)) {
+          throwError('Câu trả lời không hợp lệ')
+        }
+        return await examService.saveExamProgress(req.params.attemptId, answers)
+      },
+      'Lưu tiến độ làm bài thành công'
+    ),
+
+  getExamProgress: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await examService.getExamProgress(req.params.attemptId)
+      },
+      'Thông tin tiến độ làm bài'
+    ),
+
+  markQuestionForReview: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        const { questionId } = req.body
+        if (!questionId) throwError('Question ID bắt buộc')
+        return await examService.markQuestionForReview(req.params.attemptId, questionId)
+      },
+      'Đánh dấu câu hỏi thành công'
+    ),
+
+  validateExamAttempt: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await examService.validateExamAttempt(req.params.attemptId, req.user.userId)
+      },
+      'Kiểm tra hợp lệ bài thi'
+    ),
+
+  getExamAnalytics: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền xem thống kê')
+        }
+        return await examService.getExamAnalytics(req.params.examId)
+      },
+      'Thống kê bài thi'
     )
 }
 

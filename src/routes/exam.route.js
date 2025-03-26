@@ -9,12 +9,6 @@ const { authenticateJWT } = require('../middleware/auth.middleware')
 // Get list of available (published) exams
 router.get('', ExamController.getExams)
 
-// Routes for viewing results
-router.get('/history', authenticateJWT, ExamController.getUserExamHistory)
-
-// Get detailed info about a specific exam
-router.get('/:exam_id', ExamController.getExamDetails)
-
 /**
  * Protected routes (require authentication)
  */
@@ -25,6 +19,22 @@ router.post('/submit/:attemptId', authenticateJWT, ExamController.submitExam)
 
 // Routes for viewing results
 router.get('/result/:attemptId', authenticateJWT, ExamController.getExamResult)
+router.get('/history', authenticateJWT, ExamController.getUserExamHistory)
+
+// Routes for exam progress and features
+router.get('/check-time/:attemptId', authenticateJWT, ExamController.checkExamTime)
+router.post(
+  '/handle-interruption/:attemptId',
+  authenticateJWT,
+  ExamController.handleExamInterruption
+)
+router.post('/save-progress/:attemptId', authenticateJWT, ExamController.saveExamProgress)
+router.get('/progress/:attemptId', authenticateJWT, ExamController.getExamProgress)
+router.post('/mark-question/:attemptId', authenticateJWT, ExamController.markQuestionForReview)
+router.get('/validate/:attemptId', authenticateJWT, ExamController.validateExamAttempt)
+
+// Get detailed info about a specific exam (should be after specific routes)
+router.get('/:exam_id', ExamController.getExamDetails)
 
 /**
  * Admin/Teacher routes

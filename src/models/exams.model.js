@@ -57,7 +57,6 @@ const examSchema = new Schema(
     },
     tags: [String],
     questions: [questionSchema],
-    // questions: [questionSchema], id === _id
     allowedTime: { type: Number }, // Thời gian cho phép làm bài (phút) - có thể khác với time_limit
     passingScore: { type: Number }, // Điểm đỗ
     difficultyLevel: {
@@ -69,7 +68,18 @@ const examSchema = new Schema(
       enum: ['public', 'private', 'group'],
       default: 'public'
     },
-    allowedAttempts: { type: Number, default: 1 } // Số lần được phép làm bài
+    allowedAttempts: { type: Number, default: 1 }, // Số lần được phép làm bài
+    allowedUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }], // Danh sách user được phép làm bài (cho private exam)
+    allowedGroups: [{ type: String }], // Danh sách nhóm được phép làm bài (cho group exam)
+    startTime: { type: Date }, // Thời gian bắt đầu cho phép làm bài
+    endTime: { type: Date }, // Thời gian kết thúc cho phép làm bài
+    settings: {
+      shuffleQuestions: { type: Boolean, default: false }, // Có xáo trộn câu hỏi không
+      showResults: { type: Boolean, default: true }, // Có hiển thị kết quả ngay sau khi nộp bài không
+      showAnswers: { type: Boolean, default: false }, // Có hiển thị đáp án đúng không
+      preventCopy: { type: Boolean, default: false }, // Có ngăn copy nội dung không
+      fullScreen: { type: Boolean, default: false } // Có bắt buộc chế độ toàn màn hình không
+    }
   },
   {
     collection: COLLECTION_NAME,
