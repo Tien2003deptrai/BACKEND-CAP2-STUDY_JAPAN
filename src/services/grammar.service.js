@@ -27,6 +27,44 @@ const GrammarService = {
     return await GrammarRepo.updateGrammar(grammar_id, bodyUpdate)
   },
 
+  updateMultipleGrammars: async (lesson_id, grammars) => {
+    console.log('grammars', grammars)
+    const convertedLessonId = convert2ObjectId(lesson_id)
+    const foundLesson = await LessonRepo.findLessonById(convertedLessonId)
+    if (!foundLesson) throwError('Lesson not found')
+
+    const results = await Promise.all(
+      grammars.map(async (grammar) => {
+        const { grammar_id, ...data } = grammar
+
+        if (!grammar_id) {
+          // Create new grammar
+          const newGrammar = await GrammarRepo.create({
+            lesson: convertedLessonId,
+            ...data
+          })
+
+          if (!newGrammar) throwError('Failed to create new grammar')
+
+          await LessonRepo.addGrammarIdToLesson({
+            lesson_id: convertedLessonId,
+            grammar_id: newGrammar._id
+          })
+
+          return newGrammar
+        }
+
+        // Update existing grammar
+        const existingGrammar = await GrammarRepo.findById(grammar_id)
+        if (!existingGrammar) throwError(`Grammar with id ${grammar_id} not found`)
+
+        return await GrammarRepo.updateGrammar(grammar_id, data)
+      })
+    )
+
+    return results
+  },
+
   deleteGrammar: async (grammar_id, { lesson_id }) => {
     const grammarExist = await GrammarRepo.findById(grammar_id)
     if (!grammarExist) throwError('Grammar not found')

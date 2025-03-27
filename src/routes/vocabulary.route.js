@@ -1,6 +1,6 @@
 const express = require('express')
 const VocabularyController = require('../controllers/vocabulary.controller')
-const { authenticateJWT, authorizeRole } = require('../middleware/auth.middleware')
+const { authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
 // Protected routes - Require authentication

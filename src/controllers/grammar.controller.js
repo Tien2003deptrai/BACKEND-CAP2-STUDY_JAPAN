@@ -22,6 +22,19 @@ const GrammarController = {
       'Cập nhật ngữ pháp thành công'
     ),
 
+  updateMultipleGrammars: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['lesson_id', 'grammars'], req.body)
+        if (!Array.isArray(req.body.grammars)) {
+          throwError('grammars must be an array')
+        }
+        return await GrammarService.updateMultipleGrammars(req.body.lesson_id, req.body.grammars)
+      },
+      'Cập nhật nhiều ngữ pháp thành công'
+    ),
+
   deleteGrammar: (req, res) =>
     handleRequest(
       res,

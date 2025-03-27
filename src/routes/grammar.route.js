@@ -12,7 +12,11 @@ router.get(
   authorizeRole(['student', 'teacher', 'admin']),
   GrammarController.getAllGrammar
 )
-
+router.put(
+  '/lesson/:lesson_id/batch',
+  authorizeRole(['teacher', 'admin']),
+  GrammarController.updateMultipleGrammars
+)
 // Teacher routes - Can manage grammar
 router.delete(
   '/:lesson_id/:grammar_id',
