@@ -35,6 +35,16 @@ const GrammarController = {
       'Cập nhật nhiều ngữ pháp thành công'
     ),
 
+  deleteExample: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['grammar_id', 'example_id'], req.params)
+        return await GrammarService.deleteExample(req.params.grammar_id, req.params.example_id)
+      },
+      'Xóa ví dụ trong ngữ pháp thành công'
+    ),
+
   deleteGrammar: (req, res) =>
     handleRequest(
       res,

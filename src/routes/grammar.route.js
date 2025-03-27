@@ -17,6 +17,11 @@ router.put(
   authorizeRole(['teacher', 'admin']),
   GrammarController.updateMultipleGrammars
 )
+router.delete(
+  '/:grammar_id/example/:example_id',
+  authorizeRole(['teacher', 'admin']),
+  GrammarController.deleteExample
+)
 // Teacher routes - Can manage grammar
 router.delete(
   '/:lesson_id/:grammar_id',

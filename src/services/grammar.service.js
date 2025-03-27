@@ -1,3 +1,4 @@
+const grammarModel = require('../models/grammar.model')
 const GrammarRepo = require('../models/repos/grammar.repo')
 const LessonRepo = require('../models/repos/lesson.repo')
 const throwError = require('../res/throwError')
@@ -25,6 +26,23 @@ const GrammarService = {
     }
 
     return await GrammarRepo.updateGrammar(grammar_id, bodyUpdate)
+  },
+
+  deleteExample: async (grammar_id, example_id) => {
+    const grammar = await GrammarRepo.findById(grammar_id)
+    if (!grammar) throwError('Grammar not found')
+
+    // Kiểm tra example có tồn tại không
+    const exampleIndex = grammar.examples.findIndex(
+      (example) => example._id.toString() === example_id
+    )
+    if (exampleIndex === -1) throwError('Example not found')
+
+    // Xóa example khỏi mảng
+    grammar.examples.splice(exampleIndex, 1)
+    await grammarModel.findByIdAndUpdate(grammar_id, { examples: grammar.examples })
+
+    return grammar
   },
 
   updateMultipleGrammars: async (lesson_id, grammars) => {
