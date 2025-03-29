@@ -353,9 +353,8 @@ Chúng tôi luôn chào đón mọi đóng góp từ cộng đồng. Để đón
 ## 📞 Liên hệ
 
 - Website: https://japaneselearning.com
-- Email: support@japaneselearning.com
-- GitHub: https://github.com/japanese-learning-center
-- Facebook: https://facebook.com/japaneselearning
+- Email:duongvantiendtu@gmail.com
+- GitHub: https://github.com/Tien2003deptrai/BACKEND-CAP2-STUDY_JAPAN
 - Twitter: https://twitter.com/japaneselearning
 
 ## 📄 License
