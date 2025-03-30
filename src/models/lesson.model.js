@@ -11,9 +11,9 @@ const lessonSchema = new Schema(
       required: true
     },
     lesson_id: {
-      type: String,
-      required: true,
-      unique: true
+      type: String
+      // required: true,
+      // unique: true
     },
     lesson_title: {
       type: String,

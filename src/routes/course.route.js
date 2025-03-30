@@ -4,6 +4,7 @@ const router = express.Router()
 
 router.post('/register', CourseController.registerCourse)
 router.get('/all', CourseController.getAllCourses)
+router.get('/enrolled', CourseController.getAllEnrolledCourses)
 router.post('', CourseController.createCourse)
 router.patch('/:course_id', CourseController.updateCourse)
 router.get('/teacher/:teacher_id', CourseController.getCoursesByTeacher)

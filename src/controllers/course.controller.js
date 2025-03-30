@@ -21,6 +21,16 @@ const CourseController = {
       'Lấy thông tin tất cả khóa học thành công'
     ),
 
+  getAllEnrolledCourses: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['userId'], req.user)
+        return await CourseService.getAllEnrolledCourses(req.user.userId)
+      },
+      'Lấy thông tin tất cả khóa học đã đăng ký thành công'
+    ),
+
   createCourse: (req, res) =>
     handleRequest(
       res,

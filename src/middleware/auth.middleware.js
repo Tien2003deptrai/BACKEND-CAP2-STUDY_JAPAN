@@ -11,12 +11,12 @@ const authenticateJWT = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1]
-    // console.log("Token:", token);
+    console.log('Token:', token)
     if (!token) {
       return ApiRes.error(res, 'Unauthorized: Token missing')
     }
 
-    const decoded = jwt.verify(token, 'default_secret')
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
     // console.log("Decoded token:", decoded);
     if (!decoded || !decoded.id) {
       return ApiRes.error(res, 'Invalid token payload')

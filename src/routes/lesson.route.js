@@ -1,6 +1,6 @@
 const express = require('express')
 const LessonController = require('../controllers/lesson.controller')
-const { authenticateJWT, authorizeRole } = require('../middleware/auth.middleware')
+const { authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
 // Public routes - No authentication required

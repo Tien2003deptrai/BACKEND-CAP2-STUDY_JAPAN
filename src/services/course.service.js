@@ -97,6 +97,51 @@ const CourseService = {
       enrolledStudents: enrollmentMap.get(course._id.toString()) || []
     }))
   },
+    getAllEnrolledCourses: async (userId) => {
+    const userObjectId = convert2ObjectId(userId)
+
+    // Get all enrollments for the user
+    const userEnrollments = await enrollmentModel.find({ user: userObjectId }).lean()
+    const enrolledCourseIds = new Set(
+      userEnrollments.map((enrollment) => enrollment.course.toString())
+    )
+
+    // Get all courses
+    const listCourse = await CourseRepo.getAll()
+    if (!listCourse.length) return []
+
+    // Filter courses to only include enrolled courses
+    const enrolledCourses = listCourse.filter((course) =>
+      enrolledCourseIds.has(course._id.toString())
+    )
+
+    // Map enrolled courses to include additional information
+    return enrolledCourses.map((course) => ({
+      _id: course._id,
+      name: course.name,
+      thumb: course.thumb,
+      user: course.user,
+      course_slug: course.course_slug || '',
+      type: course.type,
+      author: course.author,
+      stu_num: course.stu_num,
+      createdAt: course.createdAt,
+      updatedAt: course.updatedAt,
+      enrolledStudents:  CourseService._getEnrolledStudents(course._id)
+    }))
+  },
+  // write function get all course for student enrollmented
+
+  _getEnrolledStudents: async (courseId) => {
+    const enrollments = await enrollmentModel
+      .find({ course: courseId })
+      .populate('user', 'name email avatar')
+      .lean()
+    return enrollments.map((enrollment) => ({
+      ...enrollment.user,
+      enrolledAt: enrollment.enrolledAt
+    }))
+  },
 
   createCourse: async ({ name, thumb, user, lessons = [] }) => {
     const userObjectId = convert2ObjectId(user)
@@ -160,7 +205,8 @@ const CourseService = {
   },
 
   getCoursesByTeacher: async (userId) => {
-    const teacher = await userModel.findOne({ _id: userId, roles: 'teacher' }).lean()
+    console.log('userId', userId)
+    const teacher = await userModel.findOne({ _id: userId }).lean()
     console.log('teacher', teacher)
     if (!teacher) {
       throwError('User is not a teacher')

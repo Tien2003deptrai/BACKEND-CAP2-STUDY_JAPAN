@@ -140,7 +140,7 @@ const generateToken = (user) => {
       email: user.email,
       roles: user.roles
     },
-    'default_secret',
+    process.env.JWT_SECRET || 'default_secret',
     { expiresIn: '7d' }
   )
 }
