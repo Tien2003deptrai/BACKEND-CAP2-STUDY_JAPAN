@@ -159,13 +159,14 @@ const CourseService = {
     )
   },
 
-  getCoursesByTeacher: async (teacher_id) => {
-    const teacher = await userModel.findOne({ _id: teacher_id, roles: 'teacher' }).lean()
+  getCoursesByTeacher: async (userId) => {
+    const teacher = await userModel.findOne({ _id: userId, roles: 'teacher' }).lean()
+    console.log('teacher', teacher)
     if (!teacher) {
       throwError('User is not a teacher')
     }
 
-    const courses = (await courseModel.find({ user: convert2ObjectId(teacher_id) }).lean()) || []
+    const courses = (await courseModel.find({ user: convert2ObjectId(userId) }).lean()) || []
 
     return courses
   },

@@ -45,8 +45,8 @@ const CourseController = {
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['teacher_id'], req.params)
-        return await CourseService.getCoursesByTeacher(req.params.teacher_id)
+        validateRequiredFields(['userId'], req.user)
+        return await CourseService.getCoursesByTeacher(req.user.userId)
       },
       'Lấy danh sách khoá học theo giáo viên thành công'
     ),
