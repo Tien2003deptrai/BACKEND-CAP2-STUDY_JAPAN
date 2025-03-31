@@ -154,6 +154,7 @@ const CourseService = {
       (await courseModel.create({
         name,
         thumb,
+        decription,
         user: userObjectId,
         author: author.name
       })) || throwError('Create course failed')
@@ -187,13 +188,12 @@ const CourseService = {
   updateCourse: async (course_id, bodyUpdate) => {
     const courseObjectId = convert2ObjectId(course_id)
     await CourseService._validateCourse(courseObjectId)
-
-    const updatedCourse = await CourseRepo.updateCourse(
-      courseObjectId,
-      removeUnderfinedObjectKey(bodyUpdate)
-    )
+    await CourseRepo.updateCourse(courseObjectId, removeUnderfinedObjectKey(bodyUpdate))
 
     if (bodyUpdate.lessons && bodyUpdate.lessons.length > 0) {
+      const existingLessons = await lessonModel.find({ course: courseObjectId })
+      const incomingLessonIds = bodyUpdate.lessons.map((lesson) => lesson.lesson_id)
+
       for (let lesson of bodyUpdate.lessons) {
         const lessonData = removeUnderfinedObjectKey(lesson)
 
@@ -206,9 +206,15 @@ const CourseService = {
           await newLesson.save()
         }
       }
-    }
 
-    return updatedCourse
+      const lessonsToDelete = existingLessons.filter(
+        (lesson) => !incomingLessonIds.includes(lesson.lesson_id)
+      )
+      if (lessonsToDelete.length > 0) {
+        const lessonIdsToDelete = lessonsToDelete.map((lesson) => lesson.lesson_id)
+        await lessonModel.deleteMany({ lesson_id: { $in: lessonIdsToDelete } })
+      }
+    }
   },
 
   _validateUser: async (userId) => {
