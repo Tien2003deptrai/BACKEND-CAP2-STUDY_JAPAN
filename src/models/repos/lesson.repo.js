@@ -16,10 +16,9 @@ const LessonRepo = {
   getAllLesson: async (course_id) =>
     lessonModel.find({ course: convert2ObjectId(course_id) }).lean(),
 
-  updateLesson: async (lesson_id, bodyUpdate, isNew = true) =>
-    lessonModel.findByIdAndUpdate(convert2ObjectId(lesson_id), bodyUpdate, {
-      new: isNew
-    }),
+  updateLesson: async (lesson_id, bodyUpdate, isNew = true) => {
+    return lessonModel.findOneAndUpdate({ lesson_id }, bodyUpdate, { new: isNew })
+  },
 
   findAllDraft: async ({ query, limit, skip }) =>
     LessonRepo.query({

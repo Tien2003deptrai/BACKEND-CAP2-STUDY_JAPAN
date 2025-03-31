@@ -4,28 +4,30 @@ const ApiRes = require('../res/ApiRes')
 
 const authenticateJWT = async (req, res, next) => {
   try {
-    // console.log("Authorization header:", req.headers.authorization);
     const authHeader = req.headers.authorization
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return ApiRes.error(res, 'Unauthorized: No valid token provided')
+      return ApiRes.error(res, 'Unauthorized: No valid token provided', 401)
     }
 
     const token = authHeader.split(' ')[1]
-    console.log('Token:', token)
-    if (!token) {
-      return ApiRes.error(res, 'Unauthorized: Token missing')
+    if (!token || token.split('.').length !== 3) {
+      return ApiRes.error(res, 'Unauthorized: Invalid token format', 401)
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
-    // console.log("Decoded token:", decoded);
+    let decoded
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret')
+    } catch (error) {
+      return ApiRes.error(res, 'Unauthorized: Invalid or expired token', 401)
+    }
+
     if (!decoded || !decoded.id) {
-      return ApiRes.error(res, 'Invalid token payload')
+      return ApiRes.error(res, 'Invalid token payload', 401)
     }
 
     const user = await userModel.findById(decoded.id).select('-password').lean()
-    // console.log("User from DB:", user);
     if (!user) {
-      return ApiRes.error(res, 'User not found')
+      return ApiRes.error(res, 'User not found', 404)
     }
 
     req.user = {
@@ -37,8 +39,8 @@ const authenticateJWT = async (req, res, next) => {
 
     next()
   } catch (error) {
-    console.log('Error in authenticateJWT:', error.message, error.stack)
-    return ApiRes.error(res, 'Invalid token', error.message)
+    console.log('Error in authenticateJWT:', error.message)
+    return ApiRes.error(res, 'Server error while authenticating', 500)
   }
 }
 

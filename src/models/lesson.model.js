@@ -33,8 +33,8 @@ const lessonSchema = new Schema(
       default: 'draft'
     },
     index: {
-      type: Number,
-      required: true
+      type: Number
+      // required: true
     },
     contents: {
       vocabulary: [

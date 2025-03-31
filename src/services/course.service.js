@@ -7,6 +7,7 @@ const NotificationService = require('./notification.service')
 const CourseRepo = require('../models/repos/course.repo')
 const throwError = require('../res/throwError')
 const lessonModel = require('../models/lesson.model')
+const LessonRepo = require('../models/repos/lesson.repo')
 
 const CourseService = {
   registerCourse: async ({ userId, courseId }) => {
@@ -97,7 +98,7 @@ const CourseService = {
       enrolledStudents: enrollmentMap.get(course._id.toString()) || []
     }))
   },
-    getAllEnrolledCourses: async (userId) => {
+  getAllEnrolledCourses: async (userId) => {
     const userObjectId = convert2ObjectId(userId)
 
     // Get all enrollments for the user
@@ -127,7 +128,7 @@ const CourseService = {
       stu_num: course.stu_num,
       createdAt: course.createdAt,
       updatedAt: course.updatedAt,
-      enrolledStudents:  CourseService._getEnrolledStudents(course._id)
+      enrolledStudents: CourseService._getEnrolledStudents(course._id)
     }))
   },
   // write function get all course for student enrollmented
@@ -186,7 +187,28 @@ const CourseService = {
   updateCourse: async (course_id, bodyUpdate) => {
     const courseObjectId = convert2ObjectId(course_id)
     await CourseService._validateCourse(courseObjectId)
-    return await CourseRepo.updateCourse(courseObjectId, removeUnderfinedObjectKey(bodyUpdate))
+
+    const updatedCourse = await CourseRepo.updateCourse(
+      courseObjectId,
+      removeUnderfinedObjectKey(bodyUpdate)
+    )
+
+    if (bodyUpdate.lessons && bodyUpdate.lessons.length > 0) {
+      for (let lesson of bodyUpdate.lessons) {
+        const lessonData = removeUnderfinedObjectKey(lesson)
+
+        const existingLesson = await lessonModel.findOne({ lesson_id: lesson.lesson_id })
+
+        if (existingLesson) {
+          await LessonRepo.updateLesson(lesson.lesson_id, lessonData)
+        } else {
+          const newLesson = new lessonModel({ ...lessonData, course: courseObjectId })
+          await newLesson.save()
+        }
+      }
+    }
+
+    return updatedCourse
   },
 
   _validateUser: async (userId) => {

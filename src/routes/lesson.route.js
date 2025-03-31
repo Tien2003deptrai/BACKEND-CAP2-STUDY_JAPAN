@@ -4,6 +4,7 @@ const { authorizeRole } = require('../middleware/auth.middleware')
 const router = express.Router()
 
 // Public routes - No authentication required
+router.get('/all', LessonController.getAllLesson)
 router.get('/all/titles', LessonController.getAllLessonTitles)
 
 // Protected routes - Require authentication
