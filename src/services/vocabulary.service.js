@@ -49,7 +49,6 @@ const VocabularyService = {
   getAllVocabularies: async ({ lesson_id }) => {
     await VocabularyService._validateLesson(lesson_id)
     const vocabularies = await VocabularyRepo.findByLesson(lesson_id)
-    if (!vocabularies.length) throwError('No vocabulary found')
     return vocabularies
   },
 

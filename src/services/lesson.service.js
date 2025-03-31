@@ -132,14 +132,13 @@ const LessonService = {
     return lesson
   },
 
-  updateLesson: async (lesson_id, { course_id, lesson_title, ...bodyUpdate }) => {
-    if (lesson_title) {
-      await LessonService._checkLessonExists(convert2ObjectId(course_id), lesson_title, lesson_id)
-    }
+  updateLesson: async (lesson_id, { ...bodyUpdate }) => {
     const updatedLesson = await LessonRepo.updateLesson(
       lesson_id,
       removeUnderfinedObjectKey(bodyUpdate)
     )
+    console.log(lesson_id)
+
     if (!updatedLesson) throwError('Lesson not found')
     return updatedLesson
   },
