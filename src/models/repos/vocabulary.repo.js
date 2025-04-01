@@ -13,6 +13,8 @@ const VocabularyRepo = {
   delete: async (id) => vocabularyModel.findByIdAndDelete(convert2ObjectId(id)).lean(),
 
   // Query operations
+  findAll: async () => vocabularyModel.find().lean(),
+
   findByLesson: async (lesson_id) =>
     vocabularyModel.find({ lesson: convert2ObjectId(lesson_id) }).lean(),
 

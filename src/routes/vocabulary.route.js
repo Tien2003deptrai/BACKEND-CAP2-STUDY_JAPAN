@@ -6,6 +6,12 @@ const router = express.Router()
 // Protected routes - Require authentication
 // Student routes - Can view vocabulary
 router.get(
+  '/all',
+  authorizeRole(['student', 'teacher', 'admin']),
+  VocabularyController.getAllVocabulariesWithoutLesson
+)
+
+router.get(
   '/lesson/:lesson_id',
   authorizeRole(['student', 'teacher', 'admin']),
   VocabularyController.getAllVocabularies

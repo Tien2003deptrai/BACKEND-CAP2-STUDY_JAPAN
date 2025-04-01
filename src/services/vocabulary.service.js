@@ -23,7 +23,11 @@ const VocabularyService = {
     return data
   },
 
-  // Public methods
+  getAllVocabulariesWithoutLesson: async () => {
+    const vocabularies = await VocabularyRepo.findAll()
+    return vocabularies
+  },
+
   addVocabulary: async ({ lesson_id, ...data }) => {
     await VocabularyService._validateLesson(lesson_id)
 

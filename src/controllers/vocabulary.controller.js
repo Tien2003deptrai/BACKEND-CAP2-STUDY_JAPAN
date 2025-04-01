@@ -23,6 +23,15 @@ const VocabularyController = {
       'Lấy danh sách từ vựng thành công'
     ),
 
+  getAllVocabulariesWithoutLesson: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await VocabularyService.getAllVocabulariesWithoutLesson()
+      },
+      'Lấy danh sách từ vựng thành công'
+    ),
+
   updateVocabulary: (req, res) =>
     handleRequest(
       res,
