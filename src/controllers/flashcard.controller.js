@@ -7,7 +7,11 @@ const FlashcardController = {
     handleRequest(
       res,
       async () => {
-        return await FlashcardService.createFlashcard(req.body)
+        validateRequiredFields(['userId'], req.user)
+        return await FlashcardService.createFlashcard({
+          ...req.body,
+          user_id: req.user.userId
+        })
       },
       'Tạo flashcard thành công'
     ),

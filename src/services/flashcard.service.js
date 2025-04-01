@@ -5,29 +5,63 @@ const throwError = require('../res/throwError')
 const { convert2ObjectId, nextReviewDate } = require('../utils')
 const moment = require('moment')
 
-const TYPE = 'vocabulary'
+const TYPE = {
+  VOCABULARY: 'vocabulary',
+  GRAMMAR: 'grammar'
+}
 
 const FlashcardService = {
-  createFlashcard: async ({ desk_id, type, level = 1, ...bodyData }) => {
-    if (type !== TYPE) throwError('Type must be "vocabulary"')
+  createFlashcard: async ({ deck_title, type, level = 1, user_id, ...bodyData }) => {
+    if (!Object.values(TYPE).includes(type)) throwError('Type must be "vocabulary" or "grammar"')
 
-    const deckExist = await deckModel.findById(convert2ObjectId(desk_id)).lean()
-    if (!deckExist) throwError('Deck not found')
+    let deckId
+    if (deck_title) {
+      const newDeck = await deckModel.create({
+        user: convert2ObjectId(user_id),
+        deck_title
+      })
+      deckId = newDeck._id
+    } else {
+      throwError('deck_title is required')
+    }
 
     const { date, interval } = nextReviewDate(level)
     let createdFlashcards = []
 
-    for (let key in bodyData.vocab) {
-      const newFlashcard = await FlashcardRepo.create({
-        deck: convert2ObjectId(desk_id),
-        vocab: convert2ObjectId(bodyData.vocab[key]),
-        interval: interval,
-        reviewDate: date
-      })
-      createdFlashcards.push(newFlashcard)
+    // vocabulary
+    if (type === TYPE.VOCABULARY && bodyData.vocab) {
+      for (let key in bodyData.vocab) {
+        const newFlashcard = await FlashcardRepo.create({
+          deck: deckId,
+          vocab: convert2ObjectId(bodyData.vocab[key]),
+          interval: interval,
+          reviewDate: date
+        })
+        createdFlashcards.push(newFlashcard)
+      }
+    }
+    // grammar
+    else if (type === TYPE.GRAMMAR && bodyData.grammar) {
+      for (let key in bodyData.grammar) {
+        const newFlashcard = await FlashcardRepo.create({
+          deck: deckId,
+          grammar: convert2ObjectId(bodyData.grammar[key]),
+          interval: interval,
+          reviewDate: date
+        })
+        createdFlashcards.push(newFlashcard)
+      }
+    } else {
+      throwError('Invalid data for the specified type')
     }
 
-    return createdFlashcards
+    return {
+      deck: {
+        _id: deckId,
+        deck_title
+      },
+      flashcards: createdFlashcards
+    }
   },
 
   updateFlashcard: async ({ flashcard_id, level }) => {
