@@ -73,6 +73,15 @@ const GrammarController = {
         return await GrammarService.getAllGrammar(req.params)
       },
       'Lấy tất cả ngữ pháp của bài học'
+    ),
+
+  getAllGrammarsWithoutLesson: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await GrammarService.getAllGrammarsWithoutLesson()
+      },
+      'Lấy danh sách ngữ pháp thành công'
     )
 }
 

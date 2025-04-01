@@ -100,6 +100,10 @@ const GrammarService = {
     if (!foundLesson) throwError('Lesson not found')
 
     return await GrammarRepo.getAllByLesson(lesson_id)
+  },
+
+  getAllGrammarsWithoutLesson: async () => {
+    return await GrammarRepo.getAll()
   }
 }
 

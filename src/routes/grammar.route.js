@@ -8,6 +8,12 @@ router.use(authenticateJWT)
 
 // Student routes - Can view grammar
 router.get(
+  '/all',
+  authorizeRole(['student', 'teacher', 'admin']),
+  GrammarController.getAllGrammarsWithoutLesson
+)
+
+router.get(
   '/lesson/:lesson_id',
   authorizeRole(['student', 'teacher', 'admin']),
   GrammarController.getAllGrammar
