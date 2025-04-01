@@ -144,7 +144,7 @@ const CourseService = {
     }))
   },
 
-  createCourse: async ({ name, thumb, user, lessons = [] }) => {
+  createCourse: async ({ name, thumb, decription, user, lessons = [] }) => {
     const userObjectId = convert2ObjectId(user)
 
     if (await CourseRepo.findByName(name)) throwError('Course name already exists')
