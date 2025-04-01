@@ -25,6 +25,10 @@ const DeckService = {
       .lean()
     if (!listDeck) throwError('Deck already exists')
     return listDeck
+  },
+  getAllDecks: async () => {
+    const decks = await deckModel.find().select('deck_title _id').lean()
+    return decks
   }
 }
 

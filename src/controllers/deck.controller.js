@@ -28,6 +28,15 @@ const DeckController = {
       },
       'Lấy danh sách bộ thẻ của người dùng thành công'
     )
+  },
+  getAllDecks: (req, res) => {
+    handleRequest(
+      res,
+      async () => {
+        return await DeckService.getAllDecks()
+      },
+      'Lấy tất cả bộ flashcards thành công'
+    )
   }
 }
 

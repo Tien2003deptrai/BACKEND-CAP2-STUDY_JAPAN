@@ -4,5 +4,6 @@ const router = express.Router()
 
 router.post('/add', DeckController.createDeck)
 router.get('/user', DeckController.getAllDeckByUser)
+router.get('/all', DeckController.getAllDecks)
 
 module.exports = router
