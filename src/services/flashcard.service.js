@@ -31,9 +31,15 @@ const FlashcardService = {
     // vocabulary
     if (type === TYPE.VOCABULARY && bodyData.vocab) {
       for (let key in bodyData.vocab) {
+        const vocabId = convert2ObjectId(bodyData.vocab[key])
+        const vocab = await FlashcardRepo.findVocabById(vocabId)
+        if (!vocab) throwError('Vocabulary not found')
+
         const newFlashcard = await FlashcardRepo.create({
           deck: deckId,
-          vocab: convert2ObjectId(bodyData.vocab[key]),
+          vocab: vocabId,
+          front: vocab.word,
+          back: vocab.meaning,
           interval: interval,
           reviewDate: date
         })
@@ -43,9 +49,15 @@ const FlashcardService = {
     // grammar
     else if (type === TYPE.GRAMMAR && bodyData.grammar) {
       for (let key in bodyData.grammar) {
+        const grammarId = convert2ObjectId(bodyData.grammar[key])
+        const grammar = await FlashcardRepo.findGrammarById(grammarId)
+        if (!grammar) throwError('Grammar not found')
+
         const newFlashcard = await FlashcardRepo.create({
           deck: deckId,
-          grammar: convert2ObjectId(bodyData.grammar[key]),
+          grammar: grammarId,
+          front: grammar.structure,
+          back: grammar.explain,
           interval: interval,
           reviewDate: date
         })
