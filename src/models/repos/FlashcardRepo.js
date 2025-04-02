@@ -16,10 +16,10 @@ const FlashcardRepo = {
   findAllByDeck: async (deckId) => {
     return await flashcardModel
       .find({ deck: deckId })
-      .populate('vocab', '')
-      .populate('kanji', '')
-      .populate('grammar', '')
-      .select('vocab grammar interval reviewDate')
+      .populate('vocab', 'word kanji kana meaning audio example')
+      .populate('kanji', 'kanji explain')
+      .populate('grammar', 'title')
+      .select('vocab grammar kanji interval reviewDate front back')
       .lean()
   },
 

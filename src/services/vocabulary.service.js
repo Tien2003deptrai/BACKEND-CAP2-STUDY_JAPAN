@@ -30,7 +30,7 @@ const VocabularyService = {
     const existingWord = await VocabularyRepo.findByWord(lesson_id, data.word)
     if (existingWord) throwError('Vocabulary already exists')
 
-    const processedData = this._processKanji({
+    const processedData = VocabularyService._processKanji({
       lesson: convert2ObjectId(lesson_id),
       ...data
     })

@@ -1,15 +1,14 @@
 const deckModel = require('../models/deck.model')
 const flashcardModel = require('../models/flashcard.model')
 const FlashcardRepo = require('../models/repos/FlashcardRepo')
+const vocabularyModel = require('../models/vocabulary.model')
 const throwError = require('../res/throwError')
 const { convert2ObjectId, nextReviewDate } = require('../utils')
 const moment = require('moment')
 
-const TYPE = 'vocabulary'
-
 const FlashcardService = {
   createFlashcard: async ({ desk_id, type, level = 1, ...bodyData }) => {
-    if (type !== TYPE) throwError('Type must be "vocabulary"')
+    if (type !== 'vocabulary') throwError('Type must be "vocabulary"')
 
     const deckExist = await deckModel.findById(convert2ObjectId(desk_id)).lean()
     if (!deckExist) throwError('Deck not found')
@@ -18,9 +17,18 @@ const FlashcardService = {
     let createdFlashcards = []
 
     for (let key in bodyData.vocab) {
+      const vocabData = await vocabularyModel
+        .findById(convert2ObjectId(bodyData.vocab[key]))
+        .select('word meaning')
+        .lean()
+
+      if (!vocabData) throwError(`Vocabulary ${bodyData.vocab[key]} not found`)
+
       const newFlashcard = await FlashcardRepo.create({
         deck: convert2ObjectId(desk_id),
         vocab: convert2ObjectId(bodyData.vocab[key]),
+        front: vocabData.word,
+        back: vocabData.meaning,
         interval: interval,
         reviewDate: date
       })
