@@ -10,7 +10,12 @@ const deckSchema = new Schema(
       required: true,
       ref: 'User'
     },
-    deck_title: { type: String, required: true }
+    deck_title: { type: String, required: true },
+    type: {
+      type: String,
+      required: true,
+      enum: ['grammar', 'vocabulary']
+    }
   },
   {
     timestamps: true,

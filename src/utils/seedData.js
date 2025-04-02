@@ -1494,89 +1494,125 @@ const kanjis = [
 ]
 
 const decks = [
-  { _id: new mongoose.Types.ObjectId(), user: users[0]._id, deck_title: 'Deck 1 - Từ vựng cơ bản' },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[0]._id,
-    deck_title: 'Deck 2 - Ngữ pháp cơ bản'
+    deck_title: 'Deck 1 - Từ vựng cơ bản',
+    type: 'vocabulary'
   },
-  { _id: new mongoose.Types.ObjectId(), user: users[1]._id, deck_title: 'Deck 3 - Kanji cơ bản' },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    user: users[0]._id,
+    deck_title: 'Deck 2 - Ngữ pháp cơ bản',
+    type: 'grammar'
+  },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[1]._id,
-    deck_title: 'Deck 4 - Từ vựng về gia đình'
+    deck_title: 'Deck 3 - Kanji cơ bản',
+    type: 'vocabulary'
+  },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    user: users[1]._id,
+    deck_title: 'Deck 4 - Từ vựng về gia đình',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[2]._id,
-    deck_title: 'Deck 5 - Từ vựng về thời gian'
+    deck_title: 'Deck 5 - Từ vựng về thời gian',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[2]._id,
-    deck_title: 'Deck 6 - Ngữ pháp nâng cao'
+    deck_title: 'Deck 6 - Ngữ pháp nâng cao',
+    type: 'grammar'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[3]._id,
-    deck_title: 'Deck 7 - Từ vựng về món ăn'
-  },
-  { _id: new mongoose.Types.ObjectId(), user: users[3]._id, deck_title: 'Deck 8 - Kanji nâng cao' },
-  {
-    _id: new mongoose.Types.ObjectId(),
-    user: users[4]._id,
-    deck_title: 'Deck 9 - Câu hỏi và câu trả lời'
+    deck_title: 'Deck 7 - Từ vựng về món ăn',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
+    user: users[3]._id,
+    deck_title: 'Deck 8 - Kanji nâng cao',
+    type: 'vocabulary'
+  },
+  {
+    _id: new mongoose.Types.ObjectId(),
     user: users[4]._id,
-    deck_title: 'Deck 10 - Từ vựng về cảm xúc'
+    deck_title: 'Deck 9 - Câu hỏi và câu trả lời',
+    type: 'grammar'
+  },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    user: users[4]._id,
+    deck_title: 'Deck 10 - Từ vựng về cảm xúc',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[5]._id,
-    deck_title: 'Deck 11 - Từ vựng về địa điểm'
+    deck_title: 'Deck 11 - Từ vựng về địa điểm',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[5]._id,
-    deck_title: 'Deck 12 - Ngữ pháp phức tạp'
+    deck_title: 'Deck 12 - Ngữ pháp phức tạp',
+    type: 'grammar'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[6]._id,
-    deck_title: 'Deck 13 - Từ vựng về đồ vật'
+    deck_title: 'Deck 13 - Từ vựng về đồ vật',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[6]._id,
-    deck_title: 'Deck 14 - Thì hiện tại hoàn thành'
+    deck_title: 'Deck 14 - Thì hiện tại hoàn thành',
+    type: 'grammar'
   },
-  { _id: new mongoose.Types.ObjectId(), user: users[7]._id, deck_title: 'Deck 15 - Câu điều kiện' },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[7]._id,
-    deck_title: 'Deck 16 - Từ vựng về thời tiết'
+    deck_title: 'Deck 15 - Câu điều kiện',
+    type: 'grammar'
+  },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    user: users[7]._id,
+    deck_title: 'Deck 16 - Từ vựng về thời tiết',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[8]._id,
-    deck_title: 'Deck 17 - Từ vựng về phương tiện'
+    deck_title: 'Deck 17 - Từ vựng về phương tiện',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[8]._id,
-    deck_title: 'Deck 18 - Ngữ pháp với trợ từ'
+    deck_title: 'Deck 18 - Ngữ pháp với trợ từ',
+    type: 'grammar'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[9]._id,
-    deck_title: 'Deck 19 - Từ vựng về hoạt động hàng ngày'
+    deck_title: 'Deck 19 - Từ vựng về hoạt động hàng ngày',
+    type: 'vocabulary'
   },
   {
     _id: new mongoose.Types.ObjectId(),
     user: users[9]._id,
-    deck_title: 'Deck 20 - Câu hỏi với trợ từ'
+    deck_title: 'Deck 20 - Câu hỏi với trợ từ',
+    type: 'grammar'
   }
 ]
 

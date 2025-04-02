@@ -37,7 +37,16 @@ const DeckController = {
       },
       'Lấy tất cả bộ flashcards thành công'
     )
-  }
+  },
+  getDecksByType: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['type'], req.params)
+        return await DeckService.getDecksByType(req.params.type)
+      },
+      'Lấy danh sách deck theo loại thành công'
+    )
 }
 
 module.exports = DeckController
