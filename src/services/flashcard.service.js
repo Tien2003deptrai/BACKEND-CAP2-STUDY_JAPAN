@@ -19,7 +19,8 @@ const FlashcardService = {
     if (deck_title) {
       const newDeck = await deckModel.create({
         user: convert2ObjectId(user_id),
-        deck_title
+        deck_title,
+        type
       })
       deckId = newDeck._id
     } else {
