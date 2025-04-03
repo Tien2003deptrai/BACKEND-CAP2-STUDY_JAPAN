@@ -783,52 +783,62 @@ const decks = [
   {
     _id: '605c72ef5f5b2c1d4c8ea001',
     user: '605c72ef5f5b2c1d4c8e1001',
-    deck_title: 'N5単語'
+    deck_title: 'N5単語',
+    type: 'vocabulary'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea002',
     user: '605c72ef5f5b2c1d4c8e1002',
-    deck_title: '漢字N5'
+    deck_title: '漢字N5',
+    type: 'vocabulary'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea003',
     user: '605c72ef5f5b2c1d4c8e1003',
-    deck_title: '会話練習'
+    deck_title: '会話練習',
+    type: 'grammar'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea004',
     user: '605c72ef5f5b2c1d4c8e1004',
-    deck_title: '文法N4'
+    deck_title: '文法N4',
+    type: 'grammar'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea005',
     user: '605c72ef5f5b2c1d4c8e1005',
-    deck_title: '日常単語'
+    deck_title: '日常単語',
+    type: 'vocabulary'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea006',
     user: '605c72ef5f5b2c1d4c8e1006',
-    deck_title: '漢字N3'
+    deck_title: '漢字N3',
+    type: 'vocabulary'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea007',
     user: '605c72ef5f5b2c1d4c8e1007',
-    deck_title: 'レストラン会話'
+    deck_title: 'レストラン会話',
+    type: 'grammar'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea008',
     user: '605c72ef5f5b2c1d4c8e1008',
-    deck_title: 'N5文法'
+    deck_title: 'N5文法',
+    type: 'grammar'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea009',
     user: '605c72ef5f5b2c1d4c8e1009',
-    deck_title: 'ビジネス単語'
+    deck_title: 'ビジネス単語',
+    type: 'vocabulary'
   },
   {
     _id: '605c72ef5f5b2c1d4c8ea00a',
     user: '605c72ef5f5b2c1d4c8e100a',
-    deck_title: '漢字N2'
+    deck_title: '漢字N2',
+    type: 'vocabulary'
   }
 ]
 
