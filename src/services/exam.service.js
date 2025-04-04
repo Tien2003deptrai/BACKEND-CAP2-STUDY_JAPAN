@@ -520,6 +520,36 @@ const ExamService = {
     }
   },
 
+  updateQuestion: async (exam_id, question_id, bodyUpdate) => {
+    try {
+      if (!exam_id || !question_id) throwError('Exam ID và question ID bắt buộc')
+      const currentExam = await ExamsRepo.findById(exam_id)
+      if (!currentExam) throwError('Không tìm thấy bài kiểm tra')
+
+      const questionIndex = currentExam.questions.findIndex((q) => q.id == question_id)
+      if (questionIndex === -1) throwError('Câu hỏi không tồn tại trong bài kiểm tra')
+
+      // Preserve existing question data and merge with updates
+      const updatedQuestion = {
+        ...currentExam.questions[questionIndex], // Keep existing data
+        ...bodyUpdate // Apply updates
+      }
+
+      // Update the specific question in the array
+      currentExam.questions[questionIndex] = updatedQuestion
+
+      // Update the exam with the modified questions array
+      await ExamsRepo.update(exam_id, {
+        questions: currentExam.questions
+      })
+
+      return true
+    } catch (error) {
+      console.error('Error in updateQuestion:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
+  },
+
   addExamQuestions: async (examId, newQuestions) => {
     try {
       if (!examId) throwError('Exam ID bắt buộc')

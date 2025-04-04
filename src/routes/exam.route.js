@@ -50,6 +50,7 @@ router.put('/:id', authenticateJWT, ExamController.updateExam)
 
 // Add questions to an exam (admin/teacher only)
 router.post('/:id/questions', authenticateJWT, ExamController.addExamQuestions)
+router.put('/:examId/question/:questionId', authenticateJWT, ExamController.updateQuestion)
 
 // Get exams by teacher (admin/teacher only)
 router.get('/teacher/:userId', authenticateJWT, ExamController.getExamsByTeacher)

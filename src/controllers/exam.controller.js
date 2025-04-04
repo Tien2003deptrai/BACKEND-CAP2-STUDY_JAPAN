@@ -145,6 +145,18 @@ const examController = {
       'Cập nhật bài kiểm tra thành công'
     ),
 
+  updateQuestion: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền cập nhật câu hỏi bài kiểm tra')
+        }
+        return await examService.updateQuestion(req.params.examId, req.params.questionId, req.body)
+      },
+      'Cập nhật câu hỏi bài kiểm tra thành công'
+    ),
+
   addExamQuestions: async (req, res) =>
     handleRequest(
       res,
