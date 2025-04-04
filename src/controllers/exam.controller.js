@@ -101,7 +101,8 @@ const examController = {
         if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
           throwError('Không có quyền tạo bài kiểm tra')
         }
-        const examData = { ...req.body, creator: req.user.id }
+
+        const examData = { ...req.body, creator: req.user.userId }
         const createdExam = await examService.createExam(examData)
         return { examId: createdExam._id }
       },
@@ -119,6 +120,55 @@ const examController = {
       },
       'Xóa bài kiểm tra thành công'
     ),
+
+  getExamsByTeacher: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền xem danh sách bài kiểm tra của giáo viên')
+        }
+        return await examService.getExamsByTeacher(req.params.userId)
+      },
+      'Danh sách bài kiểm tra của giáo viên'
+    ),
+
+  updateExam: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền cập nhật bài kiểm tra')
+        }
+        return await examService.updateExam(req.params.id, req.body)
+      },
+      'Cập nhật bài kiểm tra thành công'
+    ),
+
+  addExamQuestions: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền thêm câu hỏi bài kiểm tra')
+        }
+        return await examService.addExamQuestions(req.params.id, req.body.questions)
+      },
+      'Thêm câu hỏi bài kiểm tra thành công'
+    ),
+
+  deleteExamQuestion: async (req, res) => {
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền cập nhật câu hỏi bài kiểm tra')
+        }
+        return await examService.deleteExamQuestion(req.params.examId, req.params.questionId)
+      },
+      'Xóa câu hỏi bài kiểm tra thành công'
+    )
+  },
 
   // New routes for exam features
   checkExamTime: async (req, res) =>

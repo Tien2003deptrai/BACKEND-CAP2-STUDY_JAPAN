@@ -11,7 +11,7 @@ const questionSchema = new Schema({
   type: {
     type: String,
     enum: ['multiple_choice', 'fill_in', 'ordering', 'listening', 'reading'],
-    required: true
+    default: 'multiple_choice'
   },
   content: { type: String, required: true }, // Nội dung câu hỏi
   instruction: { type: String }, // Hướng dẫn cho câu hỏi
@@ -19,7 +19,7 @@ const questionSchema = new Schema({
   readingPassage: { type: String }, // Đoạn văn cho câu hỏi reading
   options: [{ text: String, id: String }], // Các lựa chọn cho câu hỏi trắc nghiệm
   correctAnswer: { type: String, required: true }, // Đáp án đúng
-  point: { type: Number, required: true, default: 1 } // Điểm cho câu hỏi này
+  point: { type: Number, default: 1 } // Điểm cho câu hỏi này
 })
 
 /**
@@ -30,7 +30,7 @@ const examSchema = new Schema(
     title: { type: String, required: true },
     description: { type: String },
     time_limit: { type: Number, required: true }, // Thời gian làm bài (phút)
-    total_points: { type: Number, required: true },
+    total_points: { type: Number },
     level: {
       type: String,
       enum: ['N5', 'N4', 'N3', 'N2', 'N1'],
@@ -42,14 +42,14 @@ const examSchema = new Schema(
         description: String,
         type: {
           type: String,
-          enum: ['listening', 'reading', 'vocabulary', 'grammar'],
-          required: true
+          enum: ['listening', 'reading', 'vocabulary', 'grammar']
         }
       }
     ],
     creator: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     },
     isPublished: {
       type: Boolean,

@@ -45,4 +45,15 @@ router.post('', authenticateJWT, ExamController.createExam)
 // Delete an exam (admin/teacher only)
 router.delete('/:id', authenticateJWT, ExamController.deleteExam)
 
+// Update an exam (admin/teacher only)
+router.put('/:id', authenticateJWT, ExamController.updateExam)
+
+// Add questions to an exam (admin/teacher only)
+router.post('/:id/questions', authenticateJWT, ExamController.addExamQuestions)
+
+// Get exams by teacher (admin/teacher only)
+router.get('/teacher/:userId', authenticateJWT, ExamController.getExamsByTeacher)
+
+// Delete question in an exam
+router.delete('/:examId/question/:questionId', authenticateJWT, ExamController.deleteExamQuestion)
 module.exports = router

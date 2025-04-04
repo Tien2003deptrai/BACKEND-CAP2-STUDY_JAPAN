@@ -473,6 +473,151 @@ const ExamService = {
     } catch (error) {
       throwError(error.message, error.statusCode || 500)
     }
+  },
+
+  getExamsByTeacher: async (teacherId) => {
+    try {
+      if (!teacherId) throwError('Teacher ID bắt buộc')
+
+      const exams = await ExamsRepo.queryExams({ creator: teacherId }).sort({ createdAt: -1 })
+
+      return exams
+    } catch (error) {
+      console.error('Error in getExamsByTeacher:', error)
+      throwError(error)
+    }
+  },
+
+  updateExam: async (examId, updateData) => {
+    try {
+      if (!examId) throwError('Exam ID bắt buộc')
+
+      const allowedUpdates = ['title', 'description', 'time_limit']
+      const updates = {}
+
+      for (const field of allowedUpdates) {
+        if (updateData[field] !== undefined) {
+          if (field === 'time_limit' && typeof updateData[field] !== 'number') {
+            throwError('time_limit phải là số')
+          }
+          updates[field] = updateData[field]
+        }
+      }
+
+      // Check if there are any valid updates
+      if (Object.keys(updates).length === 0) {
+        throwError('Không có trường nào được cập nhật')
+      }
+
+      // Update the exam
+      const updatedExam = await ExamsRepo.update(examId, updates)
+      if (!updatedExam) throwError('Không tìm thấy bài kiểm tra')
+
+      return updatedExam
+    } catch (error) {
+      console.error('Error in updateExam:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
+  },
+
+  addExamQuestions: async (examId, newQuestions) => {
+    try {
+      if (!examId) throwError('Exam ID bắt buộc')
+      if (!Array.isArray(newQuestions)) throwError('Questions phải là một mảng')
+
+      // Get the current exam to get existing questions
+      const currentExam = await ExamsRepo.findById(examId)
+      if (!currentExam) throwError('Không tìm thấy bài kiểm tra')
+
+      // Create a map of existing question IDs for quick lookup
+      const existingQuestionIds = new Set()
+      const existingQuestions = currentExam.questions || []
+      existingQuestions.forEach((q) => existingQuestionIds.add(q.id))
+
+      // Process and validate each new question
+      const processedNewQuestions = newQuestions.map((question, index) => {
+        // Generate a new ID if the question doesn't have one
+        if (!question.id) {
+          // Generate a new ID in format 'qXXX' where XXX is a number
+          let newId
+          let counter = 1
+          do {
+            newId = `q${String(counter).padStart(3, '0')}`
+            counter++
+          } while (existingQuestionIds.has(newId))
+
+          question.id = newId
+          existingQuestionIds.add(newId)
+        } else if (existingQuestionIds.has(question.id)) {
+          throwError(`Câu hỏi ${index + 1} có ID đã tồn tại`)
+        }
+
+        // Validate required fields
+        if (!question.type) throwError(`Câu hỏi ${index + 1} thiếu trường type`)
+        if (!question.content) throwError(`Câu hỏi ${index + 1} thiếu trường content`)
+        if (!question.correctAnswer) throwError(`Câu hỏi ${index + 1} thiếu trường correctAnswer`)
+
+        // Validate question type
+        const validTypes = ['multiple_choice', 'fill_in', 'ordering', 'listening', 'reading']
+        if (!validTypes.includes(question.type)) {
+          throwError(
+            `Câu hỏi ${index + 1} có type không hợp lệ. Phải là một trong: ${validTypes.join(', ')}`
+          )
+        }
+
+        // Validate options for multiple choice questions
+        if (
+          question.type === 'multiple_choice' &&
+          (!question.options || !Array.isArray(question.options))
+        ) {
+          throwError(
+            `Câu hỏi ${index + 1} là multiple_choice nhưng thiếu options hoặc options không phải là mảng`
+          )
+        }
+
+        return question
+      })
+
+      // Combine existing questions with new questions
+      const allQuestions = [...existingQuestions, ...processedNewQuestions]
+      console.log(allQuestions)
+
+      // Update the exam with all questions
+      const updatedExam = await ExamsRepo.update(examId, { questions: allQuestions })
+      if (!updatedExam) throwError('Không tìm thấy bài kiểm tra')
+
+      return updatedExam
+    } catch (error) {
+      console.error('Error in addExamQuestions:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
+  },
+
+  deleteExamQuestion: async (examId, questionId) => {
+    try {
+      if (!examId) throwError('Exam ID bắt buộc')
+      if (!questionId) throwError('Question ID bắt buộc')
+
+      // Get the current exam to check existing questions
+      const currentExam = await ExamsRepo.findById(examId)
+      if (!currentExam) throwError('Không tìm thấy bài kiểm tra')
+
+      // Check if the question exists in the exam
+      const questionIndex = currentExam.questions.findIndex((q) => q.id === questionId)
+      if (questionIndex === -1) throwError('Câu hỏi không tồn tại trong bài kiểm tra')
+
+      // Remove the question from the exam
+      currentExam.questions.splice(questionIndex, 1)
+
+      // Update the exam with the new questions array
+      const updatedExam = await ExamsRepo.update(examId, { questions: currentExam.questions })
+      if (!updatedExam) throwError('Không tìm thấy bài kiểm tra')
+
+      return updatedExam
+    } catch (error) {
+      console.error('Error in deleteExamQuestion:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
   }
 }
 

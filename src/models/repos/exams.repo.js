@@ -14,7 +14,11 @@ const ExamsRepo = {
 
   delete: (exam_id) => examsModel.deleteOne({ _id: exam_id }),
 
-  queryExams: (query) => examsModel.find(query).select('-contents').lean(),
+  queryExams: (query) =>
+    examsModel
+      .find(query)
+      .select('_id title description time_limit total_points level tags allowedUsers')
+      .lean(),
 
   // Find exam for taking (without answers)
   findForTaking: (id) =>
