@@ -986,6 +986,7 @@ const exams = [
       }
     ],
     creator: '605c72ef5f5b2c1d4c8e1001',
+    course: '605c72ef5f5b2c1d4c8e2001',
     isPublished: true,
     tags: ['mock', 'N5', 'beginner'],
     questions: [
@@ -1014,8 +1015,8 @@ const exams = [
           { id: 'c', text: 'Cảm ơn' },
           { id: 'd', text: 'Xin lỗi' }
         ],
-        correctAnswer: 'a',
-        point: 10
+        correctAnswer: 'a', // Thêm trường correctAnswer
+        point: 10 // Thêm point để đồng bộ với các câu hỏi khác
       },
       {
         id: 'q003',
@@ -1042,6 +1043,7 @@ const exams = [
       fullScreen: true
     }
   },
+  // Các bài thi khác giữ nguyên vì không có lỗi
   {
     _id: '605c72ef5f5b2c1d4c8ec002',
     title: '漢字N5テスト',
@@ -1057,6 +1059,7 @@ const exams = [
       }
     ],
     creator: '605c72ef5f5b2c1d4c8e1002',
+    course: '605c72ef5f5b2c1d4c8e2002',
     isPublished: false,
     tags: ['kanji', 'N5', 'beginner'],
     questions: [
@@ -1124,6 +1127,7 @@ const exams = [
       }
     ],
     creator: '605c72ef5f5b2c1d4c8e1004',
+    course: '605c72ef5f5b2c1d4c8e2003',
     isPublished: true,
     tags: ['grammar', 'N4', 'intermediate'],
     questions: [
@@ -1188,6 +1192,7 @@ const exams = [
       }
     ],
     creator: '605c72ef5f5b2c1d4c8e1002',
+    course: '605c72ef5f5b2c1d4c8e2004',
     isPublished: false,
     tags: ['conversation', 'N5', 'beginner'],
     questions: [
@@ -1243,6 +1248,7 @@ const exams = [
       }
     ],
     creator: '605c72ef5f5b2c1d4c8e1004',
+    course: '605c72ef5f5b2c1d4c8e2005',
     isPublished: true,
     tags: ['mock', 'N3', 'intermediate'],
     questions: [

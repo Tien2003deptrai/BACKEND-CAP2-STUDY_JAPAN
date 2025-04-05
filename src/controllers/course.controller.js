@@ -1,6 +1,7 @@
 const { validateRequiredFields } = require('../validators')
 const handleRequest = require('./BaseController')
 const CourseService = require('../services/course.service')
+const { extractStudentDataFromFile } = require('../utils/fileProcessor')
 
 const CourseController = {
   registerCourse: (req, res) =>
@@ -82,7 +83,48 @@ const CourseController = {
         })
       },
       'Hủy đăng ký khóa học thành công'
-    )
+    ),
+
+  bulkAddStudents: async (req, res) => {
+    try {
+      if (req.file) {
+        const filePath = req.file.path
+        const studentData = await extractStudentDataFromFile(filePath)
+
+        const studentIds = studentData.map((student) => student.studentId)
+
+        const courseId = req.body.courseId
+        const adminId = req.user.userId
+
+        const result = await CourseService.addMultipleStudentsToClass({
+          courseId,
+          studentIds,
+          adminId
+        })
+
+        res.status(200).json({
+          message: 'Thêm sinh viên vào khóa học thành công',
+          result
+        })
+      } else {
+        const { studentIds, courseId, adminId } = req.body
+
+        const result = await CourseService.addMultipleStudentsToClass({
+          courseId,
+          studentIds,
+          adminId
+        })
+
+        res.status(200).json({
+          message: 'Thêm sinh viên vào khóa học thành công',
+          result
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Có lỗi xảy ra, vui lòng thử lại sau' })
+    }
+  }
 }
 
 module.exports = CourseController

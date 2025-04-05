@@ -302,6 +302,126 @@ const CourseService = {
     }
 
     return 1
+  },
+
+  addMultipleStudentsToClass: async ({ courseId, studentIds, adminId }) => {
+    try {
+      // Start performance measurement
+      const startTime = Date.now()
+
+      // Validate course existence
+      const courseObjectId = convert2ObjectId(courseId)
+      const course = await CourseService._validateCourse(courseObjectId)
+
+      console.log('admin', adminId)
+
+      // Validate teacher permission (must be course owner or admin)
+      const admin = await userModel.findById(convert2ObjectId(adminId))
+      if (!admin) throwError('Admin not found')
+
+      // Check if teacher has permission to add students to this course
+      if (admin.roles !== 'admin' && course.user.toString() !== adminId) {
+        throwError('You do not have permission to add students to this course')
+      }
+
+      // Validate student IDs
+      if (!Array.isArray(studentIds) || studentIds.length === 0) {
+        throwError('No valid student IDs provided')
+      }
+
+      // Store results
+      const results = {
+        successful: [],
+        failed: [],
+        totalAdded: 0,
+        totalFailed: 0,
+        totalTime: 0
+      }
+
+      // Process each student sequentially
+      const enrolledUserIds = []
+
+      for (const studentId of studentIds) {
+        try {
+          const userObjectId = convert2ObjectId(studentId)
+
+          // Find user by ID
+          const user = await userModel.findById(userObjectId)
+
+          if (!user) {
+            throw new Error(`User with ID ${studentId} not found`)
+          }
+
+          // Check if user is already enrolled
+          const existingEnrollment = await enrollmentModel.findOne({
+            user: userObjectId,
+            course: courseObjectId
+          })
+
+          if (existingEnrollment) {
+            throw new Error(`User ${user.email || studentId} is already enrolled in this course`)
+          }
+
+          // Create enrollment record
+          await enrollmentModel.create({
+            user: userObjectId,
+            course: courseObjectId
+          })
+
+          // Update user progression for backward compatibility
+          const userProgression = await progressionModel.findOne({ user: userObjectId })
+          if (
+            userProgression &&
+            !userProgression.progress.some((prog) => prog.course.toString() === courseId)
+          ) {
+            userProgression.progress.push({ course: courseObjectId })
+            await userProgression.save()
+          }
+
+          // Add to successful results
+          results.successful.push({
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+            status: 'enrolled'
+          })
+
+          enrolledUserIds.push(userObjectId) // For notifications
+        } catch (error) {
+          // Add to failed results
+          results.failed.push({
+            studentId: studentId,
+            reason: error.message
+          })
+        }
+      }
+
+      // Update course student count
+      if (enrolledUserIds.length > 0) {
+        course.stu_num += enrolledUserIds.length
+        await course.save()
+
+        // Send notifications to enrolled students
+        NotificationService.pushNotificationToSystem({
+          type: 'COURSE-001',
+          receivedIds: enrolledUserIds,
+          senderId: convert2ObjectId(adminId),
+          option: { course_name: course.name }
+        }).catch(console.error)
+      }
+
+      // Update results
+      results.totalAdded = results.successful.length
+      results.totalFailed = results.failed.length
+
+      // Calculate total time
+      results.totalTime = Date.now() - startTime
+
+      return results
+    } catch (error) {
+      throwError(`Error in addMultipleStudentsToClass: ${error.message}`)
+      throw error
+    }
   }
 }
 
