@@ -6,7 +6,22 @@ const { convert2ObjectId } = require('../utils')
 
 const ExamService = {
   createExam: async (exam) => {
-    return await ExamsRepo.create(exam)
+    try {
+      if (!exam.courseId) throwError('Course ID bắt buộc')
+      if (!exam.title) throwError('Title bắt buộc')
+      if (!exam.level) throwError('Level bắt buộc')
+      if (!exam.time_limit || typeof exam.time_limit !== 'number') {
+        throwError('Time limit phải là số')
+      }
+
+      // Convert courseId to ObjectId
+      exam.courseId = convert2ObjectId(exam.courseId)
+
+      return await ExamsRepo.create(exam)
+    } catch (error) {
+      console.error('Error in createExam:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
   },
 
   getExamsByTag: async ({ tags, level }) => {
@@ -492,7 +507,7 @@ const ExamService = {
     try {
       if (!examId) throwError('Exam ID bắt buộc')
 
-      const allowedUpdates = ['title', 'description', 'time_limit']
+      const allowedUpdates = ['title', 'description', 'time_limit', 'courseId']
       const updates = {}
 
       for (const field of allowedUpdates) {
@@ -500,7 +515,12 @@ const ExamService = {
           if (field === 'time_limit' && typeof updateData[field] !== 'number') {
             throwError('time_limit phải là số')
           }
-          updates[field] = updateData[field]
+          if (field === 'courseId') {
+            if (!updateData[field]) throwError('Course ID không được để trống')
+            updates[field] = updateData[field]
+          } else {
+            updates[field] = updateData[field]
+          }
         }
       }
 
@@ -646,6 +666,17 @@ const ExamService = {
       return updatedExam
     } catch (error) {
       console.error('Error in deleteExamQuestion:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
+  },
+  getExamsByCourseId: async (courseId) => {
+    try {
+      if (!courseId) throwError('Course ID bắt buộc')
+
+      const exams = await ExamsRepo.queryExams({ courseId })
+      return exams
+    } catch (error) {
+      console.error('Error in getExamsByCourseId:', error)
       throwError(error.message, error.statusCode || 500)
     }
   }

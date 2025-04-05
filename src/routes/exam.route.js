@@ -32,7 +32,7 @@ router.post('/save-progress/:attemptId', authenticateJWT, ExamController.saveExa
 router.get('/progress/:attemptId', authenticateJWT, ExamController.getExamProgress)
 router.post('/mark-question/:attemptId', authenticateJWT, ExamController.markQuestionForReview)
 router.get('/validate/:attemptId', authenticateJWT, ExamController.validateExamAttempt)
-
+router.get('/course/:courseId', authenticateJWT, ExamController.getExamsByCourseId)
 // Get detailed info about a specific exam (should be after specific routes)
 router.get('/:exam_id', ExamController.getExamDetails)
 

@@ -182,6 +182,18 @@ const examController = {
     )
   },
 
+  getExamsByCourseId: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
+          throwError('Không có quyền xem danh sách bài kiểm tra của giáo viên')
+        }
+        return await examService.getExamsByCourseId(req.params.courseId)
+      },
+      'Danh sách bài kiểm tra của khóa học'
+    ),
+
   // New routes for exam features
   checkExamTime: async (req, res) =>
     handleRequest(

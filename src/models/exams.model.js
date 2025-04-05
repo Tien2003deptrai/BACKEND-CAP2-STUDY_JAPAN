@@ -51,6 +51,11 @@ const examSchema = new Schema(
       ref: 'User',
       required: true
     },
+    course: {
+      type: Schema.Types.ObjectId,
+      ref: 'Course',
+      required: true
+    },
     isPublished: {
       type: Boolean,
       default: false
@@ -90,5 +95,6 @@ const examSchema = new Schema(
 // Tạo index để tối ưu truy vấn
 examSchema.index({ level: 1, tags: 1, isPublished: 1 })
 examSchema.index({ creator: 1 })
+examSchema.index({ course: 1 })
 
 module.exports = model(DOCUMENT_NAME, examSchema)

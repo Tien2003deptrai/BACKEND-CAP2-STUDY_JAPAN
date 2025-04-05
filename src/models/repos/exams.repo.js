@@ -1,23 +1,44 @@
 const examsModel = require('../exams.model')
 
 const ExamsRepo = {
-  findById: (id) => examsModel.findById(id).lean(),
+  findById: (id) => examsModel.findById(id).populate('course').lean(),
 
   findByTagAndLevel: (tags, level) => ExamsRepo.queryExams({ tags, level, isPublished: true }),
 
-  getAll: () => examsModel.find().lean(),
+  getAll: () => examsModel.find().populate('course').lean(),
 
-  create: (bodyData) => examsModel.create(bodyData),
+  create: (bodyData) => {
+    // If courseId is provided but course is not, use courseId value
+    if (bodyData.courseId && !bodyData.course) {
+      bodyData.course = bodyData.courseId
+      delete bodyData.courseId
+    }
+    return examsModel.create(bodyData)
+  },
 
-  update: (exam_id, bodyUpdate, isNew = true) =>
-    examsModel.findByIdAndUpdate(exam_id, bodyUpdate, { new: isNew }),
+  update: async (exam_id, bodyUpdate, isNew = true) => {
+    console.log('Update exam:', exam_id, bodyUpdate)
+
+    // Convert courseId to course if needed
+    if (bodyUpdate.courseId && !bodyUpdate.course) {
+      bodyUpdate.course = bodyUpdate.courseId
+      delete bodyUpdate.courseId
+    }
+
+    const updatedExam = await examsModel
+      .findByIdAndUpdate(exam_id, bodyUpdate, { new: isNew })
+      .populate('course')
+
+    return updatedExam
+  },
 
   delete: (exam_id) => examsModel.deleteOne({ _id: exam_id }),
 
   queryExams: (query) =>
     examsModel
       .find(query)
-      .select('_id title description time_limit total_points level tags allowedUsers')
+      .select('_id title description time_limit total_points level tags course')
+      .populate('course')
       .lean(),
 
   // Find exam for taking (without answers)
@@ -25,8 +46,9 @@ const ExamsRepo = {
     examsModel
       .findById(id)
       .select(
-        '_id title description time_limit total_points level sections tags questions difficultyLevel passingScore allowedAttempts'
+        '_id title description time_limit total_points level sections tags questions difficultyLevel passingScore allowedAttempts course'
       )
+      .populate('course')
       .lean()
       .then((exam) => {
         if (!exam) return null
@@ -44,7 +66,11 @@ const ExamsRepo = {
 
   // Find exam with answers for scoring
   findWithAnswers: (id) =>
-    examsModel.findById(id).select('_id title questions passingScore').lean(),
+    examsModel
+      .findById(id)
+      .select('_id title questions passingScore course')
+      .populate('course')
+      .lean(),
 
   checkUserAccess: async (userId, examId) => {
     // Kiểm tra xem user có được phép làm bài thi này không
@@ -53,6 +79,7 @@ const ExamsRepo = {
         _id: examId,
         $or: [{ allowedUsers: userId }, { creator: userId }]
       })
+      .populate('course')
       .lean()
 
     return !!exam
