@@ -12,6 +12,7 @@ const ExamRoute = require('./exam.route')
 const HinaRoute = require('./hina.route')
 const RenshuuRoute = require('./renshuu.route')
 const AdminRoute = require('./admin.route')
+const UserRoute = require('./user.route')
 // Configuration Routes * /api/config/*
 const TranslateRoute = require('./translation/translate.route')
 const router = express.Router()
@@ -29,6 +30,7 @@ router.use('/exam', authenticateJWT, ExamRoute)
 router.use('/hina', authenticateJWT, HinaRoute)
 router.use('/renshuu', authenticateJWT, RenshuuRoute)
 router.use('/admin', authenticateJWT, AdminRoute)
+router.use('/user', authenticateJWT, UserRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

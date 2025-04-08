@@ -45,10 +45,11 @@ const authenticateJWT = async (req, res, next) => {
 }
 
 const authorizeRole = (roles) => (req, res, next) => {
+  console.log('roles', req.user.roles)
+
   if (!roles.includes(req.user.roles)) {
     return ApiRes.error(res, 'Forbidden: Access denied')
   }
-  console.log('roles', req.user.roles)
   next()
 }
 

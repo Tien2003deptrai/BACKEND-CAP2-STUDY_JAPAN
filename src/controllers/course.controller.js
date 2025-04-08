@@ -1,7 +1,6 @@
 const { validateRequiredFields } = require('../validators')
 const handleRequest = require('./BaseController')
 const CourseService = require('../services/course.service')
-const { extractStudentDataFromFile } = require('../utils/fileProcessor')
 
 const CourseController = {
   registerCourse: (req, res) =>

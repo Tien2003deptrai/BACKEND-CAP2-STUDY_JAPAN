@@ -31,7 +31,6 @@ const hashPassword = async (password) => {
   return await bcrypt.hash(password, salt)
 }
 
-// Dữ liệu seed giả (copy từ các mảng mình đã gửi)
 const createSeedData = async () => {
   const users = [
     {
@@ -41,10 +40,15 @@ const createSeedData = async () => {
       password: await hashPassword('admin123'),
       status: 'active',
       date_of_birth: new Date('1990-01-15'),
-      sex: 1,
+      sex: 'male',
       avatar: 'https://example.com/avatars/an.jpg',
       roles: 'admin',
-      phone: '0901234567'
+      phone: '0901234567',
+      admin_profile: {
+        permissions: ['manage_users'],
+        last_login_ip: '127.0.0.1',
+        managed_users: []
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1002',
@@ -53,108 +57,158 @@ const createSeedData = async () => {
       password: await hashPassword('teacher123'),
       status: 'pending',
       date_of_birth: new Date('1995-06-20'),
-      sex: 0,
+      sex: 'female',
       avatar: '',
       roles: 'teacher',
-      phone: '0912345678'
+      phone: '0912345678',
+      teacher_profile: {
+        bio: 'Giáo viên tiếng Nhật cấp cao',
+        experience_years: 5,
+        subjects: ['Ngữ pháp', 'Giao tiếp'],
+        certificates: ['JLPT N1']
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1003',
       name: 'Le Van Cuong',
       email: 'le.cuong@example.com',
       password: await hashPassword('student123'),
-      status: 'block',
+      status: 'blocked',
       date_of_birth: new Date('1988-03-10'),
-      sex: 1,
+      sex: 'male',
       avatar: '',
       roles: 'student',
-      phone: '0923456789'
+      phone: '0923456789',
+      student_profile: {
+        learning_level: 'intermediate',
+        enrolled_courses: [],
+        progress: 20
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1004',
       name: 'Pham Thi Dung',
       email: 'pham.dung@example.com',
-      password: 'hashed_password_101',
+      password: await hashPassword('teacher456'),
       status: 'active',
       date_of_birth: new Date('1992-11-25'),
-      sex: 0,
+      sex: 'female',
       avatar: 'https://example.com/avatars/dung.jpg',
       roles: 'teacher',
-      phone: '0934567890'
+      phone: '0934567890',
+      teacher_profile: {
+        bio: 'Giảng viên luyện thi JLPT',
+        experience_years: 3,
+        subjects: ['Đọc hiểu'],
+        certificates: []
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1005',
       name: 'Hoang Van Em',
       email: 'hoang.em@example.com',
-      password: 'hashed_password_202',
+      password: await hashPassword('student456'),
       status: 'pending',
       date_of_birth: new Date('1993-07-12'),
-      sex: 1,
+      sex: 'male',
       avatar: '',
       roles: 'student',
-      phone: '0945678901'
+      phone: '0945678901',
+      student_profile: {
+        learning_level: 'beginner',
+        enrolled_courses: [],
+        progress: 0
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1006',
       name: 'Vu Thi Phuong',
       email: 'vu.phuong@example.com',
-      password: 'hashed_password_303',
+      password: await hashPassword('admin456'),
       status: 'active',
       date_of_birth: new Date('1991-09-30'),
-      sex: 0,
+      sex: 'female',
       avatar: 'https://example.com/avatars/phuong.jpg',
       roles: 'admin',
-      phone: '0956789012'
+      phone: '0956789012',
+      admin_profile: {
+        permissions: ['manage_teachers'],
+        last_login_ip: '127.0.0.1',
+        managed_users: []
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1007',
       name: 'Do Van Giang',
       email: 'do.giang@example.com',
-      password: 'hashed_password_404',
+      password: await hashPassword('teacher789'),
       status: 'pending',
       date_of_birth: new Date('1989-04-05'),
-      sex: 1,
+      sex: 'male',
       avatar: '',
       roles: 'teacher',
-      phone: '0967890123'
+      phone: '0967890123',
+      teacher_profile: {
+        bio: '',
+        experience_years: 0,
+        subjects: [],
+        certificates: []
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1008',
       name: 'Bui Thi Hoa',
       email: 'bui.hoa@example.com',
-      password: 'hashed_password_505',
+      password: await hashPassword('student789'),
       status: 'active',
       date_of_birth: new Date('1996-12-15'),
-      sex: 0,
+      sex: 'female',
       avatar: 'https://example.com/avatars/hoa.jpg',
       roles: 'student',
-      phone: '0978901234'
+      phone: '0978901234',
+      student_profile: {
+        learning_level: 'advanced',
+        enrolled_courses: [],
+        progress: 75
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e1009',
       name: 'Dang Van Khanh',
       email: 'dang.khanh@example.com',
-      password: 'hashed_password_606',
-      status: 'block',
+      password: await hashPassword('admin789'),
+      status: 'blocked',
       date_of_birth: new Date('1987-08-22'),
-      sex: 1,
+      sex: 'male',
       avatar: '',
       roles: 'admin',
-      phone: '0989012345'
+      phone: '0989012345',
+      admin_profile: {
+        permissions: [],
+        managed_users: [],
+        last_login_ip: ''
+      }
     },
     {
       _id: '605c72ef5f5b2c1d4c8e100a',
       name: 'Ngo Thi Linh',
       email: 'ngo.linh@example.com',
-      password: 'hashed_password_707',
+      password: await hashPassword('teacher999'),
       status: 'active',
       date_of_birth: new Date('1994-02-28'),
-      sex: 0,
+      sex: 'female',
       avatar: 'https://example.com/avatars/linh.jpg',
       roles: 'teacher',
-      phone: '0990123456'
+      phone: '0990123456',
+      teacher_profile: {
+        bio: 'Tốt nghiệp đại học Nhật Bản',
+        experience_years: 2,
+        subjects: ['Hội thoại cơ bản'],
+        certificates: ['JLPT N2']
+      }
     }
   ]
+
   return users
 }
 
