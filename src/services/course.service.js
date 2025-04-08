@@ -87,6 +87,7 @@ const CourseService = {
       _id: course._id,
       name: course.name,
       thumb: course.thumb,
+      description: course.description,
       user: course.user,
       course_slug: course.course_slug || '',
       type: course.type,
@@ -121,6 +122,7 @@ const CourseService = {
       _id: course._id,
       name: course.name,
       thumb: course.thumb,
+      description: course.description,
       user: course.user,
       course_slug: course.course_slug || '',
       type: course.type,
@@ -144,7 +146,7 @@ const CourseService = {
     }))
   },
 
-  createCourse: async ({ name, thumb, decription, user, lessons = [] }) => {
+  createCourse: async ({ name, thumb, description, user, lessons = [] }) => {
     const userObjectId = convert2ObjectId(user)
 
     if (await CourseRepo.findByName(name)) throwError('Course name already exists')
@@ -154,10 +156,12 @@ const CourseService = {
       (await courseModel.create({
         name,
         thumb,
-        decription,
+        description,
         user: userObjectId,
         author: author.name
       })) || throwError('Create course failed')
+
+    console.log('newCourse', newCourse)
 
     // Create lessons if provided
     if (Array.isArray(lessons) && lessons.length > 0) {
@@ -359,7 +363,7 @@ const CourseService = {
           })
 
           if (existingEnrollment) {
-            throw new Error(`User ${user.email || studentId} is already enrolled in this course`)
+            return // Skip if already enrolled
           }
 
           // Create enrollment record

@@ -76,9 +76,9 @@ const CourseController = {
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['courseId'], req.body)
+        validateRequiredFields(['courseId', 'studentId'], req.body)
         return await CourseService.unenrollStudent({
-          userId: req.user.userId,
+          userId: req.body.studentId,
           courseId: req.body.courseId
         })
       },
@@ -86,44 +86,17 @@ const CourseController = {
     ),
 
   bulkAddStudents: async (req, res) => {
-    try {
-      if (req.file) {
-        const filePath = req.file.path
-        const studentData = await extractStudentDataFromFile(filePath)
+    const { studentIds, courseId } = req.body
+    const result = await CourseService.addMultipleStudentsToClass({
+      courseId,
+      studentIds,
+      adminId: req.user.userId
+    })
 
-        const studentIds = studentData.map((student) => student.studentId)
-
-        const courseId = req.body.courseId
-        const adminId = req.user.userId
-
-        const result = await CourseService.addMultipleStudentsToClass({
-          courseId,
-          studentIds,
-          adminId
-        })
-
-        res.status(200).json({
-          message: 'Thêm sinh viên vào khóa học thành công',
-          result
-        })
-      } else {
-        const { studentIds, courseId, adminId } = req.body
-
-        const result = await CourseService.addMultipleStudentsToClass({
-          courseId,
-          studentIds,
-          adminId
-        })
-
-        res.status(200).json({
-          message: 'Thêm sinh viên vào khóa học thành công',
-          result
-        })
-      }
-    } catch (error) {
-      console.error(error)
-      res.status(500).json({ error: 'Có lỗi xảy ra, vui lòng thử lại sau' })
-    }
+    res.status(200).json({
+      message: 'Thêm sinh viên vào khóa học thành công',
+      result
+    })
   }
 }
 
