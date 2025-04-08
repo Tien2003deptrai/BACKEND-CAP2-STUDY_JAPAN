@@ -182,6 +182,25 @@ const examController = {
     )
   },
 
+  getExamsByUserEnrollment: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        const userId = req.user.userId
+
+        const filters = {
+          level: req.query.level,
+          tags: req.query.tags,
+          difficultyLevel: req.query.difficulty,
+          searchTerm: req.query.search
+        }
+
+        const exams = await examService.listExamsByEnrolledCourses(userId, filters)
+        return exams
+      },
+      'Danh sách bài kiểm tra theo khóa học đã đăng ký'
+    ),
+
   getExamsByCourseId: async (req, res) =>
     handleRequest(
       res,

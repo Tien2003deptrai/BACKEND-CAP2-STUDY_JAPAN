@@ -9,6 +9,8 @@ const { authenticateJWT } = require('../middleware/auth.middleware')
 // Get list of available (published) exams
 router.get('', ExamController.getExams)
 
+// Get exams by user enrollment
+router.get('/enrolled', authenticateJWT, ExamController.getExamsByUserEnrollment)
 /**
  * Protected routes (require authentication)
  */
@@ -57,4 +59,5 @@ router.get('/teacher/:userId', authenticateJWT, ExamController.getExamsByTeacher
 
 // Delete question in an exam
 router.delete('/:examId/question/:questionId', authenticateJWT, ExamController.deleteExamQuestion)
+
 module.exports = router
