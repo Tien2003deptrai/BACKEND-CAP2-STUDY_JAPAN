@@ -188,14 +188,7 @@ const examController = {
       async () => {
         const userId = req.user.userId
 
-        const filters = {
-          level: req.query.level,
-          tags: req.query.tags,
-          difficultyLevel: req.query.difficulty,
-          searchTerm: req.query.search
-        }
-
-        const exams = await examService.listExamsByEnrolledCourses(userId, filters)
+        const exams = await examService.listExamsByEnrolledCourses(userId)
         return exams
       },
       'Danh sách bài kiểm tra theo khóa học đã đăng ký'
