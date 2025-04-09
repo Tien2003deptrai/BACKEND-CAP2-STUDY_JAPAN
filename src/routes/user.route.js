@@ -10,5 +10,6 @@ router.post('/reset-password', UserController.resetPassword)
 router.post('/change-password', authenticateJWT, UserController.changePassword)
 router.put('/profile', authenticateJWT, UserController.updateProfile)
 router.post('/logout-all', authenticateJWT, UserController.logoutAll)
+router.get('/profile', authenticateJWT, UserController.getProfileUser)
 
 module.exports = router

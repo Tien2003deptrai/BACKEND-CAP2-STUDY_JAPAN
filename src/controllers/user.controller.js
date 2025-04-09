@@ -42,7 +42,16 @@ const UserController = {
       res,
       () => UserService.logoutAllSessions(req.user.userId),
       'Đã đăng xuất khỏi tất cả thiết bị'
+    ),
+
+  getProfileUser: async (req, res) => {
+    const userId = req.user.userId
+    await handleRequest(
+      res,
+      () => UserService.getProfileUser(userId),
+      'Lấy hồ sơ người dùng thành công'
     )
+  }
 }
 
 module.exports = UserController
