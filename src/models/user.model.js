@@ -42,9 +42,9 @@ const userSchema = new Schema(
     },
     roles: {
       type: String,
-      enum: ['student', 'teacher', 'admin'],
-      default: 'student',
-      required: true
+      // enum: ['student', 'teacher', 'admin'],
+      default: 'student'
+      // required: true
     },
     phone: {
       type: String,

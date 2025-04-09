@@ -13,7 +13,7 @@ const EnrollmentRepo = {
   getCoursesByStudent: async (studentId) => {
     return enrollmentModel
       .find({ user: convert2ObjectId(studentId) })
-      .populate('course', 'name type thumb')
+      .populate('course', 'name type thumb stu_num')
       .lean()
   },
 

@@ -79,11 +79,21 @@ const AdminService = {
 
   getCoursesByStudent: async (studentId) => {
     const data = await EnrollmentRepo.getCoursesByStudent(studentId)
-    return data.map((e) =>
-      getInfoData({ fields: ['_id', 'course.name', 'course.thumb', 'course.type'], object: e })
-    )
+    console.log('📦 ENROLLMENTS:', data) // Kiểm tra xem có course không
+    return data
+      .filter((e) => e.course)
+      .map((e) => ({
+        _id: e._id,
+        enrolledAt: e.enrolledAt,
+        course: {
+          _id: e.course._id,
+          name: e.course.name,
+          thumb: e.course.thumb,
+          type: e.course.type,
+          stu_num: e.course.stu_num
+        }
+      }))
   },
-
   enrollStudent: async ({ studentId, courseId }) => {
     await EnrollmentRepo.enrollStudent(studentId, courseId)
   },

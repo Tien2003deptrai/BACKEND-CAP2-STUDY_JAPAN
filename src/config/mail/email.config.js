@@ -5,7 +5,9 @@ exports.transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: process.env.SMTP_PORT || 587,
   auth: {
-    user: process.env.SMTP_USER || 'trungducloz11111@gmail.com',
-    pass: process.env.SMTP_PASS || 'lwrs nhre roew efns'
-  }
+    user: process.env.SMTP_USER || 'congthanh0121@gmail.com',
+    pass: process.env.SMTP_PASS || 'auvr hcic zozm yrzx'
+  },
+  logger: true, // <-- thêm dòng này
+  debug: true // <-- thêm dòng này
 })
