@@ -1,4 +1,4 @@
-AdminRepo = require('../models/repos/admin.repo')
+const AdminRepo = require('../models/repos/admin.repo')
 const EnrollmentRepo = require('../models/repos/EnrollmentRepo')
 const { getInfoData } = require('../utils')
 

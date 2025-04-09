@@ -30,7 +30,7 @@ router.use('/exam', authenticateJWT, ExamRoute)
 router.use('/hina', authenticateJWT, HinaRoute)
 router.use('/renshuu', authenticateJWT, RenshuuRoute)
 router.use('/admin', authenticateJWT, AdminRoute)
-router.use('/user', authenticateJWT, UserRoute)
+router.use('/user', UserRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

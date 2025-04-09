@@ -3,6 +3,12 @@ const { model, Schema } = require('mongoose')
 const DOCUMENT_NAME = 'Grammar'
 const COLLECTION_NAME = 'Grammars'
 
+const exampleSchema = new Schema({
+  _id: { type: String },
+  ja: { type: String, required: true },
+  vi: { type: String, required: true }
+})
+
 const grammarSchema = new Schema(
   {
     lesson: {
@@ -20,12 +26,7 @@ const grammarSchema = new Schema(
       type: String,
       required: true
     },
-    examples: [
-      {
-        ja: String,
-        vi: String
-      }
-    ],
+    examples: [exampleSchema],
     level: {
       type: String
     },
@@ -38,5 +39,8 @@ const grammarSchema = new Schema(
     collection: COLLECTION_NAME
   }
 )
+
+// Ensure _id is handled by MongoDB
+grammarSchema.set('_id', true)
 
 module.exports = model(DOCUMENT_NAME, grammarSchema)

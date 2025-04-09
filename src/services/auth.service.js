@@ -7,10 +7,10 @@ const throwError = require('../res/throwError')
 
 // Trả về thông tin user đã lọc
 const filterUserData = (user) =>
-  getInfoData({ fields: ['_id', 'name', 'email', 'roles'], object: user })
+  getInfoData({ fields: ['_id', 'name', 'email', 'roles', 'phone'], object: user })
 
 const AuthService = {
-  signUp: async ({ name, email }) => {
+  signUp: async ({ name, email, roles, phone }) => {
     await AuthService._checkUserExists(email)
 
     const randomPassword = generateRandomPassword(10)
@@ -22,7 +22,8 @@ const AuthService = {
         name,
         email,
         password: hashedPassword,
-        roles: 'user'
+        roles,
+        phone
       })) || throwError('User creation failed')
 
     await progressionModel.create({ user: newUser._id })
