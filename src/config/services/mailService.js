@@ -1,5 +1,5 @@
 const { transporter } = require('../mail/email.config')
-const registerEmailTemplate = require('../template')
+const { registerEmailTemplate, resetPasswordTemplate } = require('../template')
 
 async function sendRegistrationEmail(name, email, password) {
   transporter.sendMail(
@@ -19,4 +19,12 @@ async function sendRegistrationEmail(name, email, password) {
   )
 }
 
-module.exports = { sendRegistrationEmail }
+async function sendResetPasswordEmail(name, email, link) {
+  await transporter.sendMail({
+    to: email,
+    subject: 'Yêu cầu đặt lại mật khẩu - StudyJapan',
+    html: resetPasswordTemplate(name, link)
+  })
+}
+
+module.exports = { sendRegistrationEmail, sendResetPasswordEmail }

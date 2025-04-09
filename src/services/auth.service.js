@@ -33,8 +33,20 @@ const AuthService = {
 
   login: async ({ email, password }) => {
     const user = await AuthService._validateUserCredentials(email, password)
-    const token = generateToken(user)
-    return { success: true, token, user: filterUserData(user) }
+
+    if (user.status !== 'active') {
+      throwError('Tài khoản chưa được kích hoạt hoặc đã bị khóa')
+    }
+
+    user.last_login_at = new Date()
+    await user.save()
+
+    const token = generateToken(user) // nên include _id, roles
+    return {
+      success: true,
+      token,
+      user: filterUserData(user)
+    }
   },
 
   _checkUserExists: async (email) => {
@@ -49,7 +61,9 @@ const AuthService = {
   },
 
   _validateUserCredentials: async (email, password) => {
-    const user = (await userModel.findOne({ email })) || throwError('Invalid email or password')
+    const user =
+      (await userModel.findOne({ email }).select('+password')) ||
+      throwError('Invalid email or password')
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) throwError('Invalid email or password')
     return user

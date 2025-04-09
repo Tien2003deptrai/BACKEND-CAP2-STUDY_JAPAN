@@ -5,10 +5,11 @@ const AdminController = {
   // Teacher operations
   getAllTeachers: async (req, res) => {
     const { limit, skip } = req.query
+    console.log('user', req.user.roles)
     await handleRequest(
       res,
       () => AdminService.getAllTeachers({ limit, skip }),
-      'Get all teachers successfully'
+      'Lấy danh sách giáo viên thành công'
     )
   },
 
@@ -17,7 +18,7 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.getTeacherById(teacher_id),
-      'Get teacher by id successfully'
+      'Lấy thông tin giáo viên thành công'
     )
   },
 
@@ -27,7 +28,7 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.updateTeacherStatus(teacher_id, { status }),
-      'Update teacher status successfully'
+      'Cập nhật trạng thái giáo viên thành công'
     )
   },
 
@@ -37,7 +38,7 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.getAllStudents({ limit, skip }),
-      'Get all students successfully'
+      'Lấy danh sách học viên thành công'
     )
   },
 
@@ -46,7 +47,7 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.getStudentById(student_id),
-      'Get student by id successfully'
+      'Lấy thông tin học viên thành công'
     )
   },
 
@@ -56,7 +57,7 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.updateStudentStatus(student_id, { status }),
-      'Update student status successfully'
+      'Cập nhật trạng thái học viên thành công'
     )
   },
 
@@ -65,7 +66,40 @@ const AdminController = {
     await handleRequest(
       res,
       () => AdminService.getDashboardStats(),
-      'Get dashboard statistics successfully'
+      'Lấy thống kê tổng quan thành công'
+    )
+  },
+
+  // Enrollment
+  getStudentsByCourse: (req, res) =>
+    handleRequest(
+      res,
+      () => AdminService.getStudentsByCourse(req.params.course_id),
+      'Lấy danh sách học viên theo khóa học'
+    ),
+
+  getCoursesByStudent: (req, res) =>
+    handleRequest(
+      res,
+      () => AdminService.getCoursesByStudent(req.params.student_id),
+      'Lấy danh sách khóa học của học viên'
+    ),
+
+  enrollStudent: (req, res) => {
+    const { studentId, courseId } = req.body
+    return handleRequest(
+      res,
+      () => AdminService.enrollStudent({ studentId, courseId }),
+      'Ghi danh học viên thành công'
+    )
+  },
+
+  removeEnrollment: (req, res) => {
+    const { studentId, courseId } = req.body
+    return handleRequest(
+      res,
+      () => AdminService.removeEnrollment({ studentId, courseId }),
+      'Huỷ ghi danh học viên thành công'
     )
   }
 }

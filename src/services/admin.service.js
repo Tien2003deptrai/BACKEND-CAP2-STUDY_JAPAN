@@ -1,56 +1,95 @@
-const AdminRepo = require('../models/repos/admin.repo')
-const throwError = require('../res/throwError')
+AdminRepo = require('../models/repos/admin.repo')
+const EnrollmentRepo = require('../models/repos/EnrollmentRepo')
+const { getInfoData } = require('../utils')
 
 const AdminService = {
-  // Teacher operations
-  getAllTeachers: async ({ limit, skip }) => {
-    const teachers = await AdminRepo.getAllTeachers({ limit, skip })
-    if (!teachers.length) throwError('No teachers found')
-    return teachers
+  // Teacher
+  getAllTeachers: async (params) => {
+    const teachers = await AdminRepo.getAllTeachers(params)
+    return teachers.map((t) =>
+      getInfoData({
+        fields: ['_id', 'name', 'email', 'phone', 'status', 'teacher_profile'],
+        object: t
+      })
+    )
   },
 
-  getTeacherById: async (teacher_id) => {
-    const teacher = await AdminRepo.getTeacherById(teacher_id)
-    if (!teacher) throwError('Teacher not found')
-    return teacher
+  getTeacherById: async (id) => {
+    const teacher = await AdminRepo.getTeacherById(id)
+    if (!teacher) throw new Error('Không tìm thấy giáo viên')
+    return getInfoData({
+      fields: ['_id', 'name', 'email', 'phone', 'status', 'teacher_profile'],
+      object: teacher
+    })
   },
 
-  updateTeacherStatus: async (teacher_id, { status }) => {
-    if (!['active', 'inactive'].includes(status)) {
-      throwError('Invalid status. Must be either "active" or "inactive"')
-    }
-
-    const teacher = await AdminRepo.updateTeacherStatus(teacher_id, { status })
-    if (!teacher) throwError('Teacher not found')
-    return teacher
+  updateTeacherStatus: async (id, { status }) => {
+    const updated = await AdminRepo.updateTeacherStatus(id, { status })
+    if (!updated) throw new Error('Không cập nhật được trạng thái')
+    return getInfoData({
+      fields: ['_id', 'name', 'email', 'status'],
+      object: updated
+    })
   },
 
-  // Student operations
-  getAllStudents: async ({ limit, skip }) => {
-    const students = await AdminRepo.getAllStudents({ limit, skip })
-    if (!students.length) throwError('No students found')
-    return students
+  // Student
+  getAllStudents: async (params) => {
+    const students = await AdminRepo.getAllStudents(params)
+    return students.map((s) =>
+      getInfoData({
+        fields: ['_id', 'name', 'email', 'phone', 'status', 'student_profile'],
+        object: s
+      })
+    )
   },
 
-  getStudentById: async (student_id) => {
-    const student = await AdminRepo.getStudentById(student_id)
-    if (!student) throwError('Student not found')
-    return student
+  getStudentById: async (id) => {
+    const student = await AdminRepo.getStudentById(id)
+    if (!student) throw new Error('Không tìm thấy học viên')
+    return getInfoData({
+      fields: ['_id', 'name', 'email', 'phone', 'status', 'student_profile'],
+      object: student
+    })
   },
 
-  updateStudentStatus: async (student_id, { status }) => {
-    if (!['active', 'inactive'].includes(status)) {
-      throwError('Invalid status. Must be either "active" or "inactive"')
-    }
-
-    const student = await AdminRepo.updateStudentStatus(student_id, { status })
-    if (!student) throwError('Student not found')
-    return student
+  updateStudentStatus: async (id, { status }) => {
+    const updated = await AdminRepo.updateStudentStatus(id, { status })
+    if (!updated) throw new Error('Không cập nhật được trạng thái')
+    return getInfoData({
+      fields: ['_id', 'name', 'email', 'status'],
+      object: updated
+    })
   },
 
-  // Dashboard statistics
+  // Dashboard
   getDashboardStats: async () => {
-    return AdminRepo.getDashboardStats()
+    return await AdminRepo.getDashboardStats()
+  },
+  // ✅ Mục tiêu các chức năng:
+  // Xem danh sách học viên của một khóa học
+  // Xem học viên đã đăng ký những khóa nào
+  // Ghi danh thủ công học viên vào khóa học
+  // Huỷ ghi danh học viên khỏi khóa học
+  getStudentsByCourse: async (courseId) => {
+    const data = await EnrollmentRepo.getStudentsByCourse(courseId)
+    return data.map((e) =>
+      getInfoData({ fields: ['_id', 'user.name', 'user.email', 'user.avatar'], object: e })
+    )
+  },
+
+  getCoursesByStudent: async (studentId) => {
+    const data = await EnrollmentRepo.getCoursesByStudent(studentId)
+    return data.map((e) =>
+      getInfoData({ fields: ['_id', 'course.name', 'course.thumb', 'course.type'], object: e })
+    )
+  },
+
+  enrollStudent: async ({ studentId, courseId }) => {
+    await EnrollmentRepo.enrollStudent(studentId, courseId)
+  },
+
+  removeEnrollment: async ({ studentId, courseId }) => {
+    await EnrollmentRepo.removeEnrollment(studentId, courseId)
   }
 }
 
