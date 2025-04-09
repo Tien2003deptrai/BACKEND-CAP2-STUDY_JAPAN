@@ -423,7 +423,6 @@ const ExamService = {
         const hasAccess = await ExamsRepo.checkUserAccess(userId, examId)
         return hasAccess
       case 'group':
-        // Kiểm tra xem user có thuộc nhóm được phép làm bài thi không
         const userGroups = await getUserGroups(userId) // Implement this function
         return exam.allowedGroups.some((group) => userGroups.includes(group))
       default:
@@ -683,30 +682,13 @@ const ExamService = {
     }
   },
 
-  async listExamsByEnrolledCourses(userId, filters) {
-    // 1. Tìm các khóa học mà học viên đã đăng ký
+  async listExamsByEnrolledCourses(userId) {
     const enrollments = await enrollmentModel.find({ user: userId }).select('course')
     const courseIds = enrollments.map((e) => e.course)
 
-    // 2. Tạo bộ lọc cho bài kiểm tra
-    const examFilters = {
-      course: { $in: courseIds },
-      isPublished: true
-    }
+    if (courseIds.length === 0) return []
 
-    // Bổ sung các bộ lọc nếu có
-    if (filters.level) examFilters.level = filters.level
-    if (filters.tags) examFilters.tags = { $in: filters.tags.split(',') }
-    if (filters.difficultyLevel) examFilters.difficultyLevel = filters.difficultyLevel
-    if (filters.searchTerm) {
-      examFilters.title = { $regex: filters.searchTerm, $options: 'i' }
-    }
-
-    // 3. Lấy danh sách bài kiểm tra
-    const exams = await examsModel
-      .find(examFilters)
-      .populate('course', 'name')
-      .sort({ createdAt: -1 })
+    const exams = await examsModel.find({ course: { $in: courseIds } })
 
     return exams
   }
