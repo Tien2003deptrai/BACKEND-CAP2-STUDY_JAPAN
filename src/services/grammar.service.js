@@ -53,10 +53,18 @@ const GrammarService = {
 
     const results = await Promise.all(
       grammars.map(async (grammar) => {
-        const { grammar_id, ...data } = grammar
+        const { grammar_id, _id, ...data } = grammar
+
+        if (data.examples) {
+          data.examples = data.examples.map((example) => ({
+            _id: example._id || String(new Date().getTime()),
+            ja: example.ja,
+            vi: example.vi
+          }))
+        }
 
         if (!grammar_id) {
-          // Create new grammar
+          // Create new grammar without specifying _id
           const newGrammar = await GrammarRepo.create({
             lesson: convertedLessonId,
             ...data
