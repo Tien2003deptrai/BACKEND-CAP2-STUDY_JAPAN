@@ -13,15 +13,15 @@ const KanjiController = {
       'Lấy tất cả kanji thành công'
     ),
 
-    // getSvgContent: (req, res) =>
-    //   handleRequest(
-    //     res,
-    //     async () => {
-    //       validateRequiredFields(['kanji'], req.body)
-    //       return await KanjiService.getSvgContent(req.body)
-    //     },
-    //     'Lấy SVG thành công'
-    //   ),
+  // getSvgContent: (req, res) =>
+  //   handleRequest(
+  //     res,
+  //     async () => {
+  //       validateRequiredFields(['kanji'], req.body)
+  //       return await KanjiService.getSvgContent(req.body)
+  //     },
+  //     'Lấy SVG thành công'
+  //   ),
 
   getAllKanjiByLevel: (req, res) =>
     handleRequest(
@@ -51,6 +51,24 @@ const KanjiController = {
         return await KanjiService.kanjiByName(req.query.word)
       },
       'Lấy kanji theo tên thành công'
+    ),
+
+  getKanjiById: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await KanjiService.getKanjiById(req.params.kanji_id)
+      },
+      'Lấy kanji thành công'
+    ),
+
+  getRelatedKanji: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await KanjiService.getRelatedKanji(req.params.kanji_id)
+      },
+      'Lấy kanji thành công'
     )
 }
 

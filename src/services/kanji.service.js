@@ -46,6 +46,21 @@ const KanjiService = {
     const result = await KanjiRepo.getKanjiByCharacter(word)
     if (!result) throwError(`Kanji with word '${word}' not found`)
     return result
+  },
+
+  // New method to get Kanji by ID
+  getKanjiById: async (kanji_id) => {
+    const kanji = await KanjiRepo.getKanjiById(kanji_id)
+    return kanji
+  },
+
+  getRelatedKanji: async (kanji_id) => {
+    // Tìm Kanji hiện tại dựa trên ID
+    const kanji = await KanjiRepo.getKanjiById(kanji_id)
+    if (!kanji) throwError('Kanji not found')
+
+    const relatedKanji = await KanjiRepo.getKanjiByOnyomiOrKunyomi(kanji.onyomi, kanji.kunyomi)
+    return relatedKanji
   }
 }
 
