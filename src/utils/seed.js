@@ -1041,7 +1041,7 @@ const exams = [
     ],
     creator: '605c72ef5f5b2c1d4c8e1001',
     course: '605c72ef5f5b2c1d4c8e2001',
-    isPublished: true,
+    // isPublished: true,
     tags: ['mock', 'N5', 'beginner'],
     questions: [
       {
@@ -1114,7 +1114,7 @@ const exams = [
     ],
     creator: '605c72ef5f5b2c1d4c8e1002',
     course: '605c72ef5f5b2c1d4c8e2002',
-    isPublished: false,
+    // isPublished: false,
     tags: ['kanji', 'N5', 'beginner'],
     questions: [
       {
@@ -1182,7 +1182,7 @@ const exams = [
     ],
     creator: '605c72ef5f5b2c1d4c8e1004',
     course: '605c72ef5f5b2c1d4c8e2003',
-    isPublished: true,
+    // isPublished: true,
     tags: ['grammar', 'N4', 'intermediate'],
     questions: [
       {
@@ -1247,7 +1247,7 @@ const exams = [
     ],
     creator: '605c72ef5f5b2c1d4c8e1002',
     course: '605c72ef5f5b2c1d4c8e2004',
-    isPublished: false,
+    // isPublished: false,
     tags: ['conversation', 'N5', 'beginner'],
     questions: [
       {
@@ -1303,7 +1303,7 @@ const exams = [
     ],
     creator: '605c72ef5f5b2c1d4c8e1004',
     course: '605c72ef5f5b2c1d4c8e2005',
-    isPublished: true,
+    // isPublished: true,
     tags: ['mock', 'N3', 'intermediate'],
     questions: [
       {

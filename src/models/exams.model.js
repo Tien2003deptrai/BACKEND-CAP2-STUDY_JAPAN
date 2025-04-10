@@ -56,10 +56,10 @@ const examSchema = new Schema(
       ref: 'Course',
       required: true
     },
-    isPublished: {
-      type: Boolean,
-      default: false
-    },
+    // isPublished: {
+    //   type: Boolean,
+    //   default: false
+    // },
     tags: [String],
     questions: [questionSchema],
     allowedTime: { type: Number }, // Thời gian cho phép làm bài (phút) - có thể khác với time_limit
@@ -93,7 +93,7 @@ const examSchema = new Schema(
 )
 
 // Tạo index để tối ưu truy vấn
-examSchema.index({ level: 1, tags: 1, isPublished: 1 })
+examSchema.index({ level: 1, tags: 1 })
 examSchema.index({ creator: 1 })
 examSchema.index({ course: 1 })
 

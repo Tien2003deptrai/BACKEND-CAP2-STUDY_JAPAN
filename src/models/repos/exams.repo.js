@@ -3,7 +3,7 @@ const examsModel = require('../exams.model')
 const ExamsRepo = {
   findById: (id) => examsModel.findById(id).populate('course').lean(),
 
-  findByTagAndLevel: (tags, level) => ExamsRepo.queryExams({ tags, level, isPublished: true }),
+  findByTagAndLevel: (tags, level) => ExamsRepo.queryExams({ tags, level }),
 
   getAll: () => examsModel.find().populate('course').lean(),
 

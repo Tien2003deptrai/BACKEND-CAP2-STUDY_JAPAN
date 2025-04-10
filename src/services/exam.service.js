@@ -55,7 +55,7 @@ const ExamService = {
   listAvailableExams: async (filters = {}) => {
     const { level, tags, difficulty, searchTerm } = filters
 
-    const query = { isPublished: true }
+    const query = {}
 
     if (level) query.level = level.toUpperCase()
     if (tags) query.tags = { $in: Array.isArray(tags) ? tags : [tags] }
@@ -93,7 +93,7 @@ const ExamService = {
     const exam = await ExamsRepo.findById(examObjectId)
 
     if (!exam) throwError('Không tìm thấy bài kiểm tra')
-    if (!exam.isPublished) throwError('Bài kiểm tra này chưa được công bố')
+    // if (!exam.isPublished) throwError('Bài kiểm tra này chưa được công bố')
 
     const attemptCount = await ResultRepo.countAttempts(userId, examObjectId)
     if (exam.allowedAttempts && attemptCount >= exam.allowedAttempts) {
@@ -450,9 +450,9 @@ const ExamService = {
       }
 
       // Check if exam is published
-      if (!exam.isPublished) {
-        throwError('Bài thi chưa được công bố', 400)
-      }
+      // if (!exam.isPublished) {
+      //   throwError('Bài thi chưa được công bố', 400)
+      // }
 
       // Check if exam is within allowed time window
       const now = new Date()
