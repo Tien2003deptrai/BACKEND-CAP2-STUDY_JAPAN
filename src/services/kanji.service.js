@@ -1,26 +1,25 @@
 const KanjiRepo = require('../models/repos/kanji.repo')
 const throwError = require('../res/throwError')
-// const axios = require('axios')
-
-// const folderPath = 'images'
+const fs = require('fs')
+const path = require('path')
 
 const KanjiService = {
-  // getSvgContent: async ({ kanji }) => {
-  //   const filePath = `${folderPath}/${kanji}.svg`
-  //   const file = bucket.file(filePath)
+  getKanjiSvgContent: async (kanji) => {
+    // Lấy giá trị Unicode và chuyển thành dạng hexadecimal
+    let hex = kanji.codePointAt(0).toString(16)
+    hex = hex.padStart(5, '0') // Đảm bảo mã hex có đủ 5 ký tự
 
-  //   const [url] = await file.getSignedUrl({
-  //     action: 'read',
-  //     expires: Date.now() + 1000 * 3600 * 48
-  //   })
+    const filePath = path.join(__dirname, 'kanji-data', `${hex}.svg`)
 
-  //   try {
-  //     const res = await axios.get(url)
-  //     return res.data
-  //   } catch (error) {
-  //     throwError(`Error fetching SVG content for Kanji: ${kanji}`, error)
-  //   }
-  // },
+    // Kiểm tra nếu không tồn tại file SVG
+    if (!fs.existsSync(filePath)) {
+      throwError(`SVG for Kanji "${kanji}" not found`)
+    }
+
+    // Đọc nội dung SVG
+    const svg = fs.readFileSync(filePath, 'utf-8')
+    return svg
+  },
 
   getAllKanji: async (level) => {
     const result = await KanjiRepo.getAllKanji(level.toUpperCase())
@@ -61,6 +60,20 @@ const KanjiService = {
 
     const relatedKanji = await KanjiRepo.getKanjiByOnyomiOrKunyomi(kanji.onyomi, kanji.kunyomi)
     return relatedKanji
+  },
+
+  // new
+  getNextKanji: async (kanji) => {
+    // 1. Tìm Kanji hiện tại
+    const currentKanji = await KanjiRepo.getKanjiByCharacter(kanji)
+    if (!currentKanji) throwError(`Kanji "${kanji}" not found`)
+
+    // 2. Tìm Kanji tiếp theo trong danh sách
+    // Ở đây tôi giả sử bạn có thuộc tính "stroke_num" để xác định thứ tự Kanji
+    const nextKanji = await KanjiRepo.getNextKanjiByStrokeNum(currentKanji.stroke_num)
+    if (!nextKanji) throwError('No next Kanji found')
+
+    return nextKanji
   }
 }
 

@@ -680,7 +680,13 @@ const kanjis = [
     kanji: '山',
     cn_vi_word: 'Sơn',
     component: ['丨', '凵'],
-    examples: [{ ja: '山が高い', hira: 'やまがたかい', vi: 'Núi cao' }],
+    examples: [
+      {
+        ja: '山が高い',
+        hira: 'やまがたかい',
+        vi: 'Núi cao'
+      }
+    ],
     explain: 'Chỉ núi',
     jlpt: 'N5',
     kunyomi: ['やま'],
@@ -695,7 +701,13 @@ const kanjis = [
     kanji: '川',
     cn_vi_word: 'Xuyên',
     component: ['丿', '丨'],
-    examples: [{ ja: '川がきれい', hira: 'かわがきれい', vi: 'Sông đẹp' }],
+    examples: [
+      {
+        ja: '川がきれい',
+        hira: 'かわがきれい',
+        vi: 'Sông đẹp'
+      }
+    ],
     explain: 'Chỉ sông',
     jlpt: 'N5',
     kunyomi: ['かわ'],
@@ -710,7 +722,13 @@ const kanjis = [
     kanji: '木',
     cn_vi_word: 'Mộc',
     component: ['十', '丨'],
-    examples: [{ ja: '木が大きい', hira: 'きがおおきい', vi: 'Cây lớn' }],
+    examples: [
+      {
+        ja: '木が大きい',
+        hira: 'きがおおきい',
+        vi: 'Cây lớn'
+      }
+    ],
     explain: 'Chỉ cây',
     jlpt: 'N5',
     kunyomi: ['き'],
@@ -725,7 +743,13 @@ const kanjis = [
     kanji: '学校',
     cn_vi_word: 'Học hiệu',
     component: ['学', '校'],
-    examples: [{ ja: '学校に行く', hira: 'がっこうにいく', vi: 'Đi đến trường' }],
+    examples: [
+      {
+        ja: '学校に行く',
+        hira: 'がっこうにいく',
+        vi: 'Đi đến trường'
+      }
+    ],
     explain: 'Chỉ trường học',
     jlpt: 'N4',
     kunyomi: [],
@@ -761,7 +785,13 @@ const kanjis = [
     kanji: '人',
     cn_vi_word: 'Nhân',
     component: ['丿', '乀'],
-    examples: [{ ja: '人が多い', hira: 'ひとがおおい', vi: 'Có nhiều người' }],
+    examples: [
+      {
+        ja: '人が多い',
+        hira: 'ひとがおおい',
+        vi: 'Có nhiều người'
+      }
+    ],
     explain: 'Chỉ người',
     jlpt: 'N5',
     kunyomi: ['ひと'],
@@ -776,7 +806,13 @@ const kanjis = [
     kanji: '日',
     cn_vi_word: 'Nhật',
     component: ['口', '一'],
-    examples: [{ ja: '日が昇る', hira: 'ひがのぼる', vi: 'Mặt trời mọc' }],
+    examples: [
+      {
+        ja: '日が昇る',
+        hira: 'ひがのぼる',
+        vi: 'Mặt trời mọc'
+      }
+    ],
     explain: 'Chỉ ngày/mặt trời',
     jlpt: 'N5',
     kunyomi: ['ひ'],
@@ -791,7 +827,13 @@ const kanjis = [
     kanji: '月',
     cn_vi_word: 'Nguyệt',
     component: ['冂', '二'],
-    examples: [{ ja: '月がきれい', hira: 'つきがきれい', vi: 'Mặt trăng đẹp' }],
+    examples: [
+      {
+        ja: '月がきれい',
+        hira: 'つきがきれい',
+        vi: 'Mặt trăng đẹp'
+      }
+    ],
     explain: 'Chỉ tháng/mặt trăng',
     jlpt: 'N5',
     kunyomi: ['つき'],
@@ -806,7 +848,13 @@ const kanjis = [
     kanji: '水',
     cn_vi_word: 'Thủy',
     component: ['丶', '亅'],
-    examples: [{ ja: '水が冷たい', hira: 'みずがつめたい', vi: 'Nước lạnh' }],
+    examples: [
+      {
+        ja: '水が冷たい',
+        hira: 'みずがつめたい',
+        vi: 'Nước lạnh'
+      }
+    ],
     explain: 'Chỉ nước',
     jlpt: 'N5',
     kunyomi: ['みず'],
@@ -821,7 +869,13 @@ const kanjis = [
     kanji: '火',
     cn_vi_word: 'Hỏa',
     component: ['丷', '人'],
-    examples: [{ ja: '火がつく', hira: 'ひがつく', vi: 'Lửa cháy' }],
+    examples: [
+      {
+        ja: '火がつく',
+        hira: 'ひがつく',
+        vi: 'Lửa cháy'
+      }
+    ],
     explain: 'Chỉ lửa',
     jlpt: 'N5',
     kunyomi: ['ひ'],
@@ -830,6 +884,1476 @@ const kanjis = [
     stroke_num: 4,
     svg_path: 'path/to/svg',
     unicode: '706B'
+  },
+  {
+    _id: 'seed_auto_00',
+    kanji: '仮0',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮0の例文',
+        hira: 'かり0のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮0'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり0'],
+    mean: 'Nghĩa giả định 0',
+    onyomi: ['カリ0'],
+    stroke_num: 15,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX0'
+  },
+  {
+    _id: 'seed_auto_01',
+    kanji: '仮1',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮1の例文',
+        hira: 'かり1のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮1'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり1'],
+    mean: 'Nghĩa giả định 1',
+    onyomi: ['カリ1'],
+    stroke_num: 8,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX1'
+  },
+  {
+    _id: 'seed_auto_02',
+    kanji: '仮2',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮2の例文',
+        hira: 'かり2のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮2'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり2'],
+    mean: 'Nghĩa giả định 2',
+    onyomi: ['カリ2'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX2'
+  },
+  {
+    _id: 'seed_auto_03',
+    kanji: '仮3',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮3の例文',
+        hira: 'かり3のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮3'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり3'],
+    mean: 'Nghĩa giả định 3',
+    onyomi: ['カリ3'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX3'
+  },
+  {
+    _id: 'seed_auto_04',
+    kanji: '仮4',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮4の例文',
+        hira: 'かり4のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮4'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり4'],
+    mean: 'Nghĩa giả định 4',
+    onyomi: ['カリ4'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX4'
+  },
+  {
+    _id: 'seed_auto_05',
+    kanji: '仮5',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮5の例文',
+        hira: 'かり5のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮5'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり5'],
+    mean: 'Nghĩa giả định 5',
+    onyomi: ['カリ5'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX5'
+  },
+  {
+    _id: 'seed_auto_06',
+    kanji: '仮6',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮6の例文',
+        hira: 'かり6のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮6'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり6'],
+    mean: 'Nghĩa giả định 6',
+    onyomi: ['カリ6'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX6'
+  },
+  {
+    _id: 'seed_auto_07',
+    kanji: '仮7',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮7の例文',
+        hira: 'かり7のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮7'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり7'],
+    mean: 'Nghĩa giả định 7',
+    onyomi: ['カリ7'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX7'
+  },
+  {
+    _id: 'seed_auto_08',
+    kanji: '仮8',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮8の例文',
+        hira: 'かり8のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮8'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり8'],
+    mean: 'Nghĩa giả định 8',
+    onyomi: ['カリ8'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX8'
+  },
+  {
+    _id: 'seed_auto_09',
+    kanji: '仮9',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮9の例文',
+        hira: 'かり9のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮9'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり9'],
+    mean: 'Nghĩa giả định 9',
+    onyomi: ['カリ9'],
+    stroke_num: 11,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX9'
+  },
+  {
+    _id: 'seed_auto_10',
+    kanji: '仮10',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮10の例文',
+        hira: 'かり10のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮10'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり10'],
+    mean: 'Nghĩa giả định 10',
+    onyomi: ['カリ10'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX10'
+  },
+  {
+    _id: 'seed_auto_11',
+    kanji: '仮11',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮11の例文',
+        hira: 'かり11のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮11'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり11'],
+    mean: 'Nghĩa giả định 11',
+    onyomi: ['カリ11'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX11'
+  },
+  {
+    _id: 'seed_auto_12',
+    kanji: '仮12',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮12の例文',
+        hira: 'かり12のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮12'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり12'],
+    mean: 'Nghĩa giả định 12',
+    onyomi: ['カリ12'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX12'
+  },
+  {
+    _id: 'seed_auto_13',
+    kanji: '仮13',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮13の例文',
+        hira: 'かり13のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮13'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり13'],
+    mean: 'Nghĩa giả định 13',
+    onyomi: ['カリ13'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX13'
+  },
+  {
+    _id: 'seed_auto_14',
+    kanji: '仮14',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮14の例文',
+        hira: 'かり14のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮14'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり14'],
+    mean: 'Nghĩa giả định 14',
+    onyomi: ['カリ14'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX14'
+  },
+  {
+    _id: 'seed_auto_15',
+    kanji: '仮15',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮15の例文',
+        hira: 'かり15のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮15'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり15'],
+    mean: 'Nghĩa giả định 15',
+    onyomi: ['カリ15'],
+    stroke_num: 15,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX15'
+  },
+  {
+    _id: 'seed_auto_16',
+    kanji: '仮16',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮16の例文',
+        hira: 'かり16のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮16'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり16'],
+    mean: 'Nghĩa giả định 16',
+    onyomi: ['カリ16'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX16'
+  },
+  {
+    _id: 'seed_auto_17',
+    kanji: '仮17',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮17の例文',
+        hira: 'かり17のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮17'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり17'],
+    mean: 'Nghĩa giả định 17',
+    onyomi: ['カリ17'],
+    stroke_num: 11,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX17'
+  },
+  {
+    _id: 'seed_auto_18',
+    kanji: '仮18',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮18の例文',
+        hira: 'かり18のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮18'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり18'],
+    mean: 'Nghĩa giả định 18',
+    onyomi: ['カリ18'],
+    stroke_num: 5,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX18'
+  },
+  {
+    _id: 'seed_auto_19',
+    kanji: '仮19',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮19の例文',
+        hira: 'かり19のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮19'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり19'],
+    mean: 'Nghĩa giả định 19',
+    onyomi: ['カリ19'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX19'
+  },
+  {
+    _id: 'seed_auto_30',
+    kanji: '仮30',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮30の例文',
+        hira: 'かり30のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮30'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり30'],
+    mean: 'Nghĩa giả định 30',
+    onyomi: ['カリ30'],
+    stroke_num: 8,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX30'
+  },
+  {
+    _id: 'seed_auto_31',
+    kanji: '仮31',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮31の例文',
+        hira: 'かり31のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮31'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり31'],
+    mean: 'Nghĩa giả định 31',
+    onyomi: ['カリ31'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX31'
+  },
+  {
+    _id: 'seed_auto_32',
+    kanji: '仮32',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮32の例文',
+        hira: 'かり32のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮32'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり32'],
+    mean: 'Nghĩa giả định 32',
+    onyomi: ['カリ32'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX32'
+  },
+  {
+    _id: 'seed_auto_33',
+    kanji: '仮33',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮33の例文',
+        hira: 'かり33のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮33'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり33'],
+    mean: 'Nghĩa giả định 33',
+    onyomi: ['カリ33'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX33'
+  },
+  {
+    _id: 'seed_auto_34',
+    kanji: '仮34',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮34の例文',
+        hira: 'かり34のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮34'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり34'],
+    mean: 'Nghĩa giả định 34',
+    onyomi: ['カリ34'],
+    stroke_num: 6,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX34'
+  },
+  {
+    _id: 'seed_auto_35',
+    kanji: '仮35',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮35の例文',
+        hira: 'かり35のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮35'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり35'],
+    mean: 'Nghĩa giả định 35',
+    onyomi: ['カリ35'],
+    stroke_num: 8,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX35'
+  },
+  {
+    _id: 'seed_auto_36',
+    kanji: '仮36',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮36の例文',
+        hira: 'かり36のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮36'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり36'],
+    mean: 'Nghĩa giả định 36',
+    onyomi: ['カリ36'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX36'
+  },
+  {
+    _id: 'seed_auto_37',
+    kanji: '仮37',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮37の例文',
+        hira: 'かり37のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮37'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり37'],
+    mean: 'Nghĩa giả định 37',
+    onyomi: ['カリ37'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX37'
+  },
+  {
+    _id: 'seed_auto_38',
+    kanji: '仮38',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮38の例文',
+        hira: 'かり38のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮38'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり38'],
+    mean: 'Nghĩa giả định 38',
+    onyomi: ['カリ38'],
+    stroke_num: 5,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX38'
+  },
+  {
+    _id: 'seed_auto_39',
+    kanji: '仮39',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮39の例文',
+        hira: 'かり39のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮39'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり39'],
+    mean: 'Nghĩa giả định 39',
+    onyomi: ['カリ39'],
+    stroke_num: 7,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX39'
+  },
+  {
+    _id: 'seed_auto_40',
+    kanji: '仮40',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮40の例文',
+        hira: 'かり40のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮40'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり40'],
+    mean: 'Nghĩa giả định 40',
+    onyomi: ['カリ40'],
+    stroke_num: 11,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX40'
+  },
+  {
+    _id: 'seed_auto_41',
+    kanji: '仮41',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮41の例文',
+        hira: 'かり41のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮41'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり41'],
+    mean: 'Nghĩa giả định 41',
+    onyomi: ['カリ41'],
+    stroke_num: 15,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX41'
+  },
+  {
+    _id: 'seed_auto_42',
+    kanji: '仮42',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮42の例文',
+        hira: 'かり42のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮42'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり42'],
+    mean: 'Nghĩa giả định 42',
+    onyomi: ['カリ42'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX42'
+  },
+  {
+    _id: 'seed_auto_43',
+    kanji: '仮43',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮43の例文',
+        hira: 'かり43のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮43'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり43'],
+    mean: 'Nghĩa giả định 43',
+    onyomi: ['カリ43'],
+    stroke_num: 5,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX43'
+  },
+  {
+    _id: 'seed_auto_44',
+    kanji: '仮44',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮44の例文',
+        hira: 'かり44のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮44'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり44'],
+    mean: 'Nghĩa giả định 44',
+    onyomi: ['カリ44'],
+    stroke_num: 11,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX44'
+  },
+  {
+    _id: 'seed_auto_45',
+    kanji: '仮45',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮45の例文',
+        hira: 'かり45のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮45'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり45'],
+    mean: 'Nghĩa giả định 45',
+    onyomi: ['カリ45'],
+    stroke_num: 8,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX45'
+  },
+  {
+    _id: 'seed_auto_46',
+    kanji: '仮46',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮46の例文',
+        hira: 'かり46のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮46'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり46'],
+    mean: 'Nghĩa giả định 46',
+    onyomi: ['カリ46'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX46'
+  },
+  {
+    _id: 'seed_auto_47',
+    kanji: '仮47',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮47の例文',
+        hira: 'かり47のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮47'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり47'],
+    mean: 'Nghĩa giả định 47',
+    onyomi: ['カリ47'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX47'
+  },
+  {
+    _id: 'seed_auto_48',
+    kanji: '仮48',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮48の例文',
+        hira: 'かり48のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮48'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり48'],
+    mean: 'Nghĩa giả định 48',
+    onyomi: ['カリ48'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX48'
+  },
+  {
+    _id: 'seed_auto_49',
+    kanji: '仮49',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮49の例文',
+        hira: 'かり49のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮49'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり49'],
+    mean: 'Nghĩa giả định 49',
+    onyomi: ['カリ49'],
+    stroke_num: 6,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX49'
+  },
+  {
+    _id: 'seed_auto_50',
+    kanji: '仮50',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮50の例文',
+        hira: 'かり50のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮50'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり50'],
+    mean: 'Nghĩa giả định 50',
+    onyomi: ['カリ50'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX50'
+  },
+  {
+    _id: 'seed_auto_51',
+    kanji: '仮51',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮51の例文',
+        hira: 'かり51のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮51'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり51'],
+    mean: 'Nghĩa giả định 51',
+    onyomi: ['カリ51'],
+    stroke_num: 8,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX51'
+  },
+  {
+    _id: 'seed_auto_52',
+    kanji: '仮52',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮52の例文',
+        hira: 'かり52のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮52'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり52'],
+    mean: 'Nghĩa giả định 52',
+    onyomi: ['カリ52'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX52'
+  },
+  {
+    _id: 'seed_auto_53',
+    kanji: '仮53',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮53の例文',
+        hira: 'かり53のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮53'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり53'],
+    mean: 'Nghĩa giả định 53',
+    onyomi: ['カリ53'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX53'
+  },
+  {
+    _id: 'seed_auto_54',
+    kanji: '仮54',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮54の例文',
+        hira: 'かり54のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮54'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり54'],
+    mean: 'Nghĩa giả định 54',
+    onyomi: ['カリ54'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX54'
+  },
+  {
+    _id: 'seed_auto_55',
+    kanji: '仮55',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮55の例文',
+        hira: 'かり55のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮55'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり55'],
+    mean: 'Nghĩa giả định 55',
+    onyomi: ['カリ55'],
+    stroke_num: 15,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX55'
+  },
+  {
+    _id: 'seed_auto_56',
+    kanji: '仮56',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮56の例文',
+        hira: 'かり56のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮56'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり56'],
+    mean: 'Nghĩa giả định 56',
+    onyomi: ['カリ56'],
+    stroke_num: 3,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX56'
+  },
+  {
+    _id: 'seed_auto_57',
+    kanji: '仮57',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮57の例文',
+        hira: 'かり57のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮57'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり57'],
+    mean: 'Nghĩa giả định 57',
+    onyomi: ['カリ57'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX57'
+  },
+  {
+    _id: 'seed_auto_58',
+    kanji: '仮58',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮58の例文',
+        hira: 'かり58のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮58'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり58'],
+    mean: 'Nghĩa giả định 58',
+    onyomi: ['カリ58'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX58'
+  },
+  {
+    _id: 'seed_auto_59',
+    kanji: '仮59',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮59の例文',
+        hira: 'かり59のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮59'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり59'],
+    mean: 'Nghĩa giả định 59',
+    onyomi: ['カリ59'],
+    stroke_num: 3,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX59'
+  },
+  {
+    _id: 'seed_auto_60',
+    kanji: '仮60',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮60の例文',
+        hira: 'かり60のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮60'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり60'],
+    mean: 'Nghĩa giả định 60',
+    onyomi: ['カリ60'],
+    stroke_num: 3,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX60'
+  },
+  {
+    _id: 'seed_auto_61',
+    kanji: '仮61',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮61の例文',
+        hira: 'かり61のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮61'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり61'],
+    mean: 'Nghĩa giả định 61',
+    onyomi: ['カリ61'],
+    stroke_num: 7,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX61'
+  },
+  {
+    _id: 'seed_auto_62',
+    kanji: '仮62',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮62の例文',
+        hira: 'かり62のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮62'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり62'],
+    mean: 'Nghĩa giả định 62',
+    onyomi: ['カリ62'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX62'
+  },
+  {
+    _id: 'seed_auto_63',
+    kanji: '仮63',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮63の例文',
+        hira: 'かり63のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮63'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり63'],
+    mean: 'Nghĩa giả định 63',
+    onyomi: ['カリ63'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX63'
+  },
+  {
+    _id: 'seed_auto_64',
+    kanji: '仮64',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮64の例文',
+        hira: 'かり64のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮64'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり64'],
+    mean: 'Nghĩa giả định 64',
+    onyomi: ['カリ64'],
+    stroke_num: 4,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX64'
+  },
+  {
+    _id: 'seed_auto_65',
+    kanji: '仮65',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮65の例文',
+        hira: 'かり65のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮65'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり65'],
+    mean: 'Nghĩa giả định 65',
+    onyomi: ['カリ65'],
+    stroke_num: 14,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX65'
+  },
+  {
+    _id: 'seed_auto_66',
+    kanji: '仮66',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮66の例文',
+        hira: 'かり66のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮66'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり66'],
+    mean: 'Nghĩa giả định 66',
+    onyomi: ['カリ66'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX66'
+  },
+  {
+    _id: 'seed_auto_67',
+    kanji: '仮67',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮67の例文',
+        hira: 'かり67のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮67'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり67'],
+    mean: 'Nghĩa giả định 67',
+    onyomi: ['カリ67'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX67'
+  },
+  {
+    _id: 'seed_auto_68',
+    kanji: '仮68',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮68の例文',
+        hira: 'かり68のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮68'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり68'],
+    mean: 'Nghĩa giả định 68',
+    onyomi: ['カリ68'],
+    stroke_num: 7,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX68'
+  },
+  {
+    _id: 'seed_auto_69',
+    kanji: '仮69',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮69の例文',
+        hira: 'かり69のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮69'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり69'],
+    mean: 'Nghĩa giả định 69',
+    onyomi: ['カリ69'],
+    stroke_num: 5,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX69'
+  },
+  {
+    _id: 'seed_auto_70',
+    kanji: '仮70',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮70の例文',
+        hira: 'かり70のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮70'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり70'],
+    mean: 'Nghĩa giả định 70',
+    onyomi: ['カリ70'],
+    stroke_num: 3,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX70'
+  },
+  {
+    _id: 'seed_auto_71',
+    kanji: '仮71',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮71の例文',
+        hira: 'かり71のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮71'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり71'],
+    mean: 'Nghĩa giả định 71',
+    onyomi: ['カリ71'],
+    stroke_num: 12,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX71'
+  },
+  {
+    _id: 'seed_auto_72',
+    kanji: '仮72',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮72の例文',
+        hira: 'かり72のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮72'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり72'],
+    mean: 'Nghĩa giả định 72',
+    onyomi: ['カリ72'],
+    stroke_num: 9,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX72'
+  },
+  {
+    _id: 'seed_auto_73',
+    kanji: '仮73',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮73の例文',
+        hira: 'かり73のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮73'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり73'],
+    mean: 'Nghĩa giả định 73',
+    onyomi: ['カリ73'],
+    stroke_num: 11,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX73'
+  },
+  {
+    _id: 'seed_auto_74',
+    kanji: '仮74',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮74の例文',
+        hira: 'かり74のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮74'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N5',
+    kunyomi: ['かり74'],
+    mean: 'Nghĩa giả định 74',
+    onyomi: ['カリ74'],
+    stroke_num: 3,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX74'
+  },
+  {
+    _id: 'seed_auto_75',
+    kanji: '仮75',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮75の例文',
+        hira: 'かり75のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮75'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N1',
+    kunyomi: ['かり75'],
+    mean: 'Nghĩa giả định 75',
+    onyomi: ['カリ75'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX75'
+  },
+  {
+    _id: 'seed_auto_76',
+    kanji: '仮76',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮76の例文',
+        hira: 'かり76のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮76'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり76'],
+    mean: 'Nghĩa giả định 76',
+    onyomi: ['カリ76'],
+    stroke_num: 6,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX76'
+  },
+  {
+    _id: 'seed_auto_77',
+    kanji: '仮77',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮77の例文',
+        hira: 'かり77のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮77'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N2',
+    kunyomi: ['かり77'],
+    mean: 'Nghĩa giả định 77',
+    onyomi: ['カリ77'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX77'
+  },
+  {
+    _id: 'seed_auto_78',
+    kanji: '仮78',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮78の例文',
+        hira: 'かり78のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮78'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N4',
+    kunyomi: ['かり78'],
+    mean: 'Nghĩa giả định 78',
+    onyomi: ['カリ78'],
+    stroke_num: 13,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX78'
+  },
+  {
+    _id: 'seed_auto_79',
+    kanji: '仮79',
+    cn_vi_word: 'Giả định',
+    component: ['人', '反'],
+    examples: [
+      {
+        ja: '仮79の例文',
+        hira: 'かり79のれいぶん',
+        vi: 'Ví dụ cho ký tự 仮79'
+      }
+    ],
+    explain: 'Từ giả định dùng để học',
+    jlpt: 'N3',
+    kunyomi: ['かり79'],
+    mean: 'Nghĩa giả định 79',
+    onyomi: ['カリ79'],
+    stroke_num: 10,
+    svg_path: 'path/to/svg',
+    unicode: 'XXXX79'
   }
 ]
 
