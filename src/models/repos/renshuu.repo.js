@@ -15,22 +15,24 @@ const RenshuuRepo = {
 
   delete: (renshuu_id) => renshuuModel.deleteOne({ _id: renshuu_id }),
 
-  updateQuestion: (renshuuId, questionId, questionData) => {
+  updateQuestion: async (renshuuId, questionId, questionData) => {
     console.log(questionData, renshuuId, questionId)
 
-    renshuuModel.updateOne(
+    const result = await renshuuModel.updateOne(
       {
         _id: convert2ObjectId(renshuuId),
-        'question._id': convert2ObjectId(questionId)
+        'questions._id': convert2ObjectId(questionId)
       },
       {
         $set: {
-          'question.$.content': questionData.content,
-          'question.$.correctAnswer': questionData.correctAnswer,
-          'question.$.options': questionData.options
+          'questions.$.content': questionData.content,
+          'questions.$.correctAnswer': questionData.correctAnswer,
+          'questions.$.options': questionData.options
         }
       }
     )
+    console.log('Matched:', result.matchedCount)
+    console.log('Modified:', result.modifiedCount)
   }
 }
 

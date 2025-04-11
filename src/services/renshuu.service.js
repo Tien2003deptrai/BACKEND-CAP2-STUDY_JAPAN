@@ -61,7 +61,7 @@ const RenshuuService = {
     )
     if (!questionExists) throwError('Question not found')
 
-    return await RenshuuRepo.updateQuestion(renshuuId, questionId, questionData)
+    return RenshuuRepo.updateQuestion(renshuuId, questionId, questionData)
   }
 }
 

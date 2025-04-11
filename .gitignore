@@ -4,3 +4,4 @@ dist
 
 .early.coverage
 src/services/kanji-data/
+launch.json
