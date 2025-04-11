@@ -5,22 +5,20 @@ const COLLECTION_NAME = 'Renshuus'
 
 const renshuuSchema = new Schema(
   {
-    title: { type: String },
     lesson: {
       type: Schema.Types.ObjectId,
       ref: 'Lesson'
     },
-    total_points: {
-      type: Number,
-      required: true
-    },
-    contents: [
+    questions: [
       {
-        content_text: { type: String, required: true },
-        point: { type: Number, required: true },
-        value: { type: String, required: true },
-        url_audio: { type: String, default: null },
-        quiz: { type: Array, required: true }
+        content: { type: String, required: true },
+        correctAnswer: { type: String, required: true }, //correct answer
+        options: [
+          {
+            id: { type: String, required: true }, //a, b, c, d
+            text: { type: String, required: true }
+          }
+        ]
       }
     ]
   },

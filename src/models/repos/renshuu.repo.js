@@ -10,10 +10,28 @@ const RenshuuRepo = {
 
   findByTitle: (title) => renshuuModel.findOne({ title }).lean(),
 
-  update: (renshuu_id, bodyUpdate, isNew = true) =>
-    renshuuModel.findByIdAndUpdate(renshuu_id, bodyUpdate, { new: isNew }),
+  update: (renshuu_id, updateData, isNew = true) =>
+    renshuuModel.findByIdAndUpdate(renshuu_id, updateData, { new: isNew }),
 
-  delete: (renshuu_id) => renshuuModel.deleteOne({ _id: renshuu_id })
+  delete: (renshuu_id) => renshuuModel.deleteOne({ _id: renshuu_id }),
+
+  updateQuestion: (renshuuId, questionId, questionData) => {
+    console.log(questionData, renshuuId, questionId)
+
+    renshuuModel.updateOne(
+      {
+        _id: convert2ObjectId(renshuuId),
+        'question._id': convert2ObjectId(questionId)
+      },
+      {
+        $set: {
+          'question.$.content': questionData.content,
+          'question.$.correctAnswer': questionData.correctAnswer,
+          'question.$.options': questionData.options
+        }
+      }
+    )
+  }
 }
 
 module.exports = RenshuuRepo

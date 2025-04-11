@@ -3,3 +3,4 @@ dist
 .env
 
 .early.coverage
+src/services/kanji-data/

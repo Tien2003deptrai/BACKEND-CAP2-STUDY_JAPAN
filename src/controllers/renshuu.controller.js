@@ -17,6 +17,20 @@ const RenshuuController = {
       res,
       () => RenshuuService.deleteRenshuu(req.params.renshuu_id),
       'Xóa Renshuu thành công'
+    ),
+  getAllRenshuuByLessonId: async (req, res) =>
+    handleRequest(
+      res,
+      () => RenshuuService.getAllRenshuuByLessonId(req.params.lesson_id),
+      'Lấy danh sách Renshuu theo lesson_id thành công'
+    ),
+
+  updateQuestion: async (req, res) =>
+    handleRequest(
+      res,
+      () =>
+        RenshuuService.updateQuestion(req.body.renshuuId, req.body.question._id, req.body.question),
+      'Cập nhật câu hỏi thành công'
     )
 }
 
