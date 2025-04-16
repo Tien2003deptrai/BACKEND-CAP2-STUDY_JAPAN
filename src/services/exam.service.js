@@ -166,9 +166,6 @@ const ExamService = {
 
     if (!result.user || !result.user.toString) throwError('Dữ liệu người dùng không hợp lệ')
 
-    console.log('result.user.toString()', result.user.toString())
-    console.log('userId', userId)
-
     if (result.user.toString() !== userId.toString())
       throwError('Không có quyền truy cập kết quả này')
 
@@ -177,16 +174,23 @@ const ExamService = {
 
     const passed = result.totalScore >= exam.passingScore
 
+    // 🔁 Gắn correctAnswer cho từng answer
+    const answersWithCorrect = result.answers.map((answer) => {
+      const matchedQuestion = exam.questions.find((q) => q.id === answer.questionId)
+      return {
+        ...answer,
+        correctAnswer: matchedQuestion ? matchedQuestion.correctAnswer : null
+      }
+    })
+
     return {
       attemptId: result._id,
       examId: exam._id,
       examTitle: exam.title,
       totalScore: result.totalScore,
-      timeSpent: result.timeSpent,
-      startTime: result.startTime,
-      endTime: result.endTime,
+      time: formatTimeSpent(result.startTime, result.endTime),
       status: result.status,
-      answers: result.answers,
+      answers: answersWithCorrect,
       passingScore: exam.passingScore,
       passed
     }
@@ -733,6 +737,20 @@ function checkAnswer(question, userAnswer) {
     default:
       return false
   }
+}
+
+function formatTimeSpent(startTime, endTime) {
+  const start = new Date(startTime)
+  const end = new Date(endTime)
+  const diffMs = end - start // in milliseconds
+  const diffMinutes = Math.floor(diffMs / (1000 * 60))
+
+  if (diffMinutes < 60) return `${diffMinutes} phút`
+  if (diffMinutes % 60 === 0) return `${diffMinutes / 60} giờ`
+
+  const hours = Math.floor(diffMinutes / 60)
+  const minutes = diffMinutes % 60
+  return `${hours} giờ ${minutes} phút`
 }
 
 module.exports = ExamService
