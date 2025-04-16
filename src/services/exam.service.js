@@ -742,15 +742,9 @@ function checkAnswer(question, userAnswer) {
 function formatTimeSpent(startTime, endTime) {
   const start = new Date(startTime)
   const end = new Date(endTime)
-  const diffMs = end - start // in milliseconds
+  const diffMs = end - start // milliseconds
   const diffMinutes = Math.floor(diffMs / (1000 * 60))
-
-  if (diffMinutes < 60) return `${diffMinutes} phút`
-  if (diffMinutes % 60 === 0) return `${diffMinutes / 60} giờ`
-
-  const hours = Math.floor(diffMinutes / 60)
-  const minutes = diffMinutes % 60
-  return `${hours} giờ ${minutes} phút`
+  return `${diffMinutes} phút`
 }
 
 module.exports = ExamService
