@@ -3226,77 +3226,67 @@ const hinas = [
 
 const renshuus = [
   {
-    _id: '605c72ef5f5b2c1d4c8ef101',
-    title: 'Luyện tập chào hỏi N5',
     lesson: '605c72ef5f5b2c1d4c8e5001',
-    total_points: 20,
-    contents: [
+    questions: [
       {
-        content_text: 'こんにちは、お元気ですか？',
-        point: 10,
-        value: 'Xin chào',
-        url_audio: 'https://example.com/audio/konnichiwa.mp3',
-        quiz: ['Xin chào', 'Tạm biệt']
+        content: 'こんにちは、お元気ですか？',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Xin chào' },
+          { id: 'b', text: 'Tạm biệt' }
+        ]
       }
     ]
   },
   {
-    _id: '605c72ef5f5b2c1d4c8ef102',
-    title: 'Luyện tập kanji N5',
     lesson: '605c72ef5f5b2c1d4c8e5002',
-    total_points: 15,
-    contents: [
+    questions: [
       {
-        content_text: '山',
-        point: 5,
-        value: 'やま',
-        url_audio: 'https://example.com/audio/yama.mp3',
-        quiz: ['やま', 'かわ']
+        content: '山 nghĩa là gì trong tiếng Nhật?',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Núi' },
+          { id: 'b', text: 'Sông' }
+        ]
       }
     ]
   },
   {
-    _id: '605c72ef5f5b2c1d4c8ef103',
-    title: 'Luyện tập hội thoại N5',
     lesson: '605c72ef5f5b2c1d4c8e5005',
-    total_points: 25,
-    contents: [
+    questions: [
       {
-        content_text: 'おはようございます。',
-        point: 10,
-        value: 'Chào buổi sáng',
-        url_audio: 'https://example.com/audio/ohayou.mp3',
-        quiz: ['Chào buổi sáng', 'Xin chào']
+        content: 'おはようございます。dịch là?',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Chào buổi sáng' },
+          { id: 'b', text: 'Xin chào' }
+        ]
       }
     ]
   },
   {
-    _id: '605c72ef5f5b2c1d4c8ef104',
-    title: 'Luyện tập tại nhà hàng',
     lesson: '605c72ef5f5b2c1d4c8e5007',
-    total_points: 15,
-    contents: [
+    questions: [
       {
-        content_text: 'メニューをください。',
-        point: 5,
-        value: 'Cho tôi thực đơn',
-        url_audio: 'https://example.com/audio/menyu.mp3',
-        quiz: ['Cho tôi thực đơn', 'Xin chào']
+        content: 'メニューをください。nghĩa là gì?',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Cho tôi thực đơn' },
+          { id: 'b', text: 'Xin chào' }
+        ]
       }
     ]
   },
   {
-    _id: '605c72ef5f5b2c1d4c8ef105',
-    title: 'Luyện tập kinh doanh N3',
     lesson: '605c72ef5f5b2c1d4c8e5009',
-    total_points: 30,
-    contents: [
+    questions: [
       {
-        content_text: '会社で働きます。',
-        point: 10,
-        value: 'Làm việc ở công ty',
-        url_audio: 'https://example.com/audio/kaisha.mp3',
-        quiz: ['Làm việc ở công ty', 'Đi đến trường']
+        content: '会社で働きます。dịch sang tiếng Việt?',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Làm việc ở công ty' },
+          { id: 'b', text: 'Đi đến trường' }
+        ]
       }
     ]
   }
