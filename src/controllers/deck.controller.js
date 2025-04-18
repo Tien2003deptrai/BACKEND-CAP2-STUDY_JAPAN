@@ -46,6 +46,18 @@ const DeckController = {
         return await DeckService.getDecksByType(req.params.type)
       },
       'Lấy danh sách deck theo loại thành công'
+    ),
+
+  deleteDeck: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['deck_id'], req.params)
+        return await DeckService.deleteDeckById({
+          deck_id: req.params.deck_id
+        })
+      },
+      'Xóa bộ flashcard thành công'
     )
 }
 

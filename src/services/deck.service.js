@@ -2,6 +2,7 @@ const deckModel = require('../models/deck.model')
 const throwError = require('../res/throwError')
 const { convert2ObjectId } = require('../utils')
 const DeckRepo = require('../models/repos/deck.repo')
+const flashcardModel = require('../models/flashcard.model')
 
 const TYPE = {
   VOCABULARY: 'vocabulary',
@@ -43,6 +44,18 @@ const DeckService = {
     const decks = await DeckRepo.findDecksByType(type)
 
     return decks
+  },
+  deleteDeckById: async ({ deck_id }) => {
+    const deck = await deckModel.findById(convert2ObjectId(deck_id))
+    if (!deck) throwError('Không tìm thấy bộ flashcard')
+
+    await flashcardModel.deleteMany({ deck: convert2ObjectId(deck_id) })
+
+    await deckModel.findByIdAndDelete(deck_id)
+
+    return {
+      deck_id
+    }
   }
 }
 

@@ -1,7 +1,6 @@
 const deckModel = require('../models/deck.model')
 const flashcardModel = require('../models/flashcard.model')
 const FlashcardRepo = require('../models/repos/FlashcardRepo')
-const vocabularyModel = require('../models/vocabulary.model')
 const throwError = require('../res/throwError')
 const { convert2ObjectId, nextReviewDate } = require('../utils')
 const moment = require('moment')
@@ -135,6 +134,15 @@ const FlashcardService = {
     )
 
     return result
+  },
+
+  deleteFlashcard: async ({ flashcard_id }) => {
+    const flashcard = await FlashcardRepo.findById({ _id: flashcard_id })
+    if (!flashcard) throwError('Không tìm thấy flashcard để xóa')
+
+    await FlashcardRepo.deleteById(flashcard_id)
+
+    return { _id: flashcard_id }
   }
 }
 

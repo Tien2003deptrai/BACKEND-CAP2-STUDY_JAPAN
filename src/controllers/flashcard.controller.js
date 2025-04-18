@@ -49,6 +49,18 @@ const FlashcardController = {
         })
       },
       'Lấy flashcard để ôn tập thành công'
+    ),
+
+  deleteFlashcard: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['flashcard_id'], req.params)
+        return await FlashcardService.deleteFlashcard({
+          flashcard_id: req.params.flashcard_id
+        })
+      },
+      'Xóa flashcard thành công'
     )
 }
 
