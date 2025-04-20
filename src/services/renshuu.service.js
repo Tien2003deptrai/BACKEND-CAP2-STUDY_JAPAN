@@ -62,6 +62,63 @@ const RenshuuService = {
     if (!questionExists) throwError('Question not found')
 
     return RenshuuRepo.updateQuestion(renshuuId, questionId, questionData)
+  },
+
+  // submit
+  submitRenshuu: async (renshuuId, answers) => {
+    if (!Array.isArray(answers)) throw new Error('answers must be an array')
+
+    // Ép kiểu ObjectId cho renshuuId
+    const renshuu = await RenshuuRepo.findById(renshuuId)
+    if (!renshuu) throw new Error('Renshuu not found')
+
+    const results = []
+    let correctCount = 0
+
+    console.log(
+      'All Question IDs in DB:',
+      renshuu.questions.map((q) => q._id.toString())
+    )
+
+    for (const answer of answers) {
+      let questionIdObj
+      try {
+        questionIdObj = convert2ObjectId(answer.questionId)
+      } catch (error) {
+        results.push({
+          questionId: answer.questionId,
+          status: 'invalid_id'
+        })
+        continue
+      }
+
+      const question = renshuu.questions.find((q) => q._id.equals(questionIdObj))
+      if (!question) {
+        results.push({
+          questionId: answer.questionId,
+          status: 'not_found'
+        })
+        continue
+      }
+
+      const isCorrect = question.correctAnswer === answer.selectedAnswer
+      if (isCorrect) correctCount++
+
+      results.push({
+        questionId: question._id,
+        question: question.content,
+        selectedAnswer: answer.selectedAnswer,
+        correctAnswer: question.correctAnswer,
+        isCorrect,
+        status: isCorrect ? 'correct' : 'incorrect'
+      })
+    }
+
+    return {
+      totalQuestions: renshuu.questions.length,
+      correctAnswers: correctCount,
+      results
+    }
   }
 }
 
