@@ -43,6 +43,20 @@ const RenshuuService = {
     if (!(await RenshuuRepo.findById(renshuu_id))) throwError('Renshuu not found')
     return await RenshuuRepo.delete(renshuu_id)
   },
+
+  deleteQuestion: async (renshuu_id, question_id) => {
+    const renshuu = await RenshuuRepo.findById(renshuu_id)
+    if (!renshuu) throwError('Renshuu not found')
+    const questionExists = renshuu.questions.some(
+      (question) => question._id.toString() === question_id
+    )
+    if (!questionExists) throwError('Question not found')
+    await RenshuuRepo.update(renshuu_id, {
+      $pull: { questions: { _id: convert2ObjectId(question_id) } }
+    })
+    return { success: true, message: 'Question deleted successfully' }
+  },
+
   getAllRenshuuByLessonId: async (lesson_id) => {
     const lessonObjectId = convert2ObjectId(lesson_id)
     const renshuu = await RenshuuRepo.findByIdLesson(lessonObjectId)

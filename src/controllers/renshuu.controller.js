@@ -18,6 +18,12 @@ const RenshuuController = {
       () => RenshuuService.deleteRenshuu(req.params.renshuu_id),
       'Xóa Renshuu thành công'
     ),
+  deleteQuestion: async (req, res) => {
+    handleRequest(res, () => {
+      RenshuuService.deleteQuestion(req.params.renshuu_id, req.params.question_id),
+        'Xóa câu hỏi thành công'
+    })
+  },
   getAllRenshuuByLessonId: async (req, res) =>
     handleRequest(
       res,
