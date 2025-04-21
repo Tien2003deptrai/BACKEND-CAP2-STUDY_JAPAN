@@ -7,7 +7,7 @@ const throwError = require('../res/throwError')
 
 // Trả về thông tin user đã lọc
 const filterUserData = (user) =>
-  getInfoData({ fields: ['_id', 'name', 'email', 'roles', 'phone'], object: user })
+  getInfoData({ fields: ['_id', 'name', 'email', 'roles', 'phone', 'avatar'], object: user })
 
 const AuthService = {
   signUp: async ({ name, email, roles, phone }) => {

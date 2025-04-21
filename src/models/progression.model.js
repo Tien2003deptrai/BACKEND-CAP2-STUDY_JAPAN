@@ -42,6 +42,23 @@ const progressSchema = new Schema(
         point: Number,
         note: String
       }
+    ],
+    gameProgress: [
+      {
+        gameType: {
+          type: String,
+          enum: ['MemoryCard', 'Flashcard', 'Other', 'MiniRPG']
+        },
+        correctPairs: Number,
+        totalCards: Number,
+        duration: Number,
+        score: Number,
+        name: String, // <- ✨ Thêm field name để lưu tên người chơi
+        playedAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
     ]
   },
   {
