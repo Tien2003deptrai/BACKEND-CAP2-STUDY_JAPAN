@@ -33,16 +33,16 @@ const RenshuuController = {
       'Cập nhật câu hỏi thành công'
     ),
 
-  etPracticeQuestions: async (req, res, next) => {
-    try {
-      const { lessonId } = req.params
-      const { limit = 5 } = req.query // mặc định 5 câu nếu không truyền
-      const result = await RenshuuService.getPracticeQuestions(lessonId, Number(limit))
-      res.status(200).json({ success: true, data: result })
-    } catch (err) {
-      next(err)
-    }
-  }
+  submitRenshuu: async (req, res) =>
+    handleRequest(
+      res,
+      () => {
+        const { renshuuId } = req.params
+        const { answers } = req.body
+        return RenshuuService.submitRenshuu(renshuuId, answers)
+      },
+      'Nộp bài thành công'
+    )
 }
 
 module.exports = RenshuuController

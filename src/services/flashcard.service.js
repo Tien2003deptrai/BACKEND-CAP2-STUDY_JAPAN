@@ -77,27 +77,65 @@ const FlashcardService = {
     }
   },
 
-  updateFlashcard: async ({ flashcard_id, level }) => {
-    console.log('flashcard_id', flashcard_id)
-    const flashcard = await FlashcardRepo.findById({ _id: flashcard_id })
-    if (!flashcard) throwError('Không tìm thấy Flashcard')
-    if (level == 0) {
-      await FlashcardRepo.deleteById(flashcard_id)
-      return
+  updateFlashcard: async ({ deckId, deck_title, flashcard_type, flashcards }) => {
+    if (!deckId) throwError('deckId is required')
+    if (!Object.values(TYPE).includes(flashcard_type)) {
+      throwError('Type must be "vocabulary" or "grammar"')
     }
 
-    const { date, interval } = nextReviewDate(level)
-    flashcard.reviewDate = date
-    flashcard.interval = interval
-    await flashcard.save()
-    const updatedFlashcard = await flashcardModel
-      .findById(flashcard_id)
-      .select('_id reviewDate interval')
+    // Kiểm tra deck tồn tại
+    const existingDeck = await deckModel.findById(deckId)
+    if (!existingDeck) throwError('Deck not found')
+
+    // Cập nhật tiêu đề và loại flashcard (nếu cho phép)
+    existingDeck.deck_title = deck_title || existingDeck.deck_title
+    existingDeck.type = flashcard_type || existingDeck.type
+    await existingDeck.save()
+
+    // Xóa tất cả flashcards cũ thuộc deck
+    await flashcardModel.deleteMany({ deck: convert2ObjectId(deckId) })
+
+    const { date, interval } = nextReviewDate(1) // reset về level 1
+
+    const createdFlashcards = []
+
+    for (let id of flashcards) {
+      if (flashcard_type === TYPE.VOCABULARY) {
+        const vocab = await FlashcardRepo.findVocabById(id)
+        if (!vocab) throwError(`Vocabulary ${id} not found`)
+
+        const newFlashcard = await FlashcardRepo.create({
+          deck: deckId,
+          vocab: id,
+          front: vocab.word,
+          back: vocab.meaning,
+          interval,
+          reviewDate: date
+        })
+        createdFlashcards.push(newFlashcard)
+      } else if (flashcard_type === TYPE.GRAMMAR) {
+        const grammar = await FlashcardRepo.findGrammarById(id)
+        if (!grammar) throwError(`Grammar ${id} not found`)
+
+        const newFlashcard = await FlashcardRepo.create({
+          deck: deckId,
+          grammar: id,
+          front: grammar.structure,
+          back: grammar.explain,
+          interval,
+          reviewDate: date
+        })
+        createdFlashcards.push(newFlashcard)
+      }
+    }
 
     return {
-      _id: updatedFlashcard._id,
-      reviewDate: moment(updatedFlashcard.reviewDate).format('YYYY-MM-DD HH:mm:ss'),
-      interval: updatedFlashcard.interval
+      deck: {
+        _id: deckId,
+        deck_title: existingDeck.deck_title,
+        type: existingDeck.type
+      },
+      flashcards: createdFlashcards
     }
   },
 

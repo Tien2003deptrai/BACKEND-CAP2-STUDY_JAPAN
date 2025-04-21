@@ -16,14 +16,17 @@ const FlashcardController = {
       'Tạo flashcard thành công'
     ),
 
-  updateFlashcard: (req, res) =>
+  updateDeckFlashcards: (req, res) =>
     handleRequest(
       res,
       async () => {
-        validateRequiredFields(['flashcard_id'], req.params)
+        const { deckId } = req.params
+        const { deck_title, flashcard_type, flashcards } = req.body
         return await FlashcardService.updateFlashcard({
-          flashcard_id: req.params.flashcard_id,
-          ...req.body
+          deckId,
+          deck_title,
+          flashcard_type,
+          flashcards
         })
       },
       'Cập nhật flashcard thành công'

@@ -7,5 +7,6 @@ router.post('/', RenshuuController.createRenshuu)
 router.delete('/:renshuu_id', RenshuuController.deleteRenshuu)
 router.get('/:lesson_id', RenshuuController.getAllRenshuuByLessonId)
 router.put('/question', RenshuuController.updateQuestion)
+router.post('/submit/:renshuuId', RenshuuController.submitRenshuu)
 
 module.exports = router
