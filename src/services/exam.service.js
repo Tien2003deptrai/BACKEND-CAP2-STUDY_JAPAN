@@ -545,28 +545,47 @@ const ExamService = {
     }
   },
 
-  updateQuestion: async (exam_id, question_id, bodyUpdate) => {
+  updateQuestion: async (examId, newQuestions) => {
     try {
-      if (!exam_id || !question_id) throwError('Exam ID và question ID bắt buộc')
-      const currentExam = await ExamsRepo.findById(exam_id)
+      if (!examId) throwError('Exam ID bắt buộc')
+      if (!Array.isArray(newQuestions)) throwError('Questions phải là một mảng')
+
+      // Find the exam by ID
+      const currentExam = await ExamsRepo.findById(examId)
       if (!currentExam) throwError('Không tìm thấy bài kiểm tra')
 
-      const questionIndex = currentExam.questions.findIndex((q) => q.id == question_id)
-      if (questionIndex === -1) throwError('Câu hỏi không tồn tại trong bài kiểm tra')
+      // Validate the new questions
+      const processedNewQuestions = newQuestions.map((question, index) => {
+        // Validate required fields
+        if (!question.parentQuestion) throwError(`Câu hỏi ${index + 1} thiếu trường parentQuestion`)
+        if (!Array.isArray(question.childQuestions)) {
+          throwError(`Câu hỏi ${index + 1} thiếu trường childQuestions hoặc không phải là mảng`)
+        }
 
-      // Preserve existing question data and merge with updates
-      const updatedQuestion = {
-        ...currentExam.questions[questionIndex], // Keep existing data
-        ...bodyUpdate // Apply updates
-      }
+        // Validate child questions
+        question.childQuestions.forEach((child, childIndex) => {
+          if (!child.content) {
+            throwError(
+              `Câu hỏi con ${childIndex + 1} của câu hỏi ${index + 1} thiếu trường content`
+            )
+          }
+          if (!child.correctAnswer) {
+            throwError(
+              `Câu hỏi con ${childIndex + 1} của câu hỏi ${index + 1} thiếu trường correctAnswer`
+            )
+          }
+        })
 
-      // Update the specific question in the array
-      currentExam.questions[questionIndex] = updatedQuestion
-
-      // Update the exam with the modified questions array
-      await ExamsRepo.update(exam_id, {
-        questions: currentExam.questions
+        return question
       })
+
+      console.log(processedNewQuestions)
+
+      // Replace the existing questions with the new questions
+      currentExam.questions = processedNewQuestions
+
+      // Save the updated exam to the database
+      await ExamsRepo.update(examId, { questions: currentExam.questions })
 
       return true
     } catch (error) {
@@ -653,22 +672,25 @@ const ExamService = {
       if (!examId) throwError('Exam ID bắt buộc')
       if (!questionId) throwError('Question ID bắt buộc')
 
-      // Get the current exam to check existing questions
+      // Find the exam by ID
       const currentExam = await ExamsRepo.findById(examId)
       if (!currentExam) throwError('Không tìm thấy bài kiểm tra')
 
-      // Check if the question exists in the exam
-      const questionIndex = currentExam.questions.findIndex((q) => q.id === questionId)
-      if (questionIndex === -1) throwError('Câu hỏi không tồn tại trong bài kiểm tra')
+      // Find the parent question that contains the child question
+      const parentQuestion = currentExam.questions.find((q) =>
+        q.childQuestions.some((child) => child.id === questionId)
+      )
+      if (!parentQuestion) throwError('Không tìm thấy câu hỏi trong bài kiểm tra')
 
-      // Remove the question from the exam
-      currentExam.questions.splice(questionIndex, 1)
+      // Remove the child question from the parent question
+      parentQuestion.childQuestions = parentQuestion.childQuestions.filter(
+        (child) => child.id !== questionId
+      )
 
-      // Update the exam with the new questions array
-      const updatedExam = await ExamsRepo.update(examId, { questions: currentExam.questions })
-      if (!updatedExam) throwError('Không tìm thấy bài kiểm tra')
+      // Update the exam in the database
+      await ExamsRepo.update(examId, { questions: currentExam.questions })
 
-      return updatedExam
+      return true
     } catch (error) {
       console.error('Error in deleteExamQuestion:', error)
       throwError(error.message, error.statusCode || 500)

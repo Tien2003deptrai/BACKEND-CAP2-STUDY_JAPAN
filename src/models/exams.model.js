@@ -61,7 +61,14 @@ const examSchema = new Schema(
     //   default: false
     // },
     tags: [String],
-    questions: [questionSchema],
+    questions: [
+      {
+        parentQuestion: { type: String },
+        paragraph: { type: String },
+        imgUrl: { type: String },
+        childQuestions: [questionSchema]
+      }
+    ],
     allowedTime: { type: Number }, // Thời gian cho phép làm bài (phút) - có thể khác với time_limit
     passingScore: { type: Number }, // Điểm đỗ
     difficultyLevel: {

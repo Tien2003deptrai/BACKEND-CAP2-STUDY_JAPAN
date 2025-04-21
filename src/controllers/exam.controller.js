@@ -152,7 +152,7 @@ const examController = {
         if (req.user.roles !== 'admin' && req.user.roles !== 'teacher') {
           throwError('Không có quyền cập nhật câu hỏi bài kiểm tra')
         }
-        return await examService.updateQuestion(req.params.examId, req.params.questionId, req.body)
+        return await examService.updateQuestion(req.params.examId, req.body.newQuestions)
       },
       'Cập nhật câu hỏi bài kiểm tra thành công'
     ),

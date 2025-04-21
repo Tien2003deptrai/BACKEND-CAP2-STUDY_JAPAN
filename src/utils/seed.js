@@ -2542,329 +2542,93 @@ const flashcards = [
     interval: 2
   }
 ]
-
 const exams = [
   {
     _id: '605c72ef5f5b2c1d4c8ec001',
-    title: 'N5模擬試験1',
-    description: 'Bài kiểm tra mô phỏng JLPT N5 đầu tiên',
+    title: 'N5 Vocabulary Test',
+    description: 'A test for basic vocabulary in N5 level.',
     time_limit: 60,
     total_points: 100,
     level: 'N5',
     sections: [
       {
-        title: 'Phần nghe',
-        description: 'Kiểm tra khả năng nghe hiểu',
-        type: 'listening'
-      },
-      {
-        title: 'Phần đọc',
-        description: 'Kiểm tra khả năng đọc hiểu',
-        type: 'reading'
+        title: 'Vocabulary Section',
+        description: 'Test your vocabulary knowledge.',
+        type: 'vocabulary'
       }
     ],
-    creator: '605c72ef5f5b2c1d4c8e1001',
-    course: '605c72ef5f5b2c1d4c8e2001',
-    // isPublished: true,
-    tags: ['mock', 'N5', 'beginner'],
+    creator: '605c72ef5f5b2c1d4c8e1001', // Replace with a valid user ID
+    course: '605c72ef5f5b2c1d4c8e2001', // Replace with a valid course ID
+    tags: ['vocabulary', 'N5'],
     questions: [
       {
-        id: 'q001',
-        type: 'listening',
-        content: 'Nghe đoạn hội thoại và chọn câu trả lời đúng',
-        instruction: 'Hãy nghe đoạn hội thoại và chọn câu trả lời đúng',
-        mediaUrl: 'https://example.com/audio/exam1.mp3',
-        options: [
-          { id: 'a', text: 'Xin chào' },
-          { id: 'b', text: 'Tạm biệt' },
-          { id: 'c', text: 'Cảm ơn' },
-          { id: 'd', text: 'Xin lỗi' }
-        ],
-        correctAnswer: 'a',
-        point: 10
+        parentQuestion: 'Vocabulary Section 1',
+        paragraph: 'Translate the following words into Japanese.',
+        imgUrl: null,
+        childQuestions: [
+          {
+            id: 'q1',
+            type: 'multiple_choice',
+            content: 'What is the Japanese word for "apple"?',
+            instruction: 'Choose the correct answer.',
+            options: [
+              { id: 'a', text: 'りんご' },
+              { id: 'b', text: 'みかん' },
+              { id: 'c', text: 'ぶどう' }
+            ],
+            correctAnswer: 'a',
+            point: 1
+          },
+          {
+            id: 'q2',
+            type: 'multiple_choice',
+            content: 'What is the Japanese word for "water"?',
+            instruction: 'Choose the correct answer.',
+            options: [
+              { id: 'a', text: 'お茶' },
+              { id: 'b', text: '水' },
+              { id: 'c', text: '牛乳' }
+            ],
+            correctAnswer: 'b',
+            point: 1
+          }
+        ]
       },
       {
-        id: 'q002',
-        type: 'multiple_choice',
-        content: 'こんにちは nghĩa là gì?',
-        options: [
-          { id: 'a', text: 'Xin chào' },
-          { id: 'b', text: 'Tạm biệt' },
-          { id: 'c', text: 'Cảm ơn' },
-          { id: 'd', text: 'Xin lỗi' }
-        ],
-        correctAnswer: 'a', // Thêm trường correctAnswer
-        point: 10 // Thêm point để đồng bộ với các câu hỏi khác
-      },
-      {
-        id: 'q003',
-        type: 'fill_in',
-        content: 'Hoàn thành câu: わたしは＿＿＿です。',
-        correctAnswer: 'がくせい',
-        point: 15
+        parentQuestion: 'Vocabulary Section 2',
+        paragraph: 'Match the following words with their meanings.',
+        imgUrl: 'https://example.com/image.jpg',
+        childQuestions: [
+          {
+            id: 'q3',
+            type: 'multiple_choice',
+            content: 'What is the Japanese word for "dog"?',
+            instruction: 'Choose the correct answer.',
+            options: [
+              { id: 'a', text: '猫' },
+              { id: 'b', text: '犬' },
+              { id: 'c', text: '鳥' }
+            ],
+            correctAnswer: 'b',
+            point: 1
+          }
+        ]
       }
     ],
-    difficultyLevel: 'beginner',
-    passingScore: 60,
-    allowedAttempts: 2,
     allowedTime: 60,
-    visibility: 'public',
-    allowedUsers: [],
-    allowedGroups: [],
-    startTime: new Date('2024-01-01T00:00:00Z'),
-    endTime: new Date('2024-12-31T23:59:59Z'),
-    settings: {
-      shuffleQuestions: true,
-      showResults: true,
-      showAnswers: false,
-      preventCopy: true,
-      fullScreen: true
-    }
-  },
-  // Các bài thi khác giữ nguyên vì không có lỗi
-  {
-    _id: '605c72ef5f5b2c1d4c8ec002',
-    title: '漢字N5テスト',
-    description: 'Bài kiểm tra chữ Hán trình độ N5',
-    time_limit: 30,
-    total_points: 50,
-    level: 'N5',
-    sections: [
-      {
-        title: 'Phần đọc chữ Hán',
-        description: 'Kiểm tra cách đọc chữ Hán',
-        type: 'reading'
-      }
-    ],
-    creator: '605c72ef5f5b2c1d4c8e1002',
-    course: '605c72ef5f5b2c1d4c8e2002',
-    // isPublished: false,
-    tags: ['kanji', 'N5', 'beginner'],
-    questions: [
-      {
-        id: 'q001',
-        type: 'multiple_choice',
-        content: '山 đọc là gì?',
-        options: [
-          { id: 'a', text: 'やま' },
-          { id: 'b', text: 'かわ' },
-          { id: 'c', text: 'もり' },
-          { id: 'd', text: 'うみ' }
-        ],
-        correctAnswer: 'a',
-        point: 5
-      },
-      {
-        id: 'q002',
-        type: 'multiple_choice',
-        content: '川 đọc là gì?',
-        options: [
-          { id: 'a', text: 'やま' },
-          { id: 'b', text: 'かわ' },
-          { id: 'c', text: 'もり' },
-          { id: 'd', text: 'うみ' }
-        ],
-        correctAnswer: 'b',
-        point: 5
-      }
-    ],
+    passingScore: 50,
     difficultyLevel: 'beginner',
-    passingScore: 30,
+    visibility: 'public',
     allowedAttempts: 3,
-    allowedTime: 30,
-    visibility: 'private',
-    allowedUsers: ['605c72ef5f5b2c1d4c8e1001', '605c72ef5f5b2c1d4c8e1002'],
-    allowedGroups: [],
-    startTime: new Date('2024-01-01T00:00:00Z'),
-    endTime: new Date('2024-12-31T23:59:59Z'),
-    settings: {
-      shuffleQuestions: true,
-      showResults: true,
-      showAnswers: true,
-      preventCopy: true,
-      fullScreen: false
-    }
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec003',
-    title: 'N4文法試験',
-    description: 'Bài kiểm tra ngữ pháp N4',
-    time_limit: 45,
-    total_points: 80,
-    level: 'N4',
-    sections: [
-      {
-        title: 'Ngữ pháp cơ bản',
-        description: 'Kiểm tra kiến thức ngữ pháp cơ bản N4',
-        type: 'grammar'
-      },
-      {
-        title: 'Ngữ pháp nâng cao',
-        description: 'Kiểm tra kiến thức ngữ pháp nâng cao N4',
-        type: 'grammar'
-      }
-    ],
-    creator: '605c72ef5f5b2c1d4c8e1004',
-    course: '605c72ef5f5b2c1d4c8e2003',
-    // isPublished: true,
-    tags: ['grammar', 'N4', 'intermediate'],
-    questions: [
-      {
-        id: 'q001',
-        type: 'multiple_choice',
-        content: '＿＿＿ とても きれいです。',
-        instruction: 'Chọn trợ từ thích hợp điền vào chỗ trống',
-        options: [
-          { id: 'a', text: 'が' },
-          { id: 'b', text: 'に' },
-          { id: 'c', text: 'を' },
-          { id: 'd', text: 'で' }
-        ],
-        correctAnswer: 'a',
-        point: 10
-      },
-      {
-        id: 'q002',
-        type: 'multiple_choice',
-        content: '学校＿＿＿ いきます。',
-        instruction: 'Chọn trợ từ thích hợp điền vào chỗ trống',
-        options: [
-          { id: 'a', text: 'が' },
-          { id: 'b', text: 'に' },
-          { id: 'c', text: 'を' },
-          { id: 'd', text: 'で' }
-        ],
-        correctAnswer: 'b',
-        point: 10
-      }
-    ],
-    difficultyLevel: 'intermediate',
-    passingScore: 60,
-    allowedAttempts: 2,
-    allowedTime: 45,
-    visibility: 'group',
-    allowedUsers: [],
-    allowedGroups: ['N4_GROUP', 'ADVANCED_GROUP'],
-    startTime: new Date('2024-01-01T00:00:00Z'),
-    endTime: new Date('2024-12-31T23:59:59Z'),
     settings: {
       shuffleQuestions: true,
       showResults: true,
       showAnswers: false,
       preventCopy: true,
-      fullScreen: true
-    }
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec004',
-    title: '会話N5テスト',
-    description: 'Bài kiểm tra hội thoại N5',
-    time_limit: 20,
-    total_points: 40,
-    level: 'N5',
-    sections: [
-      {
-        title: 'Hội thoại cơ bản',
-        description: 'Kiểm tra khả năng giao tiếp cơ bản',
-        type: 'listening'
-      }
-    ],
-    creator: '605c72ef5f5b2c1d4c8e1002',
-    course: '605c72ef5f5b2c1d4c8e2004',
-    // isPublished: false,
-    tags: ['conversation', 'N5', 'beginner'],
-    questions: [
-      {
-        id: 'q001',
-        type: 'listening',
-        content: 'Nghe đoạn hội thoại và chọn câu trả lời đúng',
-        mediaUrl: 'https://example.com/audio/ohayou.mp3',
-        options: [
-          { id: 'a', text: 'Chào buổi sáng' },
-          { id: 'b', text: 'Chào buổi chiều' },
-          { id: 'c', text: 'Chào buổi tối' },
-          { id: 'd', text: 'Tạm biệt' }
-        ],
-        correctAnswer: 'a',
-        point: 10
-      }
-    ],
-    difficultyLevel: 'beginner',
-    passingScore: 30,
-    allowedAttempts: 2,
-    allowedTime: 20,
-    visibility: 'private',
-    allowedUsers: ['605c72ef5f5b2c1d4c8e1001'],
-    allowedGroups: [],
-    startTime: new Date('2024-01-01T00:00:00Z'),
-    endTime: new Date('2024-12-31T23:59:59Z'),
-    settings: {
-      shuffleQuestions: false,
-      showResults: true,
-      showAnswers: true,
-      preventCopy: false,
       fullScreen: false
-    }
-  },
-  {
-    _id: '605c72ef5f5b2c1d4c8ec005',
-    title: 'N3模擬試験',
-    description: 'Bài kiểm tra mô phỏng JLPT N3',
-    time_limit: 90,
-    total_points: 120,
-    level: 'N3',
-    sections: [
-      {
-        title: 'Ngữ pháp và Từ vựng',
-        description: 'Kiểm tra ngữ pháp và từ vựng N3',
-        type: 'grammar'
-      },
-      {
-        title: 'Đọc hiểu',
-        description: 'Kiểm tra kỹ năng đọc hiểu N3',
-        type: 'reading'
-      }
-    ],
-    creator: '605c72ef5f5b2c1d4c8e1004',
-    course: '605c72ef5f5b2c1d4c8e2005',
-    // isPublished: true,
-    tags: ['mock', 'N3', 'intermediate'],
-    questions: [
-      {
-        id: 'q001',
-        type: 'reading',
-        content: 'Đọc đoạn văn sau và trả lời câu hỏi',
-        readingPassage: '川がきれいです。山も高いです。空も青いです。',
-        instruction: '川はどうですか？',
-        options: [
-          { id: 'a', text: 'きれいです' },
-          { id: 'b', text: '高いです' },
-          { id: 'c', text: '青いです' },
-          { id: 'd', text: '大きいです' }
-        ],
-        correctAnswer: 'a',
-        point: 10
-      }
-    ],
-    difficultyLevel: 'intermediate',
-    passingScore: 80,
-    allowedAttempts: 2,
-    allowedTime: 90,
-    visibility: 'public',
-    allowedUsers: [],
-    allowedGroups: [],
-    startTime: new Date('2024-01-01T00:00:00Z'),
-    endTime: new Date('2024-12-31T23:59:59Z'),
-    settings: {
-      shuffleQuestions: true,
-      showResults: true,
-      showAnswers: false,
-      preventCopy: true,
-      fullScreen: true
     }
   }
 ]
-
 const progressions = [
   {
     _id: '605c72ef5f5b2c1d4c8ed001',
