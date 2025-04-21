@@ -13,6 +13,8 @@ const HinaRoute = require('./hina.route')
 const RenshuuRoute = require('./renshuu.route')
 const AdminRoute = require('./admin.route')
 const UserRoute = require('./user.route')
+const progressionRoute = require('./progression.route')
+
 // Configuration Routes * /api/config/*
 const TranslateRoute = require('./translation/translate.route')
 const router = express.Router()
@@ -31,6 +33,7 @@ router.use('/hina', authenticateJWT, HinaRoute)
 router.use('/renshuu', authenticateJWT, RenshuuRoute)
 router.use('/admin', authenticateJWT, AdminRoute)
 router.use('/user', UserRoute)
+router.use('/progress', progressionRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

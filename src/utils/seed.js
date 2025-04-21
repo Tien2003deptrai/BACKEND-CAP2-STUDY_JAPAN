@@ -2641,7 +2641,15 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec001', point: 85, note: 'Good' }]
+    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec001', point: 85, note: 'Good' }],
+    gameProgress: [
+      {
+        gameType: 'MemoryCard',
+        correctPairs: 10,
+        totalCards: 12,
+        duration: 120
+      }
+    ]
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed002',
@@ -2654,7 +2662,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: []
+    examsProgress: [],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed003',
@@ -2667,7 +2676,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec003', point: 70, note: 'OK' }]
+    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec003', point: 70, note: 'OK' }],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed004',
@@ -2680,7 +2690,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: []
+    examsProgress: [],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed005',
@@ -2693,7 +2704,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec005', point: 90, note: 'Excellent' }]
+    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec005', point: 90, note: 'Excellent' }],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed006',
@@ -2706,7 +2718,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: []
+    examsProgress: [],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed007',
@@ -2719,7 +2732,15 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec007', point: 65, note: 'Need practice' }]
+    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec007', point: 65, note: 'Need practice' }],
+    gameProgress: [
+      {
+        gameType: 'Flashcard',
+        correctPairs: 8,
+        totalCards: 10,
+        duration: 90
+      }
+    ]
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed008',
@@ -2732,7 +2753,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: []
+    examsProgress: [],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed009',
@@ -2745,7 +2767,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec009', point: 80, note: 'Good' }]
+    examsProgress: [{ exam: '605c72ef5f5b2c1d4c8ec009', point: 80, note: 'Good' }],
+    gameProgress: []
   },
   {
     _id: '605c72ef5f5b2c1d4c8ed00a',
@@ -2758,7 +2781,8 @@ const progressions = [
         lessonType: 'Lesson'
       }
     ],
-    examsProgress: []
+    examsProgress: [],
+    gameProgress: []
   }
 ]
 
@@ -2996,8 +3020,50 @@ const renshuus = [
         content: 'こんにちは、お元気ですか？',
         correctAnswer: 'a',
         options: [
+          { id: 'a', text: 'Xin chào, bạn khỏe không?' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Xin lỗi' }
+        ]
+      },
+      {
+        content: 'ありがとう',
+        correctAnswer: 'c',
+        options: [
           { id: 'a', text: 'Xin chào' },
-          { id: 'b', text: 'Tạm biệt' }
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Không có gì' }
+        ]
+      },
+      {
+        content: 'さようなら',
+        correctAnswer: 'b',
+        options: [
+          { id: 'a', text: 'Cảm ơn' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Vâng' },
+          { id: 'd', text: 'Không' }
+        ]
+      },
+      {
+        content: 'はい',
+        correctAnswer: 'd',
+        options: [
+          { id: 'a', text: 'Không' },
+          { id: 'b', text: 'Xin lỗi' },
+          { id: 'c', text: 'Tạm biệt' },
+          { id: 'd', text: 'Vâng' }
+        ]
+      },
+      {
+        content: 'いいえ',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Không' },
+          { id: 'b', text: 'Có' },
+          { id: 'c', text: 'Xin chào' },
+          { id: 'd', text: 'Cảm ơn' }
         ]
       }
     ]
@@ -3006,11 +3072,53 @@ const renshuus = [
     lesson: '605c72ef5f5b2c1d4c8e5002',
     questions: [
       {
-        content: '山 nghĩa là gì trong tiếng Nhật?',
+        content: 'こんにちは、お元気ですか？',
         correctAnswer: 'a',
         options: [
-          { id: 'a', text: 'Núi' },
-          { id: 'b', text: 'Sông' }
+          { id: 'a', text: 'Xin chào, bạn khỏe không?' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Xin lỗi' }
+        ]
+      },
+      {
+        content: 'ありがとう',
+        correctAnswer: 'c',
+        options: [
+          { id: 'a', text: 'Xin chào' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Cảm ơn' },
+          { id: 'd', text: 'Không có gì' }
+        ]
+      },
+      {
+        content: 'さようなら',
+        correctAnswer: 'b',
+        options: [
+          { id: 'a', text: 'Cảm ơn' },
+          { id: 'b', text: 'Tạm biệt' },
+          { id: 'c', text: 'Vâng' },
+          { id: 'd', text: 'Không' }
+        ]
+      },
+      {
+        content: 'はい',
+        correctAnswer: 'd',
+        options: [
+          { id: 'a', text: 'Không' },
+          { id: 'b', text: 'Xin lỗi' },
+          { id: 'c', text: 'Tạm biệt' },
+          { id: 'd', text: 'Vâng' }
+        ]
+      },
+      {
+        content: 'いいえ',
+        correctAnswer: 'a',
+        options: [
+          { id: 'a', text: 'Không' },
+          { id: 'b', text: 'Có' },
+          { id: 'c', text: 'Xin chào' },
+          { id: 'd', text: 'Cảm ơn' }
         ]
       }
     ]
