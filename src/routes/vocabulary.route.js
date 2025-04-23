@@ -23,6 +23,7 @@ router.get(
   VocabularyController.getAllVocabularies
 )
 router.get('/:vocab_id', VocabularyController.getVocabularyById)
+router.post('/no-lesson', VocabularyController.addVocabulary)
 
 // Teacher routes - Can manage vocabulary
 router.post(
@@ -30,9 +31,15 @@ router.post(
   authorizeRole(['teacher', 'admin']),
   VocabularyController.addVocabulary
 )
+
 router.put('/:vocab_id', authorizeRole(['teacher', 'admin']), VocabularyController.updateVocabulary)
 router.delete(
   '/:vocab_id',
+  authorizeRole(['teacher', 'admin']),
+  VocabularyController.deleteVocabulary
+)
+router.delete(
+  '/:vocab_id/no-lesson',
   authorizeRole(['teacher', 'admin']),
   VocabularyController.deleteVocabulary
 )

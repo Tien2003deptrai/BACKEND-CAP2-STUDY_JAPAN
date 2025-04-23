@@ -35,7 +35,14 @@ const DeckService = {
     return listDeck
   },
   getAllDecks: async () => {
-    const decks = await deckModel.find().select('deck_title _id type').lean()
+    const decks = await deckModel
+      .find()
+      .select('deck_title _id type')
+      .populate({
+        path: 'user',
+        select: 'name avatar'
+      })
+      .lean()
 
     // Đếm số lượng flashcards thuộc mỗi deck
     for (const deck of decks) {

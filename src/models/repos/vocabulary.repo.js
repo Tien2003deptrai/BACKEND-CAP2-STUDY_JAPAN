@@ -26,6 +26,8 @@ const VocabularyRepo = {
       })
       .lean(),
 
+  findByWordOnly: async (word) => vocabularyModel.findOne({ word }).lean(),
+
   findByWordExcludingId: async (lesson_id, word, exclude_id) =>
     vocabularyModel
       .findOne({
