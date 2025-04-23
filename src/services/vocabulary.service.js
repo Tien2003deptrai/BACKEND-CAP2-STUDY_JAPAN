@@ -120,6 +120,16 @@ const VocabularyService = {
     ])
 
     return true
+  },
+
+  getAllVocabulariesAI: async () => {
+    const vocabularies = await VocabularyRepo.findAll()
+    return vocabularies
+  },
+  getVocabularyById: async (vocab_id) => {
+    const vocabulary = await VocabularyRepo.findById(vocab_id)
+    if (!vocabulary) throwError('Vocabulary not found')
+    return vocabulary
   }
 }
 

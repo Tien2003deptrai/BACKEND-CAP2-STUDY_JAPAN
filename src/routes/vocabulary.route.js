@@ -12,10 +12,17 @@ router.get(
 )
 
 router.get(
+  '/all-AI',
+  // authorizeRole(['student', 'teacher', 'admin']),
+  VocabularyController.getAllVocabulariesAI
+)
+
+router.get(
   '/lesson/:lesson_id',
   authorizeRole(['student', 'teacher', 'admin']),
   VocabularyController.getAllVocabularies
 )
+router.get('/:vocab_id', VocabularyController.getVocabularyById)
 
 // Teacher routes - Can manage vocabulary
 router.post(
