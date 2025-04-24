@@ -14,9 +14,6 @@ const questionSchema = new Schema({
     default: 'multiple_choice'
   },
   content: { type: String, required: true }, // Nội dung câu hỏi
-  instruction: { type: String }, // Hướng dẫn cho câu hỏi
-  mediaUrl: { type: String }, // URL đến media (audio, image)
-  readingPassage: { type: String }, // Đoạn văn cho câu hỏi reading
   options: [{ text: String, id: String }], // Các lựa chọn cho câu hỏi trắc nghiệm
   correctAnswer: { type: String, required: true }, // Đáp án đúng
   point: { type: Number, default: 1 } // Điểm cho câu hỏi này
@@ -56,30 +53,22 @@ const examSchema = new Schema(
       ref: 'Course',
       required: true
     },
-    // isPublished: {
-    //   type: Boolean,
-    //   default: false
-    // },
+    isPublished: {
+      type: Boolean,
+      default: false
+    },
     tags: [String],
     questions: [
       {
         parentQuestion: { type: String },
         paragraph: { type: String },
         imgUrl: { type: String },
+        audioUrl: { type: String },
         childQuestions: [questionSchema]
       }
     ],
     allowedTime: { type: Number }, // Thời gian cho phép làm bài (phút) - có thể khác với time_limit
     passingScore: { type: Number }, // Điểm đỗ
-    difficultyLevel: {
-      type: String,
-      enum: ['beginner', 'intermediate', 'advanced']
-    },
-    visibility: {
-      type: String,
-      enum: ['public', 'private', 'group'],
-      default: 'public'
-    },
     allowedAttempts: { type: Number, default: 1 }, // Số lần được phép làm bài
     allowedUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }], // Danh sách user được phép làm bài (cho private exam)
     allowedGroups: [{ type: String }], // Danh sách nhóm được phép làm bài (cho group exam)

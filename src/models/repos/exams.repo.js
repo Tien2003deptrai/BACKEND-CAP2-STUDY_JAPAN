@@ -37,7 +37,7 @@ const ExamsRepo = {
   queryExams: (query) =>
     examsModel
       .find(query)
-      .select('_id title description time_limit total_points level tags course')
+      .select('_id title description time_limit total_points level tags course startTime endTime')
       .populate('course')
       .lean(),
 

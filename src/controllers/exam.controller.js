@@ -277,6 +277,22 @@ const examController = {
         return await examService.getExamAnalytics(req.params.examId)
       },
       'Thống kê bài thi'
+    ),
+
+  updateExamSchedule: async (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        const { startTime, endTime } = req.body
+
+        // Validate input
+        if (!startTime || !endTime) {
+          throwError('Cần cung cấp cả startTime và endTime')
+        }
+
+        return await examService.updateExamSchedule(req.params.examId, startTime, endTime, req.body)
+      },
+      'Cập nhật thời gian bài kiểm tra thành công'
     )
 }
 

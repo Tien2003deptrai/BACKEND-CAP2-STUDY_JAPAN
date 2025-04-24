@@ -2619,6 +2619,8 @@ const exams = [
     passingScore: 50,
     difficultyLevel: 'beginner',
     visibility: 'public',
+    startTime: null,
+    endTime: null,
     allowedAttempts: 3,
     settings: {
       shuffleQuestions: true,

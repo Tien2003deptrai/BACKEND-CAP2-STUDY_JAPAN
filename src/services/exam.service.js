@@ -139,6 +139,16 @@ const ExamService = {
 
     const { scoredAnswers, totalScore } = await scoreExam(exam, answers)
 
+    const passingScores = {
+      N1: 100,
+      N2: 90,
+      N3: 95,
+      N4: 90,
+      N5: 80
+    }
+
+    const passed = totalScore >= (passingScores[exam.level] || 0)
+
     const result = await ResultRepo.update(attemptObjectId, {
       endTime,
       timeSpent,
@@ -151,8 +161,7 @@ const ExamService = {
       attemptId: result._id,
       totalScore: result.totalScore,
       timeSpent: result.timeSpent,
-      passingScore: exam.passingScore,
-      passed: result.totalScore >= exam.passingScore
+      passed
     }
   },
 
@@ -717,6 +726,51 @@ const ExamService = {
     const exams = await examsModel.find({ course: { $in: courseIds } })
 
     return exams
+  },
+
+  updateExamSchedule: async (examId, startTime, endTime, body) => {
+    try {
+      if (!examId) throwError('Exam ID bắt buộc')
+
+      const now = new Date()
+
+      // Validate dates
+      const start = new Date(startTime)
+      const end = new Date(endTime)
+
+      if (start >= end) {
+        throwError('Thời gian bắt đầu phải trước thời gian kết thúc')
+      }
+
+      // Validate level
+      const validLevels = ['N1', 'N2', 'N3', 'N4', 'N5']
+      if (body.level && !validLevels.includes(body.level)) {
+        throwError(`Level không hợp lệ. Phải là một trong: ${validLevels.join(', ')}`)
+      }
+
+      // Prepare update data
+      const updateData = {
+        startTime: start,
+        endTime: end
+      }
+
+      if (body.time_limit !== undefined) {
+        updateData.time_limit = body.time_limit
+      }
+
+      if (body.level !== undefined) {
+        updateData.level = body.level
+      }
+
+      // Update the exam
+      const updatedExam = await ExamsRepo.update(examId, updateData)
+      if (!updatedExam) throwError('Không tìm thấy bài kiểm tra')
+
+      return updatedExam
+    } catch (error) {
+      console.error('Error in updateExamSchedule:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
   }
 }
 
