@@ -35,7 +35,21 @@ const DeckService = {
     return listDeck
   },
   getAllDecks: async () => {
-    const decks = await deckModel.find().select('deck_title _id type').lean()
+    const decks = await deckModel
+      .find()
+      .select('deck_title _id type')
+      .populate({
+        path: 'user',
+        select: 'name avatar'
+      })
+      .lean()
+
+    // Đếm số lượng flashcards thuộc mỗi deck
+    for (const deck of decks) {
+      const flashcardCount = await flashcardModel.countDocuments({ deck: deck._id })
+      deck.flashcardCount = flashcardCount // Thêm thuộc tính flashcardCount vào mỗi deck
+    }
+
     return decks
   },
   getDecksByType: async (type) => {
@@ -56,6 +70,20 @@ const DeckService = {
     return {
       deck_id
     }
+  },
+
+  getAllDecksAndFlashcards: async () => {
+    const decks = await deckModel.find().lean()
+
+    const flashcards = await flashcardModel.find().select('deck front back').lean()
+
+    decks.forEach((deck) => {
+      deck.flashcards = flashcards.filter(
+        (flashcard) => flashcard.deck.toString() === deck._id.toString()
+      )
+    })
+
+    return decks
   }
 }
 

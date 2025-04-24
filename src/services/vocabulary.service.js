@@ -120,6 +120,35 @@ const VocabularyService = {
     ])
 
     return true
+  },
+
+  deleteVocabularyNoLesson: async (vocab_id) => {
+    const existingVocab = await VocabularyRepo.findById(vocab_id)
+    if (!existingVocab) throwError('Vocabulary not found')
+
+    return VocabularyRepo.delete(vocab_id)
+  },
+
+  getAllVocabulariesAI: async () => {
+    const vocabularies = await VocabularyRepo.findAll()
+    return vocabularies
+  },
+  getVocabularyById: async (vocab_id) => {
+    const vocabulary = await VocabularyRepo.findById(vocab_id)
+    if (!vocabulary) throwError('Vocabulary not found')
+    return vocabulary
+  },
+
+  addVocabulary: async (data) => {
+    const existingVocab = await VocabularyRepo.findByWordOnly(data.word)
+    if (existingVocab) throwError('Vocabulary already exists')
+
+    const processedData = VocabularyService._processKanji(data)
+
+    const newVocab = await VocabularyRepo.create(processedData)
+    if (!newVocab) throwError('Vocabulary creation failed')
+
+    return newVocab
   }
 }
 

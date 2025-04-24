@@ -58,7 +58,17 @@ const DeckController = {
         })
       },
       'Xóa bộ flashcard thành công'
+    ),
+
+  getAllDecksAndFlashcards: (req, res) => {
+    handleRequest(
+      res,
+      async () => {
+        return await DeckService.getAllDecksAndFlashcards()
+      },
+      'Lấy tất cả bộ data flashcards thành công'
     )
+  }
 }
 
 module.exports = DeckController

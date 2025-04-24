@@ -1,6 +1,7 @@
 const express = require('express')
 const axios = require('axios')
 const handleRequest = require('../../controllers/BaseController')
+const VocabularyController = require('../../controllers/vocabulary.controller')
 const router = express.Router()
 
 const translateViToJa = async (text) => {
@@ -25,5 +26,7 @@ router.post('/translate/vi-to-ja', (req, res) => {
 router.post('/dictionary/lookup', (req, res) => {
   handleRequest(res, () => lookupDictionary(req.body.text), 'Tra cứu thành công')
 })
+
+router.get('/all-AI', VocabularyController.getAllVocabulariesAI)
 
 module.exports = router

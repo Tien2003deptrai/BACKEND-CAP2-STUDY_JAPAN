@@ -69,6 +69,44 @@ const VocabularyController = {
         return await VocabularyService.deleteVocabulary(req.params.vocab_id, req.body)
       },
       'Xóa từ vựng thành công'
+    ),
+
+  deleteVocabularyNoLesson: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['vocab_id'], req.params)
+        return await VocabularyService.deleteVocabulary(req.params.vocab_id)
+      },
+      'Xóa từ vựng thành công'
+    ),
+
+  getAllVocabulariesAI: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await VocabularyService.getAllVocabulariesAI()
+      },
+      'Lấy danh sách từ vựng thành công'
+    ),
+
+  getVocabularyById: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['vocab_id'], req.params)
+        return await VocabularyService.getVocabularyById(req.params.vocab_id)
+      },
+      'Lấy từ vựng thành công'
+    ),
+
+  addVocabulary: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await VocabularyService.addVocabulary(req.body)
+      },
+      'Thêm từ vựng (không có lesson) thành công'
     )
 }
 
