@@ -290,7 +290,7 @@ const examController = {
           throwError('Cần cung cấp cả startTime và endTime')
         }
 
-        return await examService.updateExamSchedule(req.params.examId, startTime, endTime, req.body)
+        return await examService.updateExamSchedule(req.params.examId, req.body)
       },
       'Cập nhật thời gian bài kiểm tra thành công'
     )

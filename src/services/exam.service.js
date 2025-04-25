@@ -728,30 +728,29 @@ const ExamService = {
     return exams
   },
 
-  updateExamSchedule: async (examId, startTime, endTime, body) => {
+  updateExamSchedule: async (examId, body) => {
     try {
       if (!examId) throwError('Exam ID bắt buộc')
 
       const now = new Date()
-
-      // Validate dates
-      const start = new Date(startTime)
-      const end = new Date(endTime)
-
-      if (start >= end) {
-        throwError('Thời gian bắt đầu phải trước thời gian kết thúc')
+      if (body.startTime) {
+        const start = new Date(body.startTime)
+        if (start < now) {
+          throwError('Thời gian bắt đầu không được ở quá khứ')
+        }
       }
+      const updateData = {}
 
-      // Validate level
-      const validLevels = ['N1', 'N2', 'N3', 'N4', 'N5']
-      if (body.level && !validLevels.includes(body.level)) {
-        throwError(`Level không hợp lệ. Phải là một trong: ${validLevels.join(', ')}`)
-      }
+      if (body.startTime || body.endTime) {
+        const start = new Date(body.startTime)
+        const end = new Date(body.endTime)
 
-      // Prepare update data
-      const updateData = {
-        startTime: start,
-        endTime: end
+        if (start >= end) {
+          throwError('Thời gian bắt đầu phải trước thời gian kết thúc')
+        }
+
+        updateData.startTime = start
+        updateData.endTime = end
       }
 
       if (body.time_limit !== undefined) {
@@ -759,7 +758,29 @@ const ExamService = {
       }
 
       if (body.level !== undefined) {
+        const validLevels = ['N1', 'N2', 'N3', 'N4', 'N5']
+        if (!validLevels.includes(body.level)) {
+          throwError(`Level không hợp lệ. Phải là một trong: ${validLevels.join(', ')}`)
+        }
         updateData.level = body.level
+      }
+
+      if (body.title !== undefined) {
+        if (!body.title.trim()) {
+          throwError('Title không được để trống')
+        }
+        updateData.title = body.title
+      }
+
+      if (body.description !== undefined) {
+        updateData.description = body.description
+      }
+
+      if (body.courseId !== undefined) {
+        if (!body.courseId.trim()) {
+          throwError('Course không được để trống')
+        }
+        updateData.courseId = body.courseId
       }
 
       // Update the exam
@@ -778,20 +799,27 @@ async function scoreExam(exam, submittedAnswers) {
   const scoredAnswers = []
   let totalScore = 0
 
-  for (const answer of submittedAnswers) {
-    const { questionId, userAnswer } = answer
+  const questions = exam.questions.reduce((acc, parentQuestion) => {
+    if (Array.isArray(parentQuestion.childQuestions)) {
+      acc.push(...parentQuestion.childQuestions)
+    }
+    return acc
+  }, [])
 
-    const question = exam.questions.find((q) => q.id === questionId)
+  for (const userAnswer of submittedAnswers) {
+    const { questionId, answer } = userAnswer
+
+    const question = questions.find((q) => q.id === questionId)
     if (!question) continue
 
-    const isCorrect = checkAnswer(question, userAnswer)
+    const isCorrect = checkAnswer(question, answer)
 
     const score = isCorrect ? question.point : 0
     totalScore += score
 
     scoredAnswers.push({
       questionId,
-      userAnswer,
+      answer,
       isCorrect,
       score
     })
