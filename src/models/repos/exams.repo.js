@@ -68,7 +68,7 @@ const ExamsRepo = {
   findWithAnswers: (id) =>
     examsModel
       .findById(id)
-      .select('_id title questions passingScore course')
+      .select('_id title questions passingScore course level time_limit')
       .populate('course')
       .lean(),
 

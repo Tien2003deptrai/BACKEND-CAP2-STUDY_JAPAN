@@ -147,7 +147,7 @@ const ExamService = {
       N5: 80
     }
 
-    const passed = totalScore >= (passingScores[exam.level] || 0)
+    const passed = totalScore >= (passingScores[exam.level] || 80)
 
     const result = await ResultRepo.update(attemptObjectId, {
       endTime,
@@ -161,7 +161,8 @@ const ExamService = {
       attemptId: result._id,
       totalScore: result.totalScore,
       timeSpent: result.timeSpent,
-      passed
+      passed,
+      scoredAnswers
     }
   },
 
@@ -809,17 +810,18 @@ async function scoreExam(exam, submittedAnswers) {
   for (const userAnswer of submittedAnswers) {
     const { questionId, answer } = userAnswer
 
-    const question = questions.find((q) => q.id === questionId)
+    const question = questions.find((q) => q._id == questionId)
     if (!question) continue
 
-    const isCorrect = checkAnswer(question, answer)
+    const { isCorrect, correctAnswer } = checkAnswer(question, answer)
 
-    const score = isCorrect ? question.point : 0
+    const score = isCorrect ? 10 : 0
     totalScore += score
 
     scoredAnswers.push({
       questionId,
       answer,
+      correctAnswer,
       isCorrect,
       score
     })
@@ -829,17 +831,28 @@ async function scoreExam(exam, submittedAnswers) {
 }
 
 function checkAnswer(question, userAnswer) {
+  let isCorrect = false
+
   switch (question.type) {
     case 'multiple_choice':
-      return question.correctAnswer === userAnswer
+      isCorrect = question.correctAnswer === userAnswer
+      break
     case 'fill_in':
-      return question.correctAnswer.toLowerCase() === userAnswer.toLowerCase()
+      isCorrect = question.correctAnswer.toLowerCase() === userAnswer.toLowerCase()
+      break
     case 'listening':
-      return question.correctAnswer === userAnswer
+      isCorrect = question.correctAnswer === userAnswer
+      break
     case 'reading':
-      return question.correctAnswer === userAnswer
+      isCorrect = question.correctAnswer === userAnswer
+      break
     default:
-      return false
+      isCorrect = false
+  }
+
+  return {
+    isCorrect,
+    correctAnswer: question.correctAnswer
   }
 }
 
