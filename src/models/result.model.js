@@ -3,11 +3,21 @@ const { Schema, model } = require('mongoose')
 const DOCUMENT_NAME = 'Result'
 const COLLECTION_NAME = 'Results'
 
-const answerSchema = new Schema({
-  questionId: { type: String, required: true },
+const childAnswerSchema = new Schema({
+  id: { type: String, required: true },
+  content: { type: String, required: true },
+  options: [{ text: String, id: String }],
   userAnswer: { type: String, required: true },
   isCorrect: { type: Boolean, default: false },
   score: { type: Number, default: 0 }
+})
+
+const answerSchema = new Schema({
+  parentQuestion: { type: String, required: true },
+  paragraph: { type: String },
+  imgUrl: { type: String },
+  audioUrl: { type: String },
+  childQuestion: [childAnswerSchema]
 })
 
 const resultSchema = new Schema(
@@ -33,7 +43,7 @@ const resultSchema = new Schema(
       type: Number,
       default: 0
     },
-    answers: [answerSchema],
+    answers: [answerSchema], // Array of answers matching the structure of questions in the Exam model
     status: {
       type: String,
       enum: ['in-progress', 'completed', 'abandoned'],

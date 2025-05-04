@@ -137,7 +137,45 @@ const ExamService = {
     const endTime = new Date()
     const timeSpent = Math.floor((endTime - attempt.startTime) / 1000)
 
-    const { scoredAnswers, totalScore } = await scoreExam(exam, answers)
+    // Process answers to match the nested structure
+    const processedAnswers = exam.questions.map((parentQuestion) => {
+      const submittedParentAnswer = answers.find(
+        (a) => a.parentQuestionId === parentQuestion._id.toString()
+      )
+
+      return {
+        parentQuestionId: parentQuestion._id,
+        paragraph: parentQuestion.paragraph,
+        imgUrl: parentQuestion.imgUrl,
+        audioUrl: parentQuestion.audioUrl,
+        childAnswers: parentQuestion.childQuestions.map((childQuestion) => {
+          const submittedChildAnswer = submittedParentAnswer?.childAnswers?.find(
+            (ca) => ca.id === childQuestion._id.toString()
+          )
+
+          const isCorrect = submittedChildAnswer?.userAnswer === childQuestion.correctAnswer
+
+          return {
+            id: childQuestion._id,
+            content: childQuestion.content,
+            options: childQuestion.options,
+            userAnswer: submittedChildAnswer?.userAnswer || null,
+            isCorrect: isCorrect,
+            score: isCorrect ? 10 : 0
+          }
+        })
+      }
+    })
+
+    // Calculate total score
+    const totalScore = processedAnswers.reduce((total, parentAnswer) => {
+      return (
+        total +
+        parentAnswer.childAnswers.reduce((childTotal, childAnswer) => {
+          return childTotal + childAnswer.score
+        }, 0)
+      )
+    }, 0)
 
     const passingScores = {
       N1: 100,
@@ -153,7 +191,7 @@ const ExamService = {
       endTime,
       timeSpent,
       totalScore,
-      answers: scoredAnswers,
+      answers: processedAnswers,
       status: 'completed'
     })
 
@@ -162,7 +200,7 @@ const ExamService = {
       totalScore: result.totalScore,
       timeSpent: result.timeSpent,
       passed,
-      scoredAnswers
+      scoredAnswers: processedAnswers
     }
   },
 
@@ -724,7 +762,12 @@ const ExamService = {
 
     if (courseIds.length === 0) return []
 
-    const exams = await examsModel.find({ course: { $in: courseIds } })
+    const now = new Date()
+
+    const exams = await examsModel.find({
+      course: { $in: courseIds }
+      // startTime: { $gt: now }
+    })
 
     return exams
   },
@@ -749,6 +792,15 @@ const ExamService = {
         if (start >= end) {
           throwError('Thời gian bắt đầu phải trước thời gian kết thúc')
         }
+
+        // if (body.time_limit !== undefined) {
+        //   const timeLimitInMs = body.time_limit * 60 * 1000
+        //   const timeRangeInMs = end - start
+
+        //   if (timeRangeInMs < timeLimitInMs) {
+        //     throwError('Khoảng thời gian bắt đầu và kết thúc không phù hợp')
+        //   }
+        // }
 
         updateData.startTime = start
         updateData.endTime = end
