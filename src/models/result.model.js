@@ -13,11 +13,11 @@ const childAnswerSchema = new Schema({
 })
 
 const answerSchema = new Schema({
-  parentQuestion: { type: String, required: true },
+  parentQuestionId: { type: String, required: true },
   paragraph: { type: String },
   imgUrl: { type: String },
   audioUrl: { type: String },
-  childQuestion: [childAnswerSchema]
+  childAnswers: [childAnswerSchema]
 })
 
 const resultSchema = new Schema(
@@ -42,6 +42,10 @@ const resultSchema = new Schema(
     totalScore: {
       type: Number,
       default: 0
+    },
+    isPassed: {
+      type: Boolean,
+      default: false
     },
     answers: [answerSchema], // Array of answers matching the structure of questions in the Exam model
     status: {

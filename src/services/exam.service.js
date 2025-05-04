@@ -192,6 +192,7 @@ const ExamService = {
       timeSpent,
       totalScore,
       answers: processedAnswers,
+      isPassed: passed,
       status: 'completed'
     })
 
