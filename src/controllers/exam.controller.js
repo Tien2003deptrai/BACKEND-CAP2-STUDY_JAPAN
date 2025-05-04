@@ -1,6 +1,7 @@
 const throwError = require('../res/throwError')
 const examService = require('../services/exam.service')
 const handleRequest = require('./BaseController')
+const ExamService = require('../services/exam.service')
 
 const examController = {
   // Public routes
@@ -293,7 +294,24 @@ const examController = {
         return await examService.updateExamSchedule(req.params.examId, req.body)
       },
       'Cập nhật thời gian bài kiểm tra thành công'
-    )
+    ),
+
+  getStudentsByExam: async (req, res) => {
+    try {
+      const { examId } = req.params
+
+      if (!examId) {
+        return res.status(400).json({ message: 'Exam ID is required' })
+      }
+
+      const students = await ExamService.getStudentsByExam(examId)
+
+      return res.status(200).json(students)
+    } catch (error) {
+      console.error('Error in getStudentsByExam:', error)
+      return res.status(error.statusCode || 500).json({ message: error.message })
+    }
+  }
 }
 
 module.exports = examController

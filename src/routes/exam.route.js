@@ -63,4 +63,6 @@ router.delete('/:examId/question/:questionId', authenticateJWT, ExamController.d
 // Update exam schedule (admin/teacher only)
 router.put('/:examId/schedule', authenticateJWT, ExamController.updateExamSchedule)
 
+router.get('/:examId/students', authenticateJWT, ExamController.getStudentsByExam)
+
 module.exports = router

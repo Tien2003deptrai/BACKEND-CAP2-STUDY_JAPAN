@@ -847,66 +847,34 @@ const ExamService = {
       console.error('Error in updateExamSchedule:', error)
       throwError(error.message, error.statusCode || 500)
     }
-  }
-}
+  },
 
-async function scoreExam(exam, submittedAnswers) {
-  const scoredAnswers = []
-  let totalScore = 0
+  getStudentsByExam: async (examId) => {
+    try {
+      if (!examId) throwError('Exam ID is required')
 
-  const questions = exam.questions.reduce((acc, parentQuestion) => {
-    if (Array.isArray(parentQuestion.childQuestions)) {
-      acc.push(...parentQuestion.childQuestions)
+      const examObjectId = convert2ObjectId(examId)
+
+      const results = await resultModel.find({ exam: examObjectId }).populate('user', 'name email')
+
+      if (!results || results.length === 0) {
+        return []
+      }
+
+      const students = results.map((result) => ({
+        userId: result.user._id,
+        name: result.user.name,
+        email: result.user.email,
+        totalScore: result.totalScore,
+        isPassed: result.isPassed,
+        timeSpent: result.timeSpent
+      }))
+
+      return students
+    } catch (error) {
+      console.error('Error in getStudentsByExam:', error)
+      throwError(error.message, error.statusCode || 500)
     }
-    return acc
-  }, [])
-
-  for (const userAnswer of submittedAnswers) {
-    const { questionId, answer } = userAnswer
-
-    const question = questions.find((q) => q._id == questionId)
-    if (!question) continue
-
-    const { isCorrect, correctAnswer } = checkAnswer(question, answer)
-
-    const score = isCorrect ? 10 : 0
-    totalScore += score
-
-    scoredAnswers.push({
-      questionId,
-      answer,
-      correctAnswer,
-      isCorrect,
-      score
-    })
-  }
-
-  return { scoredAnswers, totalScore }
-}
-
-function checkAnswer(question, userAnswer) {
-  let isCorrect = false
-
-  switch (question.type) {
-    case 'multiple_choice':
-      isCorrect = question.correctAnswer === userAnswer
-      break
-    case 'fill_in':
-      isCorrect = question.correctAnswer.toLowerCase() === userAnswer.toLowerCase()
-      break
-    case 'listening':
-      isCorrect = question.correctAnswer === userAnswer
-      break
-    case 'reading':
-      isCorrect = question.correctAnswer === userAnswer
-      break
-    default:
-      isCorrect = false
-  }
-
-  return {
-    isCorrect,
-    correctAnswer: question.correctAnswer
   }
 }
 
