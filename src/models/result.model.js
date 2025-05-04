@@ -9,6 +9,7 @@ const childAnswerSchema = new Schema({
   options: [{ text: String, id: String }],
   userAnswer: { type: String, required: true },
   isCorrect: { type: Boolean, default: false },
+  correctAnswer: { type: String },
   score: { type: Number, default: 0 }
 })
 

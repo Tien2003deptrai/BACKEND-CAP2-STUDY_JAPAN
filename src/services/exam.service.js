@@ -161,6 +161,7 @@ const ExamService = {
             options: childQuestion.options,
             userAnswer: submittedChildAnswer?.userAnswer || null,
             isCorrect: isCorrect,
+            correctAnswer: childQuestion.correctAnswer,
             score: isCorrect ? 10 : 0
           }
         })
