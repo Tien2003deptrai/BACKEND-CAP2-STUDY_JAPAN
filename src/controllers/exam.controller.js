@@ -311,6 +311,23 @@ const examController = {
       console.error('Error in getStudentsByExam:', error)
       return res.status(error.statusCode || 500).json({ message: error.message })
     }
+  },
+
+  getResultByExamAndStudent: async (req, res) => {
+    try {
+      const { examId, studentId } = req.params
+
+      if (!examId || !studentId) {
+        return res.status(400).json({ message: 'Exam ID and Student ID are required' })
+      }
+
+      const result = await ExamService.getResultByExamAndStudent(examId, studentId)
+
+      return res.status(200).json(result)
+    } catch (error) {
+      console.error('Error in getResultByExamAndStudent:', error)
+      return res.status(error.statusCode || 500).json({ message: error.message })
+    }
   }
 }
 

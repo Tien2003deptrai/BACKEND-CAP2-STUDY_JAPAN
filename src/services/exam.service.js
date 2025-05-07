@@ -875,6 +875,59 @@ const ExamService = {
       console.error('Error in getStudentsByExam:', error)
       throwError(error.message, error.statusCode || 500)
     }
+  },
+
+  getResultByExamAndStudent: async (examId, studentId) => {
+    try {
+      if (!examId || !studentId) throwError('Exam ID and Student ID are required')
+
+      // Convert IDs to ObjectId
+      const examObjectId = convert2ObjectId(examId)
+      const studentObjectId = convert2ObjectId(studentId)
+
+      // Fetch the result for the specific exam and student
+      const result = await resultModel
+        .findOne({ exam: examObjectId, user: studentObjectId })
+        .populate('user', 'name email')
+
+      if (!result) {
+        throwError('Result not found for the given exam and student', 404)
+      }
+
+      // Process the result to include detailed answers
+      const detailedAnswers = result.answers.map((parentAnswer) => ({
+        parentQuestion: parentAnswer.parentQuestionId,
+        paragraph: parentAnswer.paragraph,
+        imgUrl: parentAnswer.imgUrl,
+        audioUrl: parentAnswer.audioUrl,
+        childAnswers: parentAnswer.childAnswers.map((childAnswer) => ({
+          id: childAnswer.id,
+          content: childAnswer.content,
+          options: childAnswer.options,
+          userAnswer: childAnswer.userAnswer,
+          isCorrect: childAnswer.isCorrect,
+          correctAnswer: childAnswer.correctAnswer,
+          score: childAnswer.score
+        }))
+      }))
+
+      return {
+        user: {
+          id: result.user._id,
+          name: result.user.name,
+          email: result.user.email
+        },
+        examId: result.exam,
+        totalScore: result.totalScore,
+        isPassed: result.isPassed,
+        timeSpent: result.timeSpent,
+        status: result.status,
+        answers: detailedAnswers
+      }
+    } catch (error) {
+      console.error('Error in getResultByExamAndStudent:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
   }
 }
 

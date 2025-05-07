@@ -65,4 +65,11 @@ router.put('/:examId/schedule', authenticateJWT, ExamController.updateExamSchedu
 
 router.get('/:examId/students', authenticateJWT, ExamController.getStudentsByExam)
 
+// Get result of an exam by exam ID and student ID
+router.get(
+  '/:examId/student/:studentId/result',
+  authenticateJWT,
+  ExamController.getResultByExamAndStudent
+)
+
 module.exports = router
