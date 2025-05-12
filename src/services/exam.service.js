@@ -67,11 +67,20 @@ const ExamService = {
   },
 
   getExamForTaking: async (examId, userId) => {
-    if (!examId) throwError('Exam ID bắt buộc')
+    if (!examId) throwError('Exam ID is required')
 
     const examObjectId = convert2ObjectId(examId)
-    const existingAttempt = await ResultRepo.findInProgressAttempt(userId, examObjectId)
 
+    // Fetch the exam details
+    const exam = await ExamsRepo.findById(examObjectId)
+    if (!exam) throwError('Exam not found')
+
+    // Check if the user is enrolled in the course
+    const isEnrolled = await ExamService.isUserEnrolledInCourse(userId, exam.course)
+    if (!isEnrolled) throwError('User is not enrolled in the course for this exam')
+
+    // Check for existing in-progress attempts
+    const existingAttempt = await ResultRepo.findInProgressAttempt(userId, examObjectId)
     if (existingAttempt) {
       return {
         exam: await ExamsRepo.findForTaking(examObjectId),
@@ -79,9 +88,6 @@ const ExamService = {
         startTime: existingAttempt.startTime
       }
     }
-
-    const exam = await ExamsRepo.findForTaking(examObjectId)
-    if (!exam) throwError('Không tìm thấy bài kiểm tra')
 
     return { exam }
   },
@@ -926,6 +932,27 @@ const ExamService = {
       }
     } catch (error) {
       console.error('Error in getResultByExamAndStudent:', error)
+      throwError(error.message, error.statusCode || 500)
+    }
+  },
+
+  isUserEnrolledInCourse: async (userId, courseId) => {
+    try {
+      if (!userId || !courseId) throwError('User ID and Course ID are required')
+
+      // Convert IDs to ObjectId
+      const userObjectId = convert2ObjectId(userId)
+      const courseObjectId = convert2ObjectId(courseId)
+
+      // Check if the user is enrolled in the course
+      const enrollment = await enrollmentModel.findOne({
+        user: userObjectId,
+        course: courseObjectId
+      })
+
+      return !!enrollment // Return true if enrolled, false otherwise
+    } catch (error) {
+      console.error('Error in isUserEnrolledInCourse:', error)
       throwError(error.message, error.statusCode || 500)
     }
   }
