@@ -51,7 +51,7 @@ const CourseService = {
     const userObjectId = convert2ObjectId(userId)
 
     // Get all courses
-    const listCourse = await CourseRepo.getAll()
+    const listCourse = await CourseRepo.getAll().populate('teacher', 'name email avatar')
     if (!listCourse.length) return []
 
     // Get user enrollments
@@ -95,6 +95,7 @@ const CourseService = {
       stu_num: course.stu_num,
       createdAt: course.createdAt,
       updatedAt: course.updatedAt,
+      teacher: course.teacher,
       registered: registeredCourses.has(course._id.toString()),
       enrolledStudents: enrollmentMap.get(course._id.toString()) || []
     }))
@@ -130,6 +131,7 @@ const CourseService = {
       stu_num: course.stu_num,
       createdAt: course.createdAt,
       updatedAt: course.updatedAt,
+      teacher: course.teacher,
       enrolledStudents: CourseService._getEnrolledStudents(course._id)
     }))
   },
@@ -189,12 +191,28 @@ const CourseService = {
     return newCourse
   },
 
+  assignTeacher: async (courseId, teacherId) => {
+    const courseObjectId = convert2ObjectId(courseId)
+    const teacherObjectId = convert2ObjectId(teacherId)
+
+    const course = await courseModel.findById(courseObjectId)
+    if (!course) throwError('Course not found')
+
+    if (course.user.toString() === teacherObjectId.toString()) {
+      throwError('Teacher cannot be the owner of the course')
+    }
+
+    course.teacher = teacherObjectId
+    await course.save()
+
+    return course
+  },
   updateCourse: async (course_id, bodyUpdate) => {
     const courseObjectId = convert2ObjectId(course_id)
     await CourseService._validateCourse(courseObjectId)
     await CourseRepo.updateCourse(courseObjectId, removeUnderfinedObjectKey(bodyUpdate))
 
-    if (bodyUpdate.lessons && bodyUpdate.lessons.length > 0) {
+    if (bodyUpdate.lessons && bodyUpdate.lessons.length >= 0) {
       const existingLessons = await lessonModel.find({ course: courseObjectId })
       const incomingLessonIds = bodyUpdate.lessons.map((lesson) => lesson.lesson_id)
 
@@ -244,7 +262,7 @@ const CourseService = {
       throwError('User is not a teacher')
     }
 
-    const courses = (await courseModel.find({ user: convert2ObjectId(userId) }).lean()) || []
+    const courses = (await courseModel.find({ teacher: convert2ObjectId(userId) }).lean()) || []
 
     return courses
   },

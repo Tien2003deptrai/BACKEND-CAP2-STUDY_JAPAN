@@ -11,5 +11,6 @@ router.get('/teacher/:teacher_id', CourseController.getCoursesByTeacher)
 router.get('/:course_id/students', CourseController.getEnrolledStudents)
 router.post('/unenroll', CourseController.unenrollStudent)
 router.post('/students/enroll', CourseController.bulkAddStudents)
+router.post('/teacher/enroll', CourseController.assignTeacher)
 
 module.exports = router

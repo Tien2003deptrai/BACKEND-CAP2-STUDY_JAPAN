@@ -3345,11 +3345,11 @@ const seedDatabase = async () => {
     await Kanji.insertMany(kanjis)
     await Deck.insertMany(decks)
     await Flashcard.insertMany(flashcards)
-    await Exam.insertMany(exams)
+    // await Exam.insertMany(exams)
     await Progression.insertMany(progressions)
     await Hina.insertMany(hinas)
     await Renshuu.insertMany(renshuus)
-    await Result.insertMany(results)
+    // await Result.insertMany(results)
 
     console.log('Dữ liệu đã được seed thành công!')
   } catch (error) {
