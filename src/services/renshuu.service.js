@@ -23,9 +23,9 @@ const RenshuuService = {
         lesson: lessonObjectId,
         questions: [
           {
-            content: bodyData.content,
-            correctAnswer: bodyData.correctAnswer,
-            options: bodyData.options
+            content: bodyData.question.content,
+            correctAnswer: bodyData.question.correctAnswer,
+            options: bodyData.question.options
           }
         ]
       })
