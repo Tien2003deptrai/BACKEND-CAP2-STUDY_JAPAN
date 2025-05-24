@@ -1,5 +1,7 @@
+const progressionModel = require('../models/progression.model')
 const AdminRepo = require('../models/repos/admin.repo')
 const EnrollmentRepo = require('../models/repos/EnrollmentRepo')
+const userModel = require('../models/user.model')
 const { getInfoData } = require('../utils')
 
 const AdminService = {
@@ -65,11 +67,7 @@ const AdminService = {
   getDashboardStats: async () => {
     return await AdminRepo.getDashboardStats()
   },
-  // ✅ Mục tiêu các chức năng:
-  // Xem danh sách học viên của một khóa học
-  // Xem học viên đã đăng ký những khóa nào
-  // Ghi danh thủ công học viên vào khóa học
-  // Huỷ ghi danh học viên khỏi khóa học
+
   getStudentsByCourse: async (courseId) => {
     const data = await EnrollmentRepo.getStudentsByCourse(courseId)
     return data.map((e) =>
@@ -100,6 +98,46 @@ const AdminService = {
 
   removeEnrollment: async ({ studentId, courseId }) => {
     await EnrollmentRepo.removeEnrollment(studentId, courseId)
+  },
+
+  getRecentStudents: async (limit = 5) => {
+    const users = await userModel
+      .find({ roles: 'student' })
+      .sort({ last_active_at: -1 }) // Ưu tiên học viên hoạt động gần đây
+      .limit(limit)
+      .lean()
+
+    const progressionMap = await progressionModel
+      .find({
+        user: { $in: users.map((u) => u._id) }
+      })
+      .select('user progress')
+      .lean()
+
+    const progressDict = {}
+    progressionMap.forEach((p) => {
+      progressDict[p.user.toString()] = p
+    })
+
+    return users.map((u) => ({
+      id: u._id,
+      name: u.name,
+      level: u.student_profile?.learning_level || 'N5',
+      progress: u.student_profile?.progress || 0,
+      lastActive: AdminService.formatTimeAgo(u.last_active_at)
+    }))
+  },
+
+  formatTimeAgo: (date) => {
+    if (!date) return 'Chưa hoạt động'
+    const diff = Date.now() - new Date(date).getTime()
+    const minutes = Math.floor(diff / 60000)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+
+    if (minutes < 60) return `${minutes} phút trước`
+    if (hours < 24) return `${hours} giờ trước`
+    return `${days} ngày trước`
   }
 }
 

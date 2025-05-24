@@ -101,6 +101,14 @@ const AdminController = {
       () => AdminService.removeEnrollment({ studentId, courseId }),
       'Huỷ ghi danh học viên thành công'
     )
+  },
+
+  getRecentStudents: async (req, res) => {
+    handleRequest(
+      res,
+      () => AdminService.getRecentStudents(),
+      'Lấy danh sách học viên gần đây thành công'
+    )
   }
 }
 
