@@ -27,6 +27,10 @@ const courseSchema = new Schema(
     author: {
       type: String
     },
+    teacher: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
     stu_num: {
       type: Number,
       default: 0

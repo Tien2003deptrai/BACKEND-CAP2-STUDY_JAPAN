@@ -14,6 +14,7 @@ const RenshuuRoute = require('./renshuu.route')
 const AdminRoute = require('./admin.route')
 const UserRoute = require('./user.route')
 const progressionRoute = require('./progression.route')
+const chartRoute = require('./chart.route')
 
 // Configuration Routes * /api/config/*
 const TranslateRoute = require('./translation/translate.route')
@@ -35,6 +36,7 @@ router.use('/renshuu', authenticateJWT, RenshuuRoute)
 router.use('/admin', authenticateJWT, AdminRoute)
 router.use('/user', UserRoute)
 router.use('/progress', progressionRoute)
+router.use('/chart', chartRoute)
 
 // Translation Routes * /api/language/*
 router.use('/language', TranslateRoute)

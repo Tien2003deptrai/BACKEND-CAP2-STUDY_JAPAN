@@ -10,21 +10,23 @@ const filterUserData = (user) =>
   getInfoData({ fields: ['_id', 'name', 'email', 'roles', 'phone', 'avatar'], object: user })
 
 const AuthService = {
-  signUp: async ({ name, email, roles, phone }) => {
+  signUp: async ({ name, email, roles, phone, date_of_birth, sex, avatar, student_profile }) => {
     await AuthService._checkUserExists(email)
 
     const randomPassword = generateRandomPassword(10)
     const hashedPassword = await AuthService._hashPassword(randomPassword)
-    console.log('randomPassword', randomPassword)
 
-    const newUser =
-      (await userModel.create({
-        name,
-        email,
-        password: hashedPassword,
-        roles,
-        phone
-      })) || throwError('User creation failed')
+    const newUser = await userModel.create({
+      name,
+      email,
+      password: hashedPassword,
+      roles: 'student',
+      phone,
+      date_of_birth,
+      sex,
+      avatar,
+      student_profile
+    })
 
     await progressionModel.create({ user: newUser._id })
     await sendRegistrationEmail(name, email, randomPassword)

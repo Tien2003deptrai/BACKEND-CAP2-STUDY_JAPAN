@@ -12,6 +12,16 @@ const CourseController = {
       'Đăng ký khóa học thành công'
     ),
 
+  assignTeacher: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['courseId', 'teacherId'], req.body)
+        return await CourseService.assignTeacher(req.body.courseId, req.body.teacherId)
+      },
+      'Gán giáo viên cho khóa học thành công'
+    ),
+
   getAllCourses: (req, res) =>
     handleRequest(
       res,

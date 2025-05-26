@@ -30,5 +30,6 @@ router.get('/courses/:course_id/students', AdminController.getStudentsByCourse)
 router.get('/students/:student_id/courses', AdminController.getCoursesByStudent)
 router.post('/enrollments', AdminController.enrollStudent)
 router.delete('/enrollments', AdminController.removeEnrollment)
+router.get('/recent-students', AdminController.getRecentStudents)
 
 module.exports = router
