@@ -773,8 +773,8 @@ const ExamService = {
     const now = new Date()
 
     const exams = await examsModel.find({
-      course: { $in: courseIds }
-      // startTime: { $gt: now }
+      course: { $in: courseIds },
+      startTime: { $lte: now }
     })
 
     return exams
@@ -801,14 +801,14 @@ const ExamService = {
           throwError('Thời gian bắt đầu phải trước thời gian kết thúc')
         }
 
-        // if (body.time_limit !== undefined) {
-        //   const timeLimitInMs = body.time_limit * 60 * 1000
-        //   const timeRangeInMs = end - start
+        if (body.time_limit !== undefined) {
+          const timeLimitInMs = body.time_limit * 60 * 1000
+          const timeRangeInMs = end - start
 
-        //   if (timeRangeInMs < timeLimitInMs) {
-        //     throwError('Khoảng thời gian bắt đầu và kết thúc không phù hợp')
-        //   }
-        // }
+          if (timeRangeInMs < timeLimitInMs) {
+            throwError('Khoảng thời gian bắt đầu và kết thúc không phù hợp')
+          }
+        }
 
         updateData.startTime = start
         updateData.endTime = end
