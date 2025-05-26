@@ -774,7 +774,7 @@ const ExamService = {
 
     const exams = await examsModel.find({
       course: { $in: courseIds },
-      startTime: { $lte: now }
+      startTime: { $lte: now, $ne: null }
     })
 
     return exams
