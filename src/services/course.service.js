@@ -110,7 +110,7 @@ const CourseService = {
     )
 
     // Get all courses
-    const listCourse = await CourseRepo.getAll()
+    const listCourse = await CourseRepo.getByStudent()
     if (!listCourse.length) return []
 
     // Filter courses to only include enrolled courses
@@ -262,7 +262,8 @@ const CourseService = {
       throwError('User is not a teacher')
     }
 
-    const courses = (await courseModel.find({ teacher: convert2ObjectId(userId) }).lean()) || []
+    const courses =
+      (await courseModel.find({ teacher: convert2ObjectId(userId), isVisible: true }).lean()) || []
 
     return courses
   },
@@ -444,6 +445,46 @@ const CourseService = {
       throwError(`Error in addMultipleStudentsToClass: ${error.message}`)
       throw error
     }
+  },
+
+  getCourseDetails: async (courseId) => {
+    const courseObjectId = convert2ObjectId(courseId)
+    const course = await CourseService._validateCourse(courseObjectId)
+
+    const lessons = await lessonModel.find({ course: courseObjectId }).sort({ index: 1 }).lean()
+
+    const teacher = await userModel.findById(course.teacher).select('name email avatar').lean()
+
+    return {
+      ...course.toObject(),
+      lessons,
+      teacher
+    }
+  },
+
+  updateCourseVisibility: async (courseId) => {
+    const courseObjectId = convert2ObjectId(courseId)
+    console.log('courseObjectId', courseObjectId)
+
+    const course = await CourseService._validateCourse(courseObjectId)
+
+    course.isVisible = !course.isVisible
+
+    await course.save()
+
+    return course
+  },
+  deleteCourse: async (courseId) => {
+    const courseObjectId = convert2ObjectId(courseId)
+    const course = await CourseService._validateCourse(courseObjectId)
+
+    await lessonModel.deleteMany({ course: courseObjectId })
+
+    await enrollmentModel.deleteMany({ course: courseObjectId })
+
+    await courseModel.deleteOne({ _id: courseObjectId })
+
+    return { message: 'Course deleted successfully' }
   }
 }
 

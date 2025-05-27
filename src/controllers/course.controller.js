@@ -106,7 +106,34 @@ const CourseController = {
       message: 'Thêm sinh viên vào khóa học thành công',
       result
     })
-  }
+  },
+  updateCourseVisibility: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['course_id'], req.params)
+        return await CourseService.updateCourseVisibility(req.params.course_id)
+      },
+      'Cập nhật trạng thái công khai khóa học thành công'
+    ),
+  deleteCourse: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['course_id'], req.params)
+        return await CourseService.deleteCourse(req.params.course_id)
+      },
+      'Xóa khóa học thành công'
+    ),
+  getCourseById: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        validateRequiredFields(['course_id'], req.params)
+        return await CourseService.getCourseDetails(req.params.course_id)
+      },
+      'Lấy thông tin khóa học thành công'
+    )
 }
 
 module.exports = CourseController

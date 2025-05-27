@@ -12,5 +12,7 @@ router.get('/:course_id/students', CourseController.getEnrolledStudents)
 router.post('/unenroll', CourseController.unenrollStudent)
 router.post('/students/enroll', CourseController.bulkAddStudents)
 router.post('/teacher/enroll', CourseController.assignTeacher)
-
+router.put('/visibility/:course_id', CourseController.updateCourseVisibility)
+router.delete('/:course_id', CourseController.deleteCourse)
+router.get('/:course_id', CourseController.getCourseById)
 module.exports = router
