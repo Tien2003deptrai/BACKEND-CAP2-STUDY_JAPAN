@@ -20,7 +20,7 @@ const AuthService = {
       name,
       email,
       password: hashedPassword,
-      roles: 'student',
+      roles: roles || 'student',
       phone,
       date_of_birth,
       sex,
@@ -33,6 +33,7 @@ const AuthService = {
 
     return { success: true, user: filterUserData(newUser) }
   },
+
 
   login: async ({ email, password }) => {
     const user = await AuthService._validateUserCredentials(email, password)

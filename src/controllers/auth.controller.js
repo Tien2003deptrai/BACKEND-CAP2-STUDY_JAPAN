@@ -9,11 +9,12 @@ const AuthController = {
       async () => {
         validateRequiredFields(['name', 'email', 'phone'], req.body)
 
-        const { name, email, phone, date_of_birth, sex, avatar, student_profile } = req.body
+        const { name, email, roles, phone, date_of_birth, sex, avatar, student_profile } = req.body
 
         return await AuthService.signUp({
           name,
           email,
+          roles,  // Thêm roles ở đây
           phone,
           date_of_birth,
           sex,
@@ -23,6 +24,7 @@ const AuthController = {
       },
       'Tạo tài khoản học viên thành công'
     ),
+
 
   login: (req, res) =>
     handleRequest(
