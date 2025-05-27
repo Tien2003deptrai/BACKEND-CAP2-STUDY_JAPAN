@@ -31,6 +31,10 @@ const courseSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
+    isVisible: {
+      type: Boolean,
+      default: true
+    },
     stu_num: {
       type: Number,
       default: 0
