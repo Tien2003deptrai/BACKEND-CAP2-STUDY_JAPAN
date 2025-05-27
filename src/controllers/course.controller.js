@@ -60,13 +60,14 @@ const CourseController = {
       },
       'Cập nhật khóa học thành công'
     ),
-
   getCoursesByTeacher: (req, res) =>
     handleRequest(
       res,
       async () => {
+        console.log(req);
+
         validateRequiredFields(['userId'], req.user)
-        return await CourseService.getCoursesByTeacher(req.user.userId)
+        return await CourseService.getCoursesByTeacher(req.params.teacher_id || req.user.userId)
       },
       'Lấy danh sách khoá học theo giáo viên thành công'
     ),

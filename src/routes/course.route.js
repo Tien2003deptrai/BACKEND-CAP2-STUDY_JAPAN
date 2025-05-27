@@ -8,6 +8,7 @@ router.get('/enrolled', CourseController.getAllEnrolledCourses)
 router.post('', CourseController.createCourse)
 router.put('/:course_id', CourseController.updateCourse)
 router.get('/teacher/:teacher_id', CourseController.getCoursesByTeacher)
+// ở đây params
 router.get('/:course_id/students', CourseController.getEnrolledStudents)
 router.post('/unenroll', CourseController.unenrollStudent)
 router.post('/students/enroll', CourseController.bulkAddStudents)

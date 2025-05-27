@@ -203,13 +203,19 @@ const createSeedData = async () => {
   ]
 
   // Tạo 20 vocabularies
-  const vocabularies = Array(20).fill().map((_, i) => ({
+  const words = ['こんにちは', 'ありがとう', 'さようなら', '学生', '先生', '会社', '学校', '家', '車', '電車', '本', '猫', '犬', '水', '食べる', '飲む', '行く', '来る', '見る', '聞く']
+  const kanjis1 = ['学生', '先生', '会社', '学校', '家', '車', '電車', '本', '猫', '犬', '水', '食べる', '飲む', '行く', '来る', '見る', '聞く']
+  const kanas = ['がくせい', 'せんせい', 'かいしゃ', 'がっこう', 'いえ', 'くるま', 'でんしゃ', 'ほん', 'ねこ', 'いぬ', 'みず', 'たべる', 'のむ', 'いく', 'くる', 'みる', 'きく']
+  const meanings = ['Học sinh', 'Giáo viên', 'Công ty', 'Trường học', 'Nhà', 'Xe hơi', 'Tàu điện', 'Sách', 'Mèo', 'Chó', 'Nước', 'Ăn', 'Uống', 'Đi', 'Đến', 'Nhìn', 'Nghe']
+  const examples = ['学生', '先生', '会社', '学校', '家']
+
+  const vocabularies = Array(1000).fill().map((_, i) => ({
     _id: new mongoose.Types.ObjectId(),
-    word: ['こんにちは', 'ありがとう', 'さようなら', '学生', '先生', '会社', '学校', '家', '車', '電車', '本', '猫', '犬', '水', '食べる', '飲む', '行く', '来る', '見る', '聞く'][i],
-    kanji: ['学生', '先生', '会社', '学校', '家', '車', '電車', '本', '猫', '犬', '水', '食べる', '飲む', '行く', '来る', '見る', '聞く'][i % 17], // hoặc null nếu không có
-    kana: ['がくせい', 'せんせい', 'かいしゃ', 'がっこう', 'いえ', 'くるま', 'でんしゃ', 'ほん', 'ねこ', 'いぬ', 'みず', 'たべる', 'のむ', 'いく', 'くる', 'みる', 'きく'][i % 17],
-    meaning: ['Học sinh', 'Giáo viên', 'Công ty', 'Trường học', 'Nhà', 'Xe hơi', 'Tàu điện', 'Sách', 'Mèo', 'Chó', 'Nước', 'Ăn', 'Uống', 'Đi', 'Đến', 'Nhìn', 'Nghe'][i % 17],
-    example: `これは${['学生', '先生', '会社', '学校', '家'][i % 5]}です。`,
+    word: words[i % words.length],
+    kanji: kanjis1[i % kanjis1.length],
+    kana: kanas[i % kanas.length],
+    meaning: meanings[i % meanings.length],
+    example: `これは${examples[i % examples.length]}です。`,
     tags: 'N5',
     notes: '',
     audio: `audio/vocab_${i + 1}.mp3`
@@ -232,25 +238,50 @@ const createSeedData = async () => {
   }))
 
   // Tạo 20 kanjis
-  const kanjis = Array(20).fill().map((_, i) => ({
+  const kanjiList = [
+    '愛', '案', '以', '衣', '位', '囲', '胃', '映', '延', '煙', // N1
+    '過', '解', '角', '格', '確', '完', '幹', '感', '漢', '基', // N2
+    '記', '起', '給', '求', '局', '銀', '具', '係', '軽', '血', // N3
+    '元', '言', '交', '光', '考', '行', '合', '国', '黒', '今', // N4
+    '山', '川', '田', '人', '子', '女', '男', '口', '手', '足', // N5
+    '目', '耳', '車', '校', '学', '生', '先', '名', '本', '文',
+    '字', '年', '時', '間', '分', '上', '下', '中', '大', '小',
+    '高', '安', '白', '赤', '青', '空', '雨', '電', '店', '会',
+    '社', '員', '駅', '道', '国', '京', '都', '町', '村', '海',
+    '絵', '塩', '泳', '鏡', '皿', '森', '緑', '羽', '豆', '雪'
+  ]
+
+  const hiraList = Array(100).fill().map((_, i) => `かな${i + 1}`)
+  const meanList = Array(100).fill().map((_, i) => `Nghĩa ${i + 1}`)
+  const explainList = Array(100).fill().map((_, i) => `Giải nghĩa Kanji ${i + 1}`)
+  const unicodeList = Array(100).fill().map((_, i) => `U+${(0x4E00 + i).toString(16).toUpperCase()}`)
+  const jlptList = [
+    ...Array(20).fill('N1'),
+    ...Array(20).fill('N2'),
+    ...Array(20).fill('N3'),
+    ...Array(20).fill('N4'),
+    ...Array(20).fill('N5')
+  ]
+
+  const kanjis = Array(100).fill().map((_, i) => ({
     _id: new mongoose.Types.ObjectId(),
-    kanji: ['日', '月', '火', '水', '木', '金', '土', '山', '川', '田', '人', '子', '女', '男', '口', '手', '足', '目', '耳', '車'][i],
-    cn_vi_word: ['Nhật', 'Nguyệt', 'Hỏa', 'Thủy', 'Mộc', 'Kim', 'Thổ', 'Sơn', 'Xuyên', 'Điền', 'Nhân', 'Tử', 'Nữ', 'Nam', 'Khẩu', 'Thủ', 'Túc', 'Mục', 'Nhĩ', 'Xa'][i],
-    component: [['Nhật'], ['Nguyệt'], ['Hỏa'], ['Thủy'], ['Mộc'], ['Kim'], ['Thổ'], ['Sơn'], ['Xuyên'], ['Điền'], ['Nhân'], ['Tử'], ['Nữ'], ['Nam'], ['Khẩu'], ['Thủ'], ['Túc'], ['Mục'], ['Nhĩ'], ['Xa']][i],
+    kanji: kanjiList[i],
+    cn_vi_word: `Kanji ${i + 1}`,
+    component: [`Thành phần ${i + 1}`],
     examples: [{
-      ja: `${['日', '月', '火', '水', '木', '金', '土', '山', '川', '田', '人', '子', '女', '男', '口', '手', '足', '目', '耳', '車'][i]}曜日`,
-      hira: `${['にち', 'げつ', 'か', 'すい', 'もく', 'きん', 'ど', 'やま', 'かわ', 'た', 'ひと', 'こ', 'おんな', 'おとこ', 'くち', 'て', 'あし', 'め', 'みみ', 'くるま'][i]}ようび`,
-      vi: `Thứ ${['Nhật', 'Hai', 'Ba', 'Tư', 'Năm', 'Sáu', 'Bảy', 'Núi', 'Sông', 'Ruộng', 'Người', 'Con', 'Nữ', 'Nam', 'Miệng', 'Tay', 'Chân', 'Mắt', 'Tai', 'Xe'][i]}`
+      ja: `${kanjiList[i]}曜日`,
+      hira: `${hiraList[i]}ようび`,
+      vi: `Thứ ${i + 1}`
     }],
-    explain: [`Ngày, mặt trời`, `Tháng, mặt trăng`, `Lửa`, `Nước`, `Cây`, `Vàng, kim loại`, `Đất`, `Núi`, `Sông`, `Ruộng`, `Người`, `Con`, `Nữ, phụ nữ`, `Nam, đàn ông`, `Miệng`, `Tay`, `Chân`, `Mắt`, `Tai`, `Xe`][i],
-    jlpt: i < 10 ? 'N5' : 'N4',
-    kunyomi: [[`ひ`, `か`], [`つき`], [`ひ`], [`みず`], [`き`], [`かね`], [`つち`], [`やま`], [`かわ`], [`た`], [`ひと`], [`こ`], [`おんな`], [`おとこ`], [`くち`], [`て`], [`あし`], [`め`], [`みみ`], [`くるま`]][i],
-    mean: [`Ngày`, `Tháng`, `Lửa`, `Nước`, `Cây`, `Vàng`, `Đất`, `Núi`, `Sông`, `Ruộng`, `Người`, `Con`, `Nữ`, `Nam`, `Miệng`, `Tay`, `Chân`, `Mắt`, `Tai`, `Xe`][i],
-    onyomi: [[`ニチ`, `ジツ`], [`ゲツ`, `ガツ`], [`カ`], [`スイ`], [`モク`, `ボク`], [`キン`, `コン`], [`ド`, `ト`], [`サン`], [`セン`], [`デン`], [`ジン`, `ニン`], [`シ`, `ス`], [`ジョ`, `ニョ`], [`ダン`, `ナン`], [`コウ`, `ク`], [`シュ`], [`ソク`], [`モク`], [`ジ`], [`シャ`]][i],
-    stroke_num: [4, 4, 4, 4, 4, 8, 3, 3, 3, 5, 2, 3, 3, 7, 3, 4, 7, 5, 6, 7][i],
+    explain: explainList[i],
+    jlpt: jlptList[i],
+    kunyomi: [`くん${i + 1}`],
+    onyomi: [`おん${i + 1}`],
+    mean: meanList[i],
+    stroke_num: (i % 10) + 2,
     svg_path: `path_to_svg_${i + 1}`,
-    unicode: [`U+65E5`, `U+6708`, `U+706B`, `U+6C34`, `U+6728`, `U+91D1`, `U+571F`, `U+5C71`, `U+5DDD`, `U+7530`, `U+4EBA`, `U+5B50`, `U+5973`, `U+7537`, `U+53E3`, `U+624B`, `U+8DB3`, `U+76EE`, `U+8033`, `U+8ECA`][i]
-  }));
+    unicode: unicodeList[i]
+  }))
 
   const hinas = [
     {
@@ -329,10 +360,10 @@ const seedDatabase = async () => {
     // await mongoose.connection.dropDatabase()
     console.log('Đã xóa toàn bộ dữ liệu cũ!')
     const {
-      // users,
-      // vocabularies, grammars,
-      // kanjis,
-      hinas,
+      users,
+      vocabularies, grammars,
+      kanjis,
+      // hinas,
       // renshuus
     } = await createSeedData()
 
@@ -341,10 +372,10 @@ const seedDatabase = async () => {
     // await User.insertMany(users)
     // await Course.insertMany(courses)
     // await Lesson.insertMany(lessons)
-    // await Vocabulary.insertMany(vocabularies)
-    // await Grammar.insertMany(grammars)
+    await Vocabulary.insertMany(vocabularies)
+    await Grammar.insertMany(grammars)
     // await Kanji.insertMany(kanjis)
-    await Hina.insertMany(hinas)
+    // await Hina.insertMany(hinas)
     // await Renshuu.insertMany(renshuus)
 
     console.log('Dữ liệu đã được seed thành công!')
