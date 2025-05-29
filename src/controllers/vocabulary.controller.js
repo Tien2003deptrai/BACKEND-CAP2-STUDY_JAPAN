@@ -107,6 +107,15 @@ const VocabularyController = {
         return await VocabularyService.addVocabulary(req.body)
       },
       'Thêm từ vựng (không có lesson) thành công'
+    ),
+
+  getLatestVocabularies: (req, res) =>
+    handleRequest(
+      res,
+      async () => {
+        return await VocabularyService.fetchLatestVocabularies(10)
+      },
+      'Lấy danh sách từ vựng mới nhất thành công'
     )
 }
 

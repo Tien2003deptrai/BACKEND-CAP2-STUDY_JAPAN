@@ -17,6 +17,8 @@ router.get(
   VocabularyController.getAllVocabulariesAI
 )
 
+router.get('/latest', VocabularyController.getLatestVocabularies);
+
 router.get(
   '/lesson/:lesson_id',
   authorizeRole(['student', 'teacher', 'admin']),

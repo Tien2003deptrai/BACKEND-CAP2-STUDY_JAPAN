@@ -1,5 +1,6 @@
 const LessonRepo = require('../models/repos/lesson.repo')
 const VocabularyRepo = require('../models/repos/vocabulary.repo')
+const vocabularyModel = require('../models/vocabulary.model')
 const throwError = require('../res/throwError')
 const { convert2ObjectId, JapaneseToUnicode } = require('../utils')
 
@@ -149,6 +150,13 @@ const VocabularyService = {
     if (!newVocab) throwError('Vocabulary creation failed')
 
     return newVocab
+  },
+
+  fetchLatestVocabularies: async (limit = 10) => {
+    return vocabularyModel.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .exec();
   }
 }
 
